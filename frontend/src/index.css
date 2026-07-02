@@ -501,10 +501,11 @@ header {
 /* A. Opción Múltiple */
 .options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
   width: 100%;
   max-width: 700px;
+  margin: 20px auto 0 auto;
 }
 
 .option-card {
