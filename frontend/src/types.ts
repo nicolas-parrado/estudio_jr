@@ -45,7 +45,7 @@ export interface PlayerState {
 export type PlayersProgress = Record<string, PlayerState>;
 
 // Tipos para preguntas locales del frontend estructuradas
-export type QuestionType = "trivia" | "visual" | "audio" | "drag-drop" | "memorice" | "preposition";
+export type QuestionType = "trivia" | "visual" | "audio" | "drag-drop" | "memorice" | "preposition" | "true-false" | "fill-vowels" | "writing";
 
 export interface StandardQuestion {
   type: "trivia" | "visual" | "audio";
@@ -59,6 +59,7 @@ export interface StandardQuestion {
 export interface DragDropQuestion {
   type: "drag-drop";
   items: { word: string; emoji: string; translation: string }[];
+  isSpanishLeft: boolean; // Indica si la columna izquierda es español y derecha inglés
 }
 
 export interface MemoryCard {
@@ -81,4 +82,36 @@ export interface PrepositionQuestion {
   visual: string;
 }
 
-export type GameQuestion = StandardQuestion | DragDropQuestion | MemoriceQuestion | PrepositionQuestion;
+export interface TrueFalseQuestion {
+  type: "true-false";
+  word: string;
+  translation: string;
+  emoji: string;
+  isCorrectMatch: boolean;
+  shownTranslation: string;
+}
+
+export interface FillVowelsQuestion {
+  type: "fill-vowels";
+  word: string;
+  translation: string;
+  emoji: string;
+  maskedWord: string;
+  correctVowels: string[];
+}
+
+export interface WritingQuestion {
+  type: "writing";
+  word: string;
+  translation: string;
+  emoji: string;
+}
+
+export type GameQuestion = 
+  | StandardQuestion 
+  | DragDropQuestion 
+  | MemoriceQuestion 
+  | PrepositionQuestion 
+  | TrueFalseQuestion 
+  | FillVowelsQuestion 
+  | WritingQuestion;

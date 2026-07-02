@@ -80,6 +80,12 @@ var vocabularyData = GameData{
 				{Word: "garden", Translation: "jardín", Emoji: "🏡", Category: "house"},
 				{Word: "garage", Translation: "garaje", Emoji: "🚗", Category: "house"},
 				{Word: "dining room", Translation: "comedor", Emoji: "🍽️", Category: "house"},
+				{Word: "roof", Translation: "techo", Emoji: "🏠", Category: "house"},
+				{Word: "window", Translation: "ventana", Emoji: "🪟", Category: "house"},
+				{Word: "door", Translation: "puerta", Emoji: "🚪", Category: "house"},
+				{Word: "floor", Translation: "piso", Emoji: "🧱", Category: "house"},
+				{Word: "wall", Translation: "pared", Emoji: "🧱", Category: "house"},
+				{Word: "grey", Translation: "gris", Emoji: "⚫", Category: "colors"},
 			},
 		},
 		{
@@ -107,6 +113,12 @@ var vocabularyData = GameData{
 				{Word: "teddy bear", Translation: "oso de peluche", Emoji: "🧸", Category: "toys"},
 				{Word: "kite", Translation: "volantín", Emoji: "🪁", Category: "toys"},
 				{Word: "puzzle", Translation: "rompecabezas", Emoji: "🧩", Category: "toys"},
+				{Word: "giraffe", Translation: "jirafa", Emoji: "🦒", Category: "animals"},
+				{Word: "bear", Translation: "oso", Emoji: "🐻", Category: "animals"},
+				{Word: "cow", Translation: "vaca", Emoji: "🐮", Category: "animals"},
+				{Word: "pig", Translation: "cerdo", Emoji: "🐷", Category: "animals"},
+				{Word: "bike", Translation: "bicicleta", Emoji: "🚲", Category: "toys"},
+				{Word: "skate", Translation: "patín", Emoji: "🛼", Category: "toys"},
 			},
 		},
 		{
@@ -126,6 +138,12 @@ var vocabularyData = GameData{
 				{Word: "pencil case", Translation: "estuche", Emoji: "👝", Category: "school"},
 				{Word: "sharpener", Translation: "sacapuntas", Emoji: "✏️", Category: "school"},
 				{Word: "scissors", Translation: "tijeras", Emoji: "✂️", Category: "school"},
+				{Word: "glue", Translation: "pegamento", Emoji: "🧪", Category: "school"},
+				{Word: "desk", Translation: "escritorio", Emoji: "🟫", Category: "school"},
+				{Word: "chair", Translation: "silla", Emoji: "🪑", Category: "school"},
+				{Word: "board", Translation: "pizarra", Emoji: "📋", Category: "school"},
+				{Word: "paper", Translation: "papel", Emoji: "📄", Category: "school"},
+				{Word: "crayon", Translation: "lápiz de cera", Emoji: "🖍️", Category: "school"},
 			},
 		},
 		{
@@ -149,6 +167,12 @@ var vocabularyData = GameData{
 				{Word: "good afternoon", Translation: "buenas tardes", Emoji: "☀️", Category: "greetings"},
 				{Word: "good evening", Translation: "buenas noches (al llegar)", Emoji: "🌆", Category: "greetings"},
 				{Word: "good night", Translation: "buenas noches (al dormir)", Emoji: "🌌", Category: "greetings"},
+				{Word: "snowy", Translation: "nevado", Emoji: "🌨️", Category: "weather"},
+				{Word: "stormy", Translation: "tormentoso", Emoji: "⛈️", Category: "weather"},
+				{Word: "rainbow", Translation: "arcoíris", Emoji: "🌈", Category: "weather"},
+				{Word: "umbrella", Translation: "paraguas", Emoji: "☔", Category: "weather"},
+				{Word: "hello", Translation: "hola", Emoji: "👋", Category: "greetings"},
+				{Word: "goodbye", Translation: "adiós", Emoji: "🙋", Category: "greetings"},
 			},
 		},
 		{
@@ -186,6 +210,13 @@ var vocabularyData = GameData{
 				{Word: "caterpillar", Translation: "oruga", Emoji: "🐛", Category: "insects"},
 				{Word: "spider", Translation: "araña", Emoji: "🕷️", Category: "insects"},
 				{Word: "butterfly", Translation: "mariposa", Emoji: "🦋", Category: "insects"},
+				{Word: "mosquito", Translation: "mosquito", Emoji: "🦟", Category: "insects"},
+				{Word: "fly", Translation: "mosca", Emoji: "🪰", Category: "insects"},
+				{Word: "worm", Translation: "gusano", Emoji: "🪱", Category: "insects"},
+				{Word: "dragonfly", Translation: "libélula", Emoji: "🦗", Category: "insects"},
+				{Word: "thirty", Translation: "treinta", Emoji: "3️⃣0️⃣", Category: "numbers"},
+				{Word: "forty", Translation: "cuarenta", Emoji: "4️⃣0️⃣", Category: "numbers"},
+				{Word: "fifty", Translation: "cincuenta", Emoji: "5️⃣0️⃣", Category: "numbers"},
 			},
 		},
 		{
@@ -215,6 +246,12 @@ var vocabularyData = GameData{
 				{Word: "mom", Translation: "mamá", Emoji: "👩‍🦱", Category: "family"},
 				{Word: "cousin", Translation: "primo / prima", Emoji: "🧑", Category: "family"},
 				{Word: "grandpa", Translation: "abuelo", Emoji: "👴", Category: "family"},
+				{Word: "nephew", Translation: "sobrino", Emoji: "👦", Category: "family"},
+				{Word: "niece", Translation: "sobrina", Emoji: "👧", Category: "family"},
+				{Word: "parents", Translation: "padres", Emoji: "👪", Category: "family"},
+				{Word: "family", Translation: "familia", Emoji: "👨‍👩‍👧‍👦", Category: "family"},
+				{Word: "invitation", Translation: "invitación", Emoji: "✉️", Category: "birthday"},
+				{Word: "juice", Translation: "jugo", Emoji: "🧃", Category: "birthday"},
 			},
 			SpecialQuestions: []SpecialQuestion{
 				{
@@ -245,20 +282,58 @@ var vocabularyData = GameData{
 		},
 	},
 	Stickers: []Sticker{
-		{ID: "st-rocket", Name: "Cohete Dorado", Emoji: "🚀", Desc: "¡Perfecto en el Planeta 1!"},
-		{ID: "st-alien", Name: "Cosmo Bailarín", Emoji: "🕺👽", Desc: "¡Perfecto en el Planeta 2!"},
-		{ID: "st-star", Name: "Supernova Radiante", Emoji: "🌟", Desc: "¡Perfecto en el Planeta 3!"},
-		{ID: "st-ufo", Name: "Platillo Volador", Emoji: "🛸", Desc: "¡Perfecto en el Planeta 4!"},
-		{ID: "st-astronaut", Name: "Astronauta Pro", Emoji: "🧑‍🚀", Desc: "¡Perfecto en el Planeta 5!"},
-		{ID: "st-crown", Name: "Rey/Reina del Cosmos", Emoji: "👑🪐", Desc: "¡Perfecto en el Planeta 6!"},
+		// Logros básicos de exploración e inicio
+		{ID: "st-explorer", Name: "Primeros Pasos", Emoji: "🛸", Desc: "Iniciar sesión por primera vez y ver el mapa estelar."},
+		{ID: "st-first-star", Name: "Brillo Inicial", Emoji: "⭐", Desc: "Ganar la primera estrella en cualquier planeta."},
+
+		// Medallas del Modo Normal (3 estrellas)
+		{ID: "st-rocket", Name: "Medalla Arcoíris", Emoji: "🚀", Desc: "¡3 estrellas en el Planeta 1 (Normal)!"},
+		{ID: "st-alien", Name: "Medalla Salvaje", Emoji: "🕺👽", Desc: "¡3 estrellas en el Planeta 2 (Normal)!"},
+		{ID: "st-star", Name: "Medalla Escolar", Emoji: "🌟", Desc: "¡3 estrellas en el Planeta 3 (Normal)!"},
+		{ID: "st-ufo", Name: "Medalla Meteorológica", Emoji: "🛸", Desc: "¡3 estrellas en el Planeta 4 (Normal)!"},
+		{ID: "st-astronaut", Name: "Medalla Numérica", Emoji: "🧑‍🚀", Desc: "¡3 estrellas en el Planeta 5 (Normal)!"},
+		{ID: "st-crown", Name: "Medalla Celebración", Emoji: "👑🪐", Desc: "¡3 estrellas en el Planeta 6 (Normal)!"},
+
+		// Medallas del Modo Hard (3 estrellas)
+		{ID: "st-rocket-hard", Name: "Hiper-Cohete de Antimateria", Emoji: "🌌", Desc: "¡3 estrellas en el Planeta 1 (Hard)!"},
+		{ID: "st-alien-hard", Name: "Cosmo-Emperador", Emoji: "👽👑", Desc: "¡3 estrellas en el Planeta 2 (Hard)!"},
+		{ID: "st-star-hard", Name: "Supernova Radiante", Emoji: "💥", Desc: "¡3 estrellas en el Planeta 3 (Hard)!"},
+		{ID: "st-ufo-hard", Name: "Destructor Estelar", Emoji: "☄️", Desc: "¡3 estrellas en el Planeta 4 (Hard)!"},
+		{ID: "st-astronaut-hard", Name: "Astronauta Pro Legendario", Emoji: "💫", Desc: "¡3 estrellas en el Planeta 5 (Hard)!"},
+		{ID: "st-crown-hard", Name: "Monarca del Vacío", Emoji: "🏆", Desc: "¡3 estrellas en el Planeta 6 (Hard)!"},
+
+		// Logros de progresión Normal
+		{ID: "st-normal-complete", Name: "Héroe del Cosmos", Emoji: "🎖️", Desc: "Completar todos los planetas normales con al menos 1 estrella."},
+		{ID: "st-normal-complete-2s", Name: "Astrónomo de Plata", Emoji: "🥈", Desc: "Completar todos los planetas normales con al menos 2 estrellas."},
+		{ID: "st-normal-complete-3s", Name: "Conquistador de Constelaciones", Emoji: "🥇", Desc: "Completar todos los planetas normales con 3 estrellas en todos."},
+
+		// Logros de progresión Hard
+		{ID: "st-hard-complete", Name: "Titán del Espacio", Emoji: "🌋", Desc: "Completar todos los planetas hard con al menos 1 estrella."},
+		{ID: "st-hard-complete-2s", Name: "Señor de la Gravedad", Emoji: "🪐", Desc: "Completar todos los planetas hard con al menos 2 estrellas."},
+		{ID: "st-hard-complete-3s", Name: "Fénix Interestelar", Emoji: "🔥", Desc: "Completar todos los planetas hard con 3 estrellas en todos."},
+
+		// Logro supremo
+		{ID: "st-cosmo-god", Name: "Deidad Suprema del Universo", Emoji: "👑🌌", Desc: "Tener 3 estrellas en todos los planetas en ambos modos (Normal y Hard)."},
+
+		// Logros divertidos / interactivos
+		{ID: "st-streak-5", Name: "Cometa Veloz", Emoji: "☄️", Desc: "Lograr una racha de 5 respuestas correctas en una partida."},
+		{ID: "st-streak-10", Name: "Centella del Cosmos", Emoji: "🌠", Desc: "Lograr una racha de 10 respuestas correctas en una partida."},
+		{ID: "st-audio-master", Name: "Oído Galáctico", Emoji: "🎧", Desc: "Responder 5 preguntas de audio correctas seguidas."},
+		{ID: "st-perfect-run", Name: "Misión Impecable", Emoji: "💯", Desc: "Completar cualquier planeta sin cometer fallos."},
+		{ID: "st-writing-master", Name: "Escribano Espacial", Emoji: "✍️", Desc: "Responder 5 preguntas de escritura seguidas correctamente en modo Hard."},
+		{ID: "st-tropa", Name: "La Tropa Unida", Emoji: "👨‍👩‍👧‍👦", Desc: "Obtener al menos 1 estrella con ambos perfiles (Sofía y Luciano) en el sistema."},
 	},
 }
 
 // Structs para requests
 type ProgressRequest struct {
-	PlayerName string `json:"playerName" binding:"required"`
-	PlanetID   string `json:"planetId" binding:"required"`
-	Stars      int    `json:"stars" binding:"gte=0,lte=3"`
+	PlayerName  string `json:"playerName" binding:"required"`
+	PlanetID    string `json:"planetId" binding:"required"`
+	Stars       int    `json:"stars" binding:"gte=0,lte=3"`
+	MaxStreak   int    `json:"maxStreak"`
+	AudioStreak int    `json:"audioStreak"`
+	PerfectRun  bool   `json:"perfectRun"`
+	WriteStreak int    `json:"writeStreak"`
 }
 
 type ResetRequest struct {
@@ -331,9 +406,14 @@ func saveProgress(c *gin.Context) {
 		return
 	}
 
-	// Si obtuvo 3 estrellas, desbloquear y guardar el sticker del planeta
+	// 1. Desbloquear stickers básicos e incondicionales
+	database.SaveSticker(req.PlayerName, "st-explorer")
+	if req.Stars >= 1 {
+		database.SaveSticker(req.PlayerName, "st-first-star")
+	}
+
+	// 2. Medallas por Planeta Normal y Hard
 	if req.Stars == 3 {
-		// Mapear planet-1 a st-rocket, planet-2 a st-alien...
 		stickerID := ""
 		switch req.PlanetID {
 		case "planet-1":
@@ -348,13 +428,93 @@ func saveProgress(c *gin.Context) {
 			stickerID = "st-astronaut"
 		case "planet-6":
 			stickerID = "st-crown"
+		case "planet-1-hard":
+			stickerID = "st-rocket-hard"
+		case "planet-2-hard":
+			stickerID = "st-alien-hard"
+		case "planet-3-hard":
+			stickerID = "st-star-hard"
+		case "planet-4-hard":
+			stickerID = "st-ufo-hard"
+		case "planet-5-hard":
+			stickerID = "st-astronaut-hard"
+		case "planet-6-hard":
+			stickerID = "st-crown-hard"
 		}
 
 		if stickerID != "" {
-			if err := database.SaveSticker(req.PlayerName, stickerID); err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-				return
-			}
+			database.SaveSticker(req.PlayerName, stickerID)
+		}
+	}
+
+	// 3. Stickers de Rendimiento de Partida
+	if req.MaxStreak >= 5 {
+		database.SaveSticker(req.PlayerName, "st-streak-5")
+	}
+	if req.MaxStreak >= 10 {
+		database.SaveSticker(req.PlayerName, "st-streak-10")
+	}
+	if req.AudioStreak >= 5 {
+		database.SaveSticker(req.PlayerName, "st-audio-master")
+	}
+	if req.PerfectRun {
+		database.SaveSticker(req.PlayerName, "st-perfect-run")
+	}
+	if req.WriteStreak >= 5 {
+		database.SaveSticker(req.PlayerName, "st-writing-master")
+	}
+
+	// 4. Logros Globales Acumulados
+	progressMap, err := database.GetPlayersProgress()
+	if err == nil {
+		normalPlanets := []string{"planet-1", "planet-2", "planet-3", "planet-4", "planet-5", "planet-6"}
+		hardPlanets := []string{"planet-1-hard", "planet-2-hard", "planet-3-hard", "planet-4-hard", "planet-5-hard", "planet-6-hard"}
+		
+		playerState := progressMap[req.PlayerName]
+		
+		// Progreso Normal
+		hasAllNormal1s := true
+		hasAllNormal2s := true
+		hasAllNormal3s := true
+		for _, p := range normalPlanets {
+			s := playerState.Stars[p]
+			if s < 1 { hasAllNormal1s = false }
+			if s < 2 { hasAllNormal2s = false }
+			if s < 3 { hasAllNormal3s = false }
+		}
+		if hasAllNormal1s { database.SaveSticker(req.PlayerName, "st-normal-complete") }
+		if hasAllNormal2s { database.SaveSticker(req.PlayerName, "st-normal-complete-2s") }
+		if hasAllNormal3s { database.SaveSticker(req.PlayerName, "st-normal-complete-3s") }
+
+		// Progreso Hard
+		hasAllHard1s := true
+		hasAllHard2s := true
+		hasAllHard3s := true
+		for _, p := range hardPlanets {
+			s := playerState.Stars[p]
+			if s < 1 { hasAllHard1s = false }
+			if s < 2 { hasAllHard2s = false }
+			if s < 3 { hasAllHard3s = false }
+		}
+		if hasAllHard1s { database.SaveSticker(req.PlayerName, "st-hard-complete") }
+		if hasAllHard2s { database.SaveSticker(req.PlayerName, "st-hard-complete-2s") }
+		if hasAllHard3s { database.SaveSticker(req.PlayerName, "st-hard-complete-3s") }
+
+		// Logro Máximo (3 estrellas en todo en Normal y Hard)
+		if hasAllNormal3s && hasAllHard3s {
+			database.SaveSticker(req.PlayerName, "st-cosmo-god")
+		}
+
+		// La Tropa Unida (Ambos perfiles tienen al menos 1 estrella en total)
+		sofiaState := progressMap["Sofia"]
+		lucianoState := progressMap["Luciano"]
+		sofiaTotalStars := 0
+		lucianoTotalStars := 0
+		for _, s := range sofiaState.Stars { sofiaTotalStars += s }
+		for _, s := range lucianoState.Stars { lucianoTotalStars += s }
+		if sofiaTotalStars >= 1 && lucianoTotalStars >= 1 {
+			database.SaveSticker("Sofia", "st-tropa")
+			database.SaveSticker("Luciano", "st-tropa")
 		}
 	}
 

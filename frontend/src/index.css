@@ -1058,3 +1058,41 @@ header {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Estilos Premium para Modo Hard y Nuevas Mecánicas */
+.hard-nebula {
+  background: radial-gradient(circle at center, rgba(194, 54, 22, 0.3) 0%, rgba(8, 3, 26, 0.95) 100%) !important;
+  box-shadow: inset 0 0 100px rgba(194, 54, 22, 0.25) !important;
+  transition: background 0.8s ease-in-out;
+}
+
+.planet-node.hard-aura {
+  box-shadow: 0 0 25px rgba(255, 118, 117, 0.5) !important;
+  border-color: rgba(255, 118, 117, 0.4) !important;
+  animation: pulse-hard-aura 2s infinite ease-in-out;
+}
+
+@keyframes pulse-hard-aura {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 118, 117, 0.4); }
+  50% { transform: scale(1.03); box-shadow: 0 0 35px rgba(255, 118, 117, 0.6); }
+}
+
+.difficulty-switch input:focus + .difficulty-slider {
+  box-shadow: 0 0 15px rgba(255, 118, 117, 0.4);
+}
+
+.option-card.selected {
+  border-color: var(--color-cyan) !important;
+  background: rgba(0, 206, 201, 0.15) !important;
+  box-shadow: 0 0 15px rgba(0, 206, 201, 0.3) !important;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.option-card.matched {
+  border-color: var(--color-success) !important;
+  background: rgba(0, 184, 148, 0.15) !important;
+  color: var(--color-success) !important;
+  opacity: 0.8;
+  transform: scale(0.98);
+  pointer-events: none;
+}
