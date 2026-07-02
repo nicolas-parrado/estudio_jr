@@ -630,7 +630,7 @@ export default function App() {
 
       <main>
         {/* Cabecera / Navbar */}
-        {currentPlayer && activeView !== "welcome" && (
+        {currentPlayer && activeView !== "welcome" && !loading && !error && (
           <header>
             <div className="logo" onClick={() => handleNavigate("map")} style={{ cursor: "pointer" }}>
               <span>🚀</span> Space English
@@ -658,8 +658,58 @@ export default function App() {
           </header>
         )}
 
+        {/* Vista de Carga */}
+        {loading && (
+          <section className="view active" id="loading-view" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div className="welcome-box">
+              <h1 style={{ fontSize: "2rem", marginBottom: "15px" }}>🚀 Iniciando Motores...</h1>
+              <p>Conectando con el centro de control galáctico para cargar el vocabulario de Sofía y Luciano...</p>
+              <div className="loader-container" style={{ margin: "30px auto", width: "80px", height: "80px", position: "relative" }}>
+                <div style={{
+                  position: "absolute", width: "100%", height: "100%",
+                  border: "4px solid rgba(255, 255, 255, 0.1)",
+                  borderTopColor: "var(--color-cyan)",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite"
+                }}></div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Vista de Error de Conexión */}
+        {error && !loading && (
+          <section className="view active" id="error-view" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div className="welcome-box" style={{ borderColor: "var(--color-danger)" }}>
+              <h1 style={{ color: "var(--color-danger)", fontSize: "2rem", marginBottom: "15px" }}>🛸 ¡Houston, tenemos un problema!</h1>
+              <p>No se pudo conectar al servidor de base de datos:</p>
+              <div style={{
+                background: "rgba(255, 118, 117, 0.1)",
+                color: "#ff7675",
+                padding: "15px",
+                borderRadius: "8px",
+                fontFamily: "monospace",
+                margin: "15px 0",
+                fontSize: "0.9rem",
+                wordBreak: "break-all"
+              }}>{error}</div>
+              <p style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: "25px" }}>
+                Asegúrate de que el backend Docker esté arriba y accesible en <code>{API_URL}</code>.
+              </p>
+              <button className="btn btn-primary" onClick={() => {
+                setError(null);
+                setLoading(true);
+                fetchGameData();
+                fetchPlayersProgress();
+              }}>
+                🔄 Reintentar Conexión
+              </button>
+            </div>
+          </section>
+        )}
+
         {/* 1. Vista de Bienvenida */}
-        {activeView === "welcome" && (
+        {!loading && !error && activeView === "welcome" && (
           <section className="view active" id="welcome-view">
             <div className="welcome-box">
               <h1>🌌 Space English</h1>
@@ -692,7 +742,7 @@ export default function App() {
         )}
 
         {/* 2. Vista de Mapa Estelar */}
-        {activeView === "map" && gameData && playerStats && (
+        {!loading && !error && activeView === "map" && gameData && playerStats && (
           <section className="view active" id="map-view">
             <div className="map-header">
               <div>
@@ -742,7 +792,7 @@ export default function App() {
         )}
 
         {/* 3. Vista de Juego (Play Arena) */}
-        {activeView === "game" && currentPlanet && questions.length > 0 && currentQuestionIndex < questions.length && (
+        {!loading && !error && activeView === "game" && currentPlanet && questions.length > 0 && currentQuestionIndex < questions.length && (
           <section className="view active" id="game-view">
             <div className="game-header">
               <button 
@@ -947,7 +997,7 @@ export default function App() {
         )}
 
         {/* 4. Vista de Álbum de Stickers */}
-        {activeView === "album" && gameData && playerStats && (
+        {!loading && !error && activeView === "album" && gameData && playerStats && (
           <section className="view active" id="album-view">
             <div className="map-header">
               <div>
@@ -974,7 +1024,7 @@ export default function App() {
         )}
 
         {/* 5. Vista de Tabla de Honor (Leaderboard) */}
-        {activeView === "leaderboard" && (
+        {!loading && !error && activeView === "leaderboard" && (
           <section className="view active" id="leaderboard-view">
             <div className="map-header" style={{ justifyContent: "center", textAlign: "center", marginBottom: "30px" }}>
               <div>

@@ -20,7 +20,7 @@ docker compose up --build
 
 Una vez que Docker termine de levantar los contenedores:
 - Accede al juego en tu navegador: [http://localhost:3000](http://localhost:3000)
-- La API del backend de Go estará disponible en: [http://localhost:8080/api/players](http://localhost:8080/api/players)
+- La API del backend de Go estará disponible en: [http://localhost:8081/api/players](http://localhost:8081/api/players)
 
 Para apagar los contenedores y mantener los datos a salvo:
 ```bash
