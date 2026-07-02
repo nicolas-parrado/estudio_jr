@@ -393,7 +393,7 @@ header {
 
 /* 3. Vista de Juego (Play Arena) */
 #game-view {
-  display: none;
+  flex: 1;
 }
 
 .game-header {

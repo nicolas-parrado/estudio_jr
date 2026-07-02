@@ -303,6 +303,7 @@ export default function App() {
 
   // --- MISION DEL PLANETA ---
   const startPlanetMission = (planet: Planet) => {
+    console.log("startPlanetMission iniciada para:", planet.id, planet.name);
     setCurrentPlanet(planet);
     setScore(0);
     setStreak(0);
@@ -310,15 +311,22 @@ export default function App() {
     setCurrentQuestionIndex(0);
     
     const qList = generateRandomQuestions(planet);
+    console.log("Preguntas calculadas:", qList);
     setQuestions(qList);
     
     setActiveView("game");
+    console.log("Cambiado activeView a 'game'");
     triggerCosmoGreeting();
   };
 
   const generateRandomQuestions = (planet: Planet): GameQuestion[] => {
+    console.log("generateRandomQuestions ejecutándose para:", planet.id, "Vocabulario:", planet.vocabulary);
     const list: GameQuestion[] = [];
-    const vocab = [...planet.vocabulary];
+    const vocab = [...(planet.vocabulary || [])];
+    if (vocab.length === 0) {
+      console.error("ERROR: El vocabulario del planeta está vacío o es nulo.");
+      return [];
+    }
     vocab.sort(() => Math.random() - 0.5);
 
     const selectedVocab = vocab.slice(0, 8);
@@ -623,6 +631,9 @@ export default function App() {
 
   // --- RENDERS DE COMPONENTES ---
   const playerStats = currentPlayer ? playersProgress[currentPlayer] : null;
+
+  // --- LOG DE RENDERIZADO ---
+  console.log("Renderizando App. activeView:", activeView, "currentPlayer:", currentPlayer, "questionsLength:", questions.length, "currentPlanet:", currentPlanet ? currentPlanet.id : null, "loading:", loading, "error:", error);
 
   return (
     <>
