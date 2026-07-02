@@ -270,9 +270,14 @@ export default function App() {
   const handleNavigate = (view: "welcome" | "map" | "album" | "leaderboard") => {
     playSound("click");
     setActiveView(view);
+    
+    // Refrescar datos del backend al navegar para evitar estados obsoletos
     if (view === "welcome") {
       setCurrentPlayer(null);
       fetchPlayersProgress();
+    } else if (view === "album" || view === "map" || view === "leaderboard") {
+      fetchPlayersProgress();
+      fetchGameData();
     }
   };
 
