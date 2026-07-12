@@ -1102,3 +1102,75 @@ header {
   transform: scale(0.98);
   pointer-events: none;
 }
+
+/* --- BRILLOS DE PLANETAS EN MAPA ESTELAR --- */
+.planet-glow-bronze {
+  box-shadow: 0 0 15px rgba(205, 127, 50, 0.45);
+  border-color: rgba(205, 127, 50, 0.5) !important;
+}
+
+.planet-glow-silver {
+  box-shadow: 0 0 20px rgba(192, 192, 192, 0.6);
+  border-color: rgba(192, 192, 192, 0.7) !important;
+  animation: pulse-silver-glow 3s infinite ease-in-out;
+}
+
+@keyframes pulse-silver-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(192, 192, 192, 0.5); }
+  50% { box-shadow: 0 0 25px rgba(192, 192, 192, 0.8); }
+}
+
+.planet-glow-cosmic {
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.75), 0 0 40px rgba(232, 67, 147, 0.45);
+  border-color: rgba(108, 92, 231, 0.8) !important;
+  animation: pulse-cosmic-glow 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse-cosmic-glow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(108, 92, 231, 0.6), 0 0 35px rgba(232, 67, 147, 0.35); }
+  50% { transform: scale(1.02); box-shadow: 0 0 35px rgba(108, 92, 231, 0.9), 0 0 50px rgba(232, 67, 147, 0.6); }
+}
+
+/* --- BRILLOS DE STICKERS EN EL ÁLBUM --- */
+/* Medium: Brillo Plateado */
+.glow-silver {
+  border-color: rgba(192, 192, 192, 0.55) !important;
+  box-shadow: 0 0 15px rgba(192, 192, 192, 0.35);
+  background: linear-gradient(135deg, rgba(25, 18, 52, 0.8) 0%, rgba(192, 192, 192, 0.05) 100%) !important;
+}
+.glow-silver:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(192, 192, 192, 0.6);
+}
+
+/* Hard: Brillo Dorado */
+.glow-gold {
+  border-color: rgba(253, 203, 110, 0.7) !important;
+  box-shadow: 0 0 20px rgba(253, 203, 110, 0.45);
+  background: linear-gradient(135deg, rgba(25, 18, 52, 0.8) 0%, rgba(253, 203, 110, 0.08) 100%) !important;
+  animation: hover-gold-pulse 4s infinite ease-in-out;
+}
+@keyframes hover-gold-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(253, 203, 110, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(253, 203, 110, 0.7); }
+}
+.glow-gold:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(253, 203, 110, 0.85);
+}
+
+/* Legendary: Cosmic Glow (Morado + Bordes/Chispas Animadas) */
+.glow-cosmic {
+  border-color: rgba(108, 92, 231, 0.8) !important;
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.6), 0 0 15px rgba(232, 67, 147, 0.4);
+  background: linear-gradient(135deg, rgba(25, 18, 52, 0.8) 0%, rgba(108, 92, 231, 0.12) 100%) !important;
+  animation: cosmic-rotate-glow 3s infinite ease-in-out;
+}
+@keyframes cosmic-rotate-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(108, 92, 231, 0.5), 0 0 10px rgba(232, 67, 147, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(108, 92, 231, 0.8), 0 0 20px rgba(232, 67, 147, 0.6); }
+}
+.glow-cosmic:hover {
+  transform: scale(1.06) rotate(1deg);
+  box-shadow: 0 0 35px rgba(108, 92, 231, 0.9), 0 0 25px rgba(232, 67, 147, 0.8);
+}

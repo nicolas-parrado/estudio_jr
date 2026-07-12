@@ -20,7 +20,11 @@ export interface Planet {
   subtitle: string;
   emoji: string;
   color: string;
-  vocabulary: VocabularyItem[];
+  questionsCountNormal: number;
+  questionsCountHard: number;
+  stickerNormal?: string;
+  stickerHard?: string;
+  vocabulary?: VocabularyItem[];
   specialQuestions?: SpecialQuestion[];
 }
 
@@ -29,11 +33,14 @@ export interface Sticker {
   name: string;
   emoji: string;
   desc: string;
+  difficulty: "easy" | "medium" | "hard" | "legendary";
 }
 
-export interface GameData {
-  planets: Planet[];
-  stickers: Sticker[];
+export interface Subject {
+  id: string;
+  name: string;
+  emoji: string;
+  themeColor: string;
 }
 
 export interface PlayerState {

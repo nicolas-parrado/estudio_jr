@@ -1,18 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { 
-  GameData, 
   PlayersProgress, 
-  PlayerState, 
   Planet, 
   GameQuestion, 
-  VocabularyItem, 
-  SpecialQuestion,
-  MemoryCard
+  MemoryCard,
+  Subject,
+  Sticker,
+  DragDropQuestion,
+  MemoriceQuestion
 } from "./types.ts";
 
 export default function App() {
   // --- ESTADOS DE LA API ---
-  const [gameData, setGameData] = useState<GameData | null>(null);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
+  const [planets, setPlanets] = useState<Planet[]>([]);
+  const [stickers, setStickers] = useState<Sticker[]>([]);
   const [playersProgress, setPlayersProgress] = useState<PlayersProgress>({
     Sofia: { stars: {}, unlockedPlanets: ["planet-1"], stickers: [] },
     Luciano: { stars: {}, unlockedPlanets: ["planet-1"], stickers: [] }
@@ -21,7 +24,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   // --- ESTADOS DE JUEGO (SPA) ---
-  const [activeView, setActiveView] = useState<"welcome" | "map" | "game" | "album" | "leaderboard">("welcome");
+  const [activeView, setActiveView] = useState<"welcome" | "subjects" | "map" | "game" | "album" | "leaderboard">("welcome");
   const [currentPlayer, setCurrentPlayer] = useState<"Sofia" | "Luciano" | null>(null);
   
   // Misión activa
@@ -54,6 +57,7 @@ export default function App() {
 
   // Nuevos estados para juego y logros
   const [difficulty, setDifficulty] = useState<"normal" | "hard">("normal");
+  const [activeAlbumTab, setActiveAlbumTab] = useState<"global" | "subject">("global");
   const [perfectRunFlag, setPerfectRunFlag] = useState<boolean>(true);
   const [userVowels, setUserVowels] = useState<string[]>([]);
   const [userWritingInput, setUserWritingInput] = useState<string>("");
@@ -79,7 +83,7 @@ export default function App() {
   const [rocketPosition, setRocketPosition] = useState<{ left: string; top: string }>({ left: "0px", top: "0px" });
 
   // URLs de API (Backend)
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+  const API_URL = (import.meta as any).env?.VITE_API_URL || "http://localhost:8080";
 
   // --- REFERENCIAS DE AUDIO ---
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -91,8 +95,8 @@ export default function App() {
     generateStars();
     
     // Cargar datos del backend
-    fetchGameData();
-    fetchPlayersProgress();
+    fetchSubjects();
+    fetchPlayersProgress("ingles");
     
     // Inicializar voces del sintetizador
     initSpeechVoices();
@@ -102,12 +106,12 @@ export default function App() {
   }, []);
 
   // --- CARGA DE DATOS ---
-  const fetchGameData = async () => {
+  const fetchSubjects = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/vocabulary`);
-      if (!res.ok) throw new Error("No se pudo cargar el vocabulario del servidor");
+      const res = await fetch(`${API_URL}/api/subjects`);
+      if (!res.ok) throw new Error("No se pudo cargar las materias del servidor");
       const data = await res.json();
-      setGameData(data);
+      setSubjects(data);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -115,9 +119,9 @@ export default function App() {
     }
   };
 
-  const fetchPlayersProgress = async () => {
+  const fetchPlayersProgress = async (subjectId = "ingles") => {
     try {
-      const res = await fetch(`${API_URL}/api/players`);
+      const res = await fetch(`${API_URL}/api/players?subjectId=${subjectId}`);
       if (!res.ok) throw new Error("No se pudo cargar el progreso de los jugadores");
       const data = await res.json();
       setPlayersProgress(data);
@@ -266,18 +270,29 @@ export default function App() {
     triggerCosmoSpeech(randomQuote);
   };
 
+  // --- NORMALIZACIÓN DE TEXTO ---
+  const normalizeText = (text: string): string => {
+    if (!text) return "";
+    return text
+      .toUpperCase()
+      .trim()
+      .replace(/\s+/g, " ");
+  };
+
   // --- ENRUTAMIENTO SPA ---
-  const handleNavigate = (view: "welcome" | "map" | "album" | "leaderboard") => {
+  const handleNavigate = (view: "welcome" | "subjects" | "map" | "album" | "leaderboard") => {
     playSound("click");
     setActiveView(view);
     
     // Refrescar datos del backend al navegar para evitar estados obsoletos
     if (view === "welcome") {
       setCurrentPlayer(null);
-      fetchPlayersProgress();
+      setCurrentSubject(null);
+      fetchPlayersProgress("ingles");
     } else if (view === "album" || view === "map" || view === "leaderboard") {
-      fetchPlayersProgress();
-      fetchGameData();
+      if (currentSubject) {
+        fetchPlayersProgress(currentSubject.id);
+      }
     }
   };
 
@@ -290,8 +305,45 @@ export default function App() {
     } catch(e) {}
     
     setCurrentPlayer(player);
-    setActiveView("map");
-    triggerCosmoSpeech(`¡Bienvenido/a a bordo, ${player}!`);
+    setActiveView("subjects");
+    triggerCosmoSpeech(`¡Bienvenido/a a bordo, ${player}! Elige tu misión de hoy.`);
+  };
+
+  // --- SELECCIONAR MATERIA (RAMO) ---
+  const selectSubject = async (subject: Subject) => {
+    playSound("click");
+    setLoading(true);
+    try {
+      // 1. Cargar planetas de la materia
+      const pRes = await fetch(`${API_URL}/api/subjects/${subject.id}/planets`);
+      if (!pRes.ok) throw new Error("No se pudieron cargar los planetas de esta materia");
+      const pData = await pRes.json();
+      setPlanets(pData);
+
+      // 2. Cargar stickers de la materia
+      const sRes = await fetch(`${API_URL}/api/subjects/${subject.id}/stickers`);
+      if (!sRes.ok) throw new Error("No se pudieron cargar los stickers de esta materia");
+      const sData = await sRes.json();
+      setStickers(sData);
+
+      // Guardar materia actual y cargar su progreso para el alumno actual
+      setCurrentSubject(subject);
+      if (currentPlayer) {
+        const res = await fetch(`${API_URL}/api/players?subjectId=${subject.id}`);
+        if (res.ok) {
+          const progressData = await res.json();
+          setPlayersProgress(progressData);
+        }
+      }
+
+      setActiveView("map");
+      triggerCosmoSpeech(`¡Fijando curso al mapa de ${subject.name}!`);
+    } catch (e: any) {
+      console.error(e);
+      alert("Error al cargar la materia: " + e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // --- LOGOUT / SALIR ---
@@ -321,31 +373,44 @@ export default function App() {
   };
 
   // --- MISION DEL PLANETA ---
-  const startPlanetMission = (planet: Planet) => {
-    console.log("startPlanetMission iniciada para:", planet.id, planet.name, "Dificultad:", difficulty);
-    setCurrentPlanet(planet);
-    setScore(0);
-    setStreak(0);
-    setCorrectCount(0);
-    setCurrentQuestionIndex(0);
-    
-    // Inicializar estados de racha y logros personales
-    setPerfectRunFlag(true);
-    setUserVowels([]);
-    setUserWritingInput("");
-    setMaxStreak(0);
-    setAudioStreak(0);
-    setWriteStreak(0);
-    setCurrentWriteStreak(0);
-    setCurrentAudioStreak(0);
+  const startPlanetMission = async (planetMeta: Planet) => {
+    console.log("startPlanetMission iniciada para:", planetMeta.id, planetMeta.name, "Dificultad:", difficulty);
+    setLoading(true);
+    try {
+      // Descargar dinámicamente la información completa del planeta (con vocabulario y preguntas)
+      const res = await fetch(`${API_URL}/api/subjects/${currentSubject?.id}/planets/${planetMeta.id}/data`);
+      if (!res.ok) throw new Error("No se pudo descargar la configuración del planeta");
+      const fullPlanet: Planet = await res.json();
 
-    const qList = generateRandomQuestions(planet);
-    console.log("Preguntas calculadas:", qList);
-    setQuestions(qList);
-    
-    setActiveView("game");
-    console.log("Cambiado activeView a 'game'");
-    triggerCosmoGreeting();
+      setCurrentPlanet(fullPlanet);
+      setScore(0);
+      setStreak(0);
+      setCorrectCount(0);
+      setCurrentQuestionIndex(0);
+      
+      // Inicializar estados de racha y logros personales
+      setPerfectRunFlag(true);
+      setUserVowels([]);
+      setUserWritingInput("");
+      setMaxStreak(0);
+      setAudioStreak(0);
+      setWriteStreak(0);
+      setCurrentWriteStreak(0);
+      setCurrentAudioStreak(0);
+
+      const qList = generateRandomQuestions(fullPlanet);
+      console.log("Preguntas calculadas:", qList);
+      setQuestions(qList);
+      
+      setActiveView("game");
+      console.log("Cambiado activeView a 'game'");
+      triggerCosmoGreeting();
+    } catch (e: any) {
+      console.error("Error en startPlanetMission:", e);
+      alert("¡Ups! Ocurrió un problema al viajar al planeta: " + e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const generateRandomQuestions = (planet: Planet): GameQuestion[] => {
@@ -358,8 +423,8 @@ export default function App() {
     }
     vocab.sort(() => Math.random() - 0.5);
 
-    // Cantidad de preguntas
-    const targetLength = difficulty === "hard" ? 15 : 10;
+    // Cantidad de preguntas dinámicas desde el JSON
+    const targetLength = difficulty === "hard" ? (planet.questionsCountHard || 15) : (planet.questionsCountNormal || 10);
     
     // Si el vocabulario tiene menos elementos de los requeridos, los repetimos para llenar la ronda
     let pool = [...vocab];
@@ -733,6 +798,7 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           playerName: currentPlayer,
+          subjectId: currentSubject?.id || "ingles",
           planetId: difficulty === "hard" ? `${currentPlanet.id}-hard` : currentPlanet.id,
           stars: earnedStars,
           maxStreak,
@@ -750,9 +816,9 @@ export default function App() {
       const newStickers = updatedProgress[currentPlayer]?.stickers || [];
       const unlockedIDs = newStickers.filter((s: string) => !oldStickers.includes(s));
 
-      if (gameData && gameData.stickers) {
+      if (stickers) {
         unlockedIDs.forEach((id: string) => {
-          const sData = gameData.stickers.find(s => s.id === id);
+          const sData = stickers.find(s => s.id === id);
           if (sData) {
             newlyUnlockedStickers.push({ emoji: sData.emoji, name: sData.name });
           }
@@ -887,8 +953,12 @@ export default function App() {
               <button className="btn btn-primary" onClick={() => {
                 setError(null);
                 setLoading(true);
-                fetchGameData();
-                fetchPlayersProgress();
+                fetchSubjects();
+                if (currentSubject) {
+                  fetchPlayersProgress(currentSubject.id);
+                } else {
+                  fetchPlayersProgress("ingles");
+                }
               }}>
                 🔄 Reintentar Conexión
               </button>
@@ -900,8 +970,8 @@ export default function App() {
         {!loading && !error && activeView === "welcome" && (
           <section className="view active" id="welcome-view">
             <div className="welcome-box">
-              <h1>🌌 Space English</h1>
-              <p>¡Prepárate para una aventura de inglés en el espacio exterior!</p>
+              <h1>🌌 Space Academy</h1>
+              <p>¡Prepárate para una aventura estelar de aprendizaje!</p>
               
               <h2 style={{ fontFamily: "var(--font-title)", fontSize: "1.4rem", marginBottom: "20px" }}>
                 ¿Quién va a pilotar la nave hoy?
@@ -929,13 +999,100 @@ export default function App() {
           </section>
         )}
 
+        {/* 1.5 Vista Centro de Mando (Selección de Materia) */}
+        {!loading && !error && activeView === "subjects" && (
+          <section className="view active" id="subjects-view" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "80vh" }}>
+            <div className="welcome-box" style={{ maxWidth: "850px", width: "95%" }}>
+              <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2.4rem", marginBottom: "10px", textShadow: "0 0 10px rgba(9, 132, 227, 0.4)" }}>Centro de Mando Galáctico</h1>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "30px" }}>
+                Piloto <strong>{currentPlayer}</strong>, selecciona el rumbo de tu misión de aprendizaje:
+              </p>
+
+              <div className="subjects-grid" style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                gap: "25px",
+                width: "100%",
+                marginBottom: "30px"
+              }}>
+                {subjects.map(sub => {
+                  const subjectStars = Object.values(playersProgress[currentPlayer || ""]?.stars || {}).reduce((a, b) => a + b, 0);
+                  return (
+                    <div 
+                      key={sub.id} 
+                      className="subject-card"
+                      onClick={() => selectSubject(sub)}
+                      style={{
+                        background: "rgba(255, 255, 255, 0.05)",
+                        backdropFilter: "blur(12px)",
+                        border: `2px solid ${sub.themeColor || "var(--glass-border)"}`,
+                        borderRadius: "24px",
+                        padding: "30px 20px",
+                        textAlign: "center",
+                        cursor: "pointer",
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "15px"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-8px) scale(1.03)";
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.12)";
+                        e.currentTarget.style.boxShadow = `0 12px 30px ${sub.themeColor}4d`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "none";
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      <span style={{ fontSize: "4.5rem", filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))" }}>{sub.emoji}</span>
+                      <h3 style={{ fontSize: "1.6rem", fontFamily: "var(--font-title)", color: "white", margin: 0 }}>{sub.name}</h3>
+                      <div style={{
+                        background: "rgba(0,0,0,0.4)",
+                        borderRadius: "20px",
+                        padding: "6px 16px",
+                        fontSize: "0.9rem",
+                        color: "var(--star-yellow)",
+                        fontWeight: "bold",
+                        border: "1px solid rgba(255, 234, 167, 0.15)"
+                      }}>
+                        ⭐ {subjectStars} Estrellas
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => handleNavigate("welcome")}
+                style={{ padding: "10px 24px" }}
+              >
+                🛸 Cambiar de Piloto
+              </button>
+            </div>
+          </section>
+        )}
+
         {/* 2. Vista de Mapa Estelar */}
-        {!loading && !error && activeView === "map" && gameData && playerStats && (
+        {!loading && !error && activeView === "map" && currentSubject && planets && playerStats && (
           <section className="view active" id="map-view">
             <div className="map-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
-              <div>
-                <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2rem" }}>Mapa Estelar de Aprendizaje</h1>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Selecciona un planeta para viajar y jugar</p>
+              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => handleNavigate("subjects")}
+                  style={{ fontSize: "1.4rem", padding: "8px 16px" }}
+                  title="Volver a la selección de ramos"
+                >
+                  🛰️
+                </button>
+                <div>
+                  <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2rem" }}>Mapa Estelar: {currentSubject.name}</h1>
+                  <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Selecciona un planeta para viajar y jugar</p>
+                </div>
               </div>
 
               {/* Selector de Dificultad Galáctica */}
@@ -984,7 +1141,7 @@ export default function App() {
               </div>
               
               <div className="planets-grid">
-                {gameData.planets.map(planet => {
+                {planets.map(planet => {
                   // Bloqueo: En Hard requiere al menos 2 estrellas en el Normal de ese mismo planeta
                   const isLocked = difficulty === "hard" 
                     ? (playerStats.stars[planet.id] || 0) < 2 
@@ -995,10 +1152,24 @@ export default function App() {
                   const stars = playerStats.stars[targetID] || 0;
                   const starsStr = "⭐".repeat(stars) + "☆".repeat(3 - stars);
 
+                  // Estrellas de ambas dificultades para brillo
+                  const starsNormal = playerStats.stars[planet.id] || 0;
+                  const starsHard = playerStats.stars[`${planet.id}-hard`] || 0;
+
+                  // Definir brillo premium del planeta según logros
+                  let glowClass = "";
+                  if (starsHard === 3) {
+                    glowClass = "planet-glow-cosmic";
+                  } else if (starsHard > 0) {
+                    glowClass = "planet-glow-silver";
+                  } else if (starsNormal > 0) {
+                    glowClass = "planet-glow-bronze";
+                  }
+
                   return (
                     <div 
                       key={planet.id}
-                      className={`planet-node ${isLocked ? 'locked' : ''} ${difficulty === "hard" && !isLocked ? 'hard-aura' : ''}`}
+                      className={`planet-node ${isLocked ? 'locked' : ''} ${difficulty === "hard" && !isLocked ? 'hard-aura' : ''} ${glowClass}`}
                       style={{ ["--planet-color" as any]: difficulty === "hard" ? "#ff7675" : planet.color }}
                       onClick={(e) => !isLocked && handlePlanetSelect(e, planet)}
                     >
@@ -1359,7 +1530,7 @@ export default function App() {
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             playSound("click");
-                            const isCorrect = userWritingInput.toLowerCase().trim() === (questions[currentQuestionIndex] as any).word.toLowerCase().trim();
+                            const isCorrect = normalizeText(userWritingInput) === normalizeText((questions[currentQuestionIndex] as any).word);
                             handleCheckAnswer(isCorrect);
                           }
                         }}
@@ -1420,7 +1591,7 @@ export default function App() {
                         className="btn btn-primary" 
                         onClick={() => {
                           playSound("click");
-                          const isCorrect = userWritingInput.toLowerCase().trim() === (questions[currentQuestionIndex] as any).word.toLowerCase().trim();
+                          const isCorrect = normalizeText(userWritingInput) === normalizeText((questions[currentQuestionIndex] as any).word);
                           handleCheckAnswer(isCorrect);
                         }}
                       >
@@ -1441,28 +1612,103 @@ export default function App() {
         )}
 
         {/* 4. Vista de Álbum de Stickers */}
-        {!loading && !error && activeView === "album" && gameData && playerStats && (
+        {!loading && !error && activeView === "album" && currentSubject && stickers && playerStats && (
           <section className="view active" id="album-view">
-            <div className="map-header">
-              <div>
-                <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2rem" }}>Álbum de Stickers Coleccionables</h1>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>
-                  Consigue 3 estrellas (puntuación perfecta) en los planetas para ganarlos todos
-                </p>
+            <div className="map-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => handleNavigate("map")}
+                  style={{ fontSize: "1.4rem", padding: "8px 16px" }}
+                  title="Volver al mapa estelar"
+                >
+                  🪐
+                </button>
+                <div>
+                  <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2rem" }}>Álbum de Stickers Coleccionables</h1>
+                  <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>
+                    ¡Completa las misiones y obtén logros para llenar tu álbum!
+                  </p>
+                </div>
               </div>
+            </div>
+
+            {/* Pestañas de Colección */}
+            <div className="album-tabs" style={{ display: "flex", gap: "15px", margin: "25px 0", justifyContent: "center" }}>
+              <button 
+                className={`btn ${activeAlbumTab === "global" ? "btn-primary" : "btn-secondary"}`}
+                onClick={() => { playSound("click"); setActiveAlbumTab("global"); }}
+                style={{ padding: "12px 24px", fontSize: "1.05rem", borderRadius: "15px", display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                🌌 Logros de la Galaxia
+              </button>
+              <button 
+                className={`btn ${activeAlbumTab === "subject" ? "btn-primary" : "btn-secondary"}`}
+                onClick={() => { playSound("click"); setActiveAlbumTab("subject"); }}
+                style={{ padding: "12px 24px", fontSize: "1.05rem", borderRadius: "15px", display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <span>{currentSubject.emoji}</span> {currentSubject.name}
+              </button>
             </div>
             
             <div className="stickers-grid">
-              {gameData.stickers.map(sticker => {
-                const isLocked = !playerStats.stickers.includes(sticker.id);
-                return (
-                  <div key={sticker.id} className={`sticker-card ${isLocked ? 'locked' : ''}`}>
-                    <span className="sticker-emoji">{isLocked ? "❓" : sticker.emoji}</span>
-                    <div className="sticker-name">{isLocked ? "Desconocido" : sticker.name}</div>
-                    <div className="sticker-desc">{isLocked ? sticker.desc : "¡Coleccionado! 🚀"}</div>
-                  </div>
-                );
-              })}
+              {stickers
+                .filter(sticker => {
+                  const isGlobal = ["st-explorer", "st-first-star", "st-streak-5", "st-streak-10", "st-perfect-run", "st-tropa"].includes(sticker.id);
+                  return activeAlbumTab === "global" ? isGlobal : !isGlobal;
+                })
+                .map(sticker => {
+                  const isLocked = !playerStats.stickers.includes(sticker.id);
+                  
+                  // Determinar clase de brillo en base a dificultad y si está desbloqueado
+                  let glowClass = "";
+                  if (!isLocked) {
+                    if (sticker.difficulty === "medium") glowClass = "glow-silver";
+                    else if (sticker.difficulty === "hard") glowClass = "glow-gold";
+                    else if (sticker.difficulty === "legendary") glowClass = "glow-cosmic";
+                  }
+
+                  return (
+                    <div 
+                      key={sticker.id} 
+                      className={`sticker-card ${isLocked ? 'locked' : ''} ${glowClass}`}
+                      style={{
+                        position: "relative",
+                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                      }}
+                    >
+                      <span className="sticker-emoji" style={{ filter: isLocked ? "grayscale(100%) opacity(40%)" : "none" }}>
+                        {isLocked ? "❓" : sticker.emoji}
+                      </span>
+                      <div className="sticker-name" style={{ fontWeight: "bold", marginTop: "10px" }}>
+                        {isLocked ? "Bloqueado" : sticker.name}
+                      </div>
+                      <div className="sticker-desc" style={{ fontSize: "0.85rem", opacity: 0.8, marginTop: "5px" }}>
+                        {sticker.desc}
+                      </div>
+                      {!isLocked && (
+                        <div style={{
+                          position: "absolute",
+                          top: "8px",
+                          right: "8px",
+                          background: "var(--color-success)",
+                          color: "white",
+                          borderRadius: "50%",
+                          width: "20px",
+                          height: "20px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "0.7rem",
+                          fontWeight: "bold",
+                          boxShadow: "0 2px 5px rgba(0,0,0,0.3)"
+                        }}>
+                          ✓
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </section>
         )}
