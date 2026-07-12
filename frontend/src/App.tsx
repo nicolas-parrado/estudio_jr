@@ -32,11 +32,14 @@ export default function App() {
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [stickers, setStickers] = useState<Sticker[]>([]);
 
-  // Progreso de todos los estudiantes
-  const [playersProgress, setPlayersProgress] = useState<PlayersProgress>({
-    Sofia: { stars: {}, unlockedPlanets: ["planet-1"], stickers: [] },
-    Luciano: { stars: {}, unlockedPlanets: ["planet-1"], stickers: [] }
-  });
+  // Progreso de todos los estudiantes mapeado por subjectId
+  const [progressBySubject, setProgressBySubject] = useState<Record<string, PlayersProgress>>({});
+
+  // Derivar playersProgress a partir de progressBySubject y la materia actual
+  const playersProgress = currentSubject && progressBySubject[currentSubject.id] ? progressBySubject[currentSubject.id] : {
+    Sofia: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] },
+    Luciano: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] }
+  };
 
   // Estado del juego activo
   const [difficulty, setDifficulty] = useState<"normal" | "hard">("normal");
@@ -66,19 +69,33 @@ export default function App() {
   }, []);
 
   // --- CONSULTAS AL BACKEND (API) ---
+  // --- CONSULTAS AL BACKEND (API) ---
   const fetchSubjects = async () => {
     try {
       const res = await fetch(`${API_URL}/api/subjects`);
       if (!res.ok) throw new Error("No se pudo cargar la lista de materias");
       const data: Subject[] = await res.json();
       setSubjects(data);
+
+      // Cargar progreso de todas las materias al inicio de manera consolidada
+      const progressMap: Record<string, PlayersProgress> = {};
+      for (const sub of data) {
+        try {
+          const resProgress = await fetch(`${API_URL}/api/players?subjectId=${sub.id}`);
+          if (resProgress.ok) {
+            progressMap[sub.id] = await resProgress.json();
+          }
+        } catch (err) {
+          console.error(`Error cargando progreso de la materia ${sub.id}:`, err);
+        }
+      }
+      setProgressBySubject(progressMap);
+
       if (data.length > 0) {
-        // Cargar por defecto la primera materia si no hay una seleccionada
         if (!currentSubject) {
           setCurrentSubject(data[0]);
           setPlanets(data[0].planets || []);
           setStickers(data[0].stickers || []);
-          fetchPlayersProgress(data[0].id);
         }
       }
     } catch (e: any) {
@@ -93,7 +110,10 @@ export default function App() {
       const res = await fetch(`${API_URL}/api/players?subjectId=${subjectId}`);
       if (!res.ok) throw new Error("No se pudo cargar el progreso de los jugadores");
       const data = await res.json();
-      setPlayersProgress(data);
+      setProgressBySubject(prev => ({
+        ...prev,
+        [subjectId]: data
+      }));
     } catch (e: any) {
       console.error("Error cargando jugadores:", e);
     }
@@ -425,7 +445,10 @@ export default function App() {
 
       if (!res.ok) throw new Error("No se pudo guardar el progreso");
       const updatedProgress = await res.json();
-      setPlayersProgress(updatedProgress);
+      setProgressBySubject(prev => ({
+        ...prev,
+        [currentSubject?.id || "ingles"]: updatedProgress
+      }));
 
       const newStickers = updatedProgress[currentPlayer]?.stickers || [];
       const unlockedIDs = newStickers.filter((s: string) => !oldStickers.includes(s));
@@ -463,8 +486,14 @@ export default function App() {
           body: JSON.stringify({ password: "papa" })
         });
         if (!res.ok) throw new Error("Fallo al resetear datos");
-        const updatedProgress = await res.json();
-        setPlayersProgress(updatedProgress);
+        const clearedProgress: Record<string, PlayersProgress> = {};
+        for (const sub of subjects) {
+          clearedProgress[sub.id] = {
+            Sofia: { stars: {}, unlockedPlanets: sub.planets && sub.planets.length > 0 ? [sub.planets[0].id] : ["planet-1"], stickers: [] },
+            Luciano: { stars: {}, unlockedPlanets: sub.planets && sub.planets.length > 0 ? [sub.planets[0].id] : ["planet-1"], stickers: [] }
+          };
+        }
+        setProgressBySubject(clearedProgress);
         playSound("incorrect");
         setActiveView("welcome");
         setCurrentPlayer(null);
@@ -506,7 +535,7 @@ export default function App() {
         {/* Cabecera / Navbar */}
         {currentPlayer && activeView !== "welcome" && !loading && !error && playerStats && (
           <header>
-            <div className="logo" onClick={() => handleNavigate("map")} style={{ cursor: "pointer" }}>
+            <div className="logo" onClick={() => handleNavigate("subjects")} style={{ cursor: "pointer" }}>
               <span>🚀</span> Space Academy
             </div>
             <div className="nav-buttons">
@@ -515,6 +544,9 @@ export default function App() {
                 <span style={{ color: "var(--color-warning)", marginLeft: "5px" }}>
                   ⭐ {Object.values(playerStats.stars || {}).reduce((a, b) => a + b, 0)}
                 </span>
+              </button>
+              <button className="btn btn-secondary" onClick={() => handleNavigate("subjects")}>
+                📚 Materias
               </button>
               <button className="btn btn-secondary" onClick={() => handleNavigate("map")}>
                 🪐 Mapa
@@ -579,7 +611,7 @@ export default function App() {
               <SubjectsView 
                 currentPlayer={currentPlayer} 
                 subjects={subjects} 
-                playersProgress={playersProgress} 
+                progressBySubject={progressBySubject} 
                 onSelectSubject={selectSubject} 
                 onBack={handleLogout} 
               />

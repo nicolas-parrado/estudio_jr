@@ -4,7 +4,7 @@ import { Subject, PlayersProgress } from "../types";
 interface SubjectsViewProps {
   currentPlayer: "Sofia" | "Luciano" | null;
   subjects: Subject[];
-  playersProgress: PlayersProgress;
+  progressBySubject: Record<string, PlayersProgress>;
   onSelectSubject: (subject: Subject) => void;
   onBack: () => void;
 }
@@ -12,7 +12,7 @@ interface SubjectsViewProps {
 export const SubjectsView: React.FC<SubjectsViewProps> = ({
   currentPlayer,
   subjects,
-  playersProgress,
+  progressBySubject,
   onSelectSubject,
   onBack
 }) => {
@@ -23,7 +23,7 @@ export const SubjectsView: React.FC<SubjectsViewProps> = ({
         <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "30px" }}>
           Piloto <strong>{currentPlayer}</strong>, selecciona el rumbo de tu misión de aprendizaje:
         </p>
-
+ 
         <div className="subjects-grid" style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -32,7 +32,7 @@ export const SubjectsView: React.FC<SubjectsViewProps> = ({
           marginBottom: "30px"
         }}>
           {subjects.map(sub => {
-            const subjectStars = Object.values(playersProgress[currentPlayer || ""]?.stars || {}).reduce((a, b) => a + b, 0);
+            const subjectStars = Object.values(progressBySubject[sub.id]?.[currentPlayer || ""]?.stars || {}).reduce((a, b) => a + b, 0);
             return (
               <div 
                 key={sub.id} 
