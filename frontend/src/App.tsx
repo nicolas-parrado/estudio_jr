@@ -1,76 +1,49 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { 
   PlayersProgress, 
   Planet, 
   GameQuestion, 
-  MemoryCard,
   Subject,
-  Sticker,
-  DragDropQuestion,
-  MemoriceQuestion
+  Sticker
 } from "./types.ts";
 
+// Importar Utilidades
+import { playSound } from "./utils/audio";
+
+// Importar Componentes Modulares
+import { WelcomeView } from "./components/WelcomeView";
+import { SubjectsView } from "./components/SubjectsView";
+import { MapView } from "./components/MapView";
+import { AlbumView } from "./components/AlbumView";
+import { LeaderboardView } from "./components/LeaderboardView";
+import { GameArena } from "./components/GameArena";
+
 export default function App() {
-  // --- ESTADOS DE LA API ---
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Navegación de la SPA
+  const [activeView, setActiveView] = useState<"welcome" | "subjects" | "map" | "album" | "leaderboard" | "game">("welcome");
+  const [currentPlayer, setCurrentPlayer] = useState<"Sofia" | "Luciano" | null>(null);
+
+  // Datos dinámicos cargados de las materias
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [stickers, setStickers] = useState<Sticker[]>([]);
+
+  // Progreso de todos los estudiantes
   const [playersProgress, setPlayersProgress] = useState<PlayersProgress>({
     Sofia: { stars: {}, unlockedPlanets: ["planet-1"], stickers: [] },
     Luciano: { stars: {}, unlockedPlanets: ["planet-1"], stickers: [] }
   });
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // --- ESTADOS DE JUEGO (SPA) ---
-  const [activeView, setActiveView] = useState<"welcome" | "subjects" | "map" | "game" | "album" | "leaderboard">("welcome");
-  const [currentPlayer, setCurrentPlayer] = useState<"Sofia" | "Luciano" | null>(null);
-  
-  // Misión activa
+  // Estado del juego activo
+  const [difficulty, setDifficulty] = useState<"normal" | "hard">("normal");
   const [currentPlanet, setCurrentPlanet] = useState<Planet | null>(null);
   const [questions, setQuestions] = useState<GameQuestion[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [score, setScore] = useState<number>(0);
-  const [streak, setStreak] = useState<number>(0);
-  const [correctCount, setCorrectCount] = useState<number>(0);
-  
-  // Feedback visual
-  const [feedback, setFeedback] = useState<{ show: boolean; correct: boolean; text: string }>({
-    show: false,
-    correct: true,
-    text: ""
-  });
 
-  // Memorice local
-  const [flippedCards, setFlippedCards] = useState<number[]>([]); // Índices volteados
-  const [matchedPairs, setMatchedPairs] = useState<number[]>([]); // IDs emparejados
-  const [isCheckingMemory, setIsCheckingMemory] = useState<boolean>(false);
-
-  // Drag & Drop virtual (Clic en origen, Clic en destino)
-  const [selectedWord, setSelectedWord] = useState<string | null>(null);
-  const [placedWords, setPlacedWords] = useState<Record<string, string>>({}); // { wordExpected: wordPlaced }
-
-  // Mascota Cosmo
-  const [cosmoText, setCosmoText] = useState<string>("¡Hola! Listo para despegar.");
-  const [cosmoSpeechActive, setCosmoSpeechActive] = useState<boolean>(true);
-
-  // Nuevos estados para juego y logros
-  const [difficulty, setDifficulty] = useState<"normal" | "hard">("normal");
-  const [activeAlbumTab, setActiveAlbumTab] = useState<"global" | "subject">("global");
-  const [perfectRunFlag, setPerfectRunFlag] = useState<boolean>(true);
-  const [userVowels, setUserVowels] = useState<string[]>([]);
-  const [userWritingInput, setUserWritingInput] = useState<string>("");
-  const [maxStreak, setMaxStreak] = useState<number>(0);
-  const [audioStreak, setAudioStreak] = useState<number>(0);
-  const [writeStreak, setWriteStreak] = useState<number>(0);
-  const [currentWriteStreak, setCurrentWriteStreak] = useState<number>(0);
-  const [currentAudioStreak, setCurrentAudioStreak] = useState<number>(0);
-  const [leftColumnCards, setLeftColumnCards] = useState<string[]>([]);
-  const [rightColumnCards, setRightColumnCards] = useState<string[]>([]);
-  const [scrambledLetters, setScrambledLetters] = useState<string[]>([]);
-
-  // Modal de Resultados
+  // Modal de Resultados de Misión
   const [showResultsModal, setShowResultsModal] = useState<boolean>(false);
   const [resultsData, setResultsData] = useState<{
     stars: number;
@@ -79,15 +52,8 @@ export default function App() {
     stickersUnlocked: { emoji: string; name: string }[];
   } | null>(null);
 
-  // Posición física del cohete animado en el mapa
-  const [rocketPosition, setRocketPosition] = useState<{ left: string; top: string }>({ left: "0px", top: "0px" });
-
   // URLs de API (Backend)
   const API_URL = (import.meta as any).env?.VITE_API_URL || "http://localhost:8080";
-
-  // --- REFERENCIAS DE AUDIO ---
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const synthesisVoiceRef = useRef<SpeechSynthesisVoice | null>(null);
 
   // --- EFECTOS INICIALES ---
   useEffect(() => {
@@ -97,21 +63,24 @@ export default function App() {
     // Cargar datos del backend
     fetchSubjects();
     fetchPlayersProgress("ingles");
-    
-    // Inicializar voces del sintetizador
-    initSpeechVoices();
-    if (window.speechSynthesis) {
-      window.speechSynthesis.onvoiceschanged = initSpeechVoices;
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // --- CARGA DE DATOS ---
+  // --- CONSULTAS AL BACKEND (API) ---
   const fetchSubjects = async () => {
     try {
       const res = await fetch(`${API_URL}/api/subjects`);
-      if (!res.ok) throw new Error("No se pudo cargar las materias del servidor");
-      const data = await res.json();
+      if (!res.ok) throw new Error("No se pudo cargar la lista de materias");
+      const data: Subject[] = await res.json();
       setSubjects(data);
+      if (data.length > 0) {
+        // Cargar por defecto la primera materia si no hay una seleccionada
+        if (!currentSubject) {
+          setCurrentSubject(data[0]);
+          setPlanets(data[0].planets || []);
+          setStickers(data[0].stickers || []);
+        }
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -130,214 +99,26 @@ export default function App() {
     }
   };
 
-  // --- GENERACIÓN DE ESTRELLAS CÓSMICAS ---
-  const generateStars = () => {
-    const container = document.getElementById("stars-container");
-    if (!container) return;
-    container.innerHTML = "";
-    const totalStars = 80;
-    for (let i = 0; i < totalStars; i++) {
-      const star = document.createElement("div");
-      star.className = "star";
-      const size = Math.random() * 3 + 1;
-      star.style.width = `${size}px`;
-      star.style.height = `${size}px`;
-      star.style.left = `${Math.random() * 100}%`;
-      star.style.top = `${Math.random() * 100}%`;
-      star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-      star.style.animationDelay = `${Math.random() * 5}s`;
-      container.appendChild(star);
-    }
-  };
-
-  // --- AUDIO Y VOZ SINTÉTICA ---
-  const getAudioContext = (): AudioContext => {
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
-    if (audioCtxRef.current.state === "suspended") {
-      audioCtxRef.current.resume();
-    }
-    return audioCtxRef.current;
-  };
-
-  const playSound = (type: "click" | "correct" | "incorrect" | "victory") => {
-    try {
-      const ctx = getAudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      
-      const now = ctx.currentTime;
-      
-      if (type === "click") {
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(400, now);
-        osc.frequency.exponentialRampToValueAtTime(150, now + 0.1);
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-        osc.start(now);
-        osc.stop(now + 0.1);
-      } else if (type === "correct") {
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-        osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
-        osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.35); // C6
-        
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-        osc.start(now);
-        osc.stop(now + 0.4);
-      } else if (type === "incorrect") {
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(220, now); // A3
-        osc.frequency.linearRampToValueAtTime(110, now + 0.3); // A2
-        
-        gain.gain.setValueAtTime(0.1, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
-        osc.start(now);
-        osc.stop(now + 0.35);
-      } else if (type === "victory") {
-        const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
-        notes.forEach((freq, idx) => {
-          const noteOsc = ctx.createOscillator();
-          const noteGain = ctx.createGain();
-          
-          noteOsc.type = "sine";
-          noteOsc.frequency.setValueAtTime(freq, now + idx * 0.075);
-          
-          noteGain.gain.setValueAtTime(0.1, now + idx * 0.075);
-          noteGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.075 + 0.2);
-          
-          noteOsc.connect(noteGain);
-          noteGain.connect(ctx.destination);
-          
-          noteOsc.start(now + idx * 0.075);
-          noteOsc.stop(now + idx * 0.075 + 0.2);
-        });
-      }
-    } catch (e) {
-      console.warn("Sonido no soportado:", e);
-    }
-  };
-
-  const initSpeechVoices = () => {
-    if (!window.speechSynthesis) return;
-    const voices = window.speechSynthesis.getVoices();
-    synthesisVoiceRef.current = voices.find(v => v.lang.includes("en-US")) || 
-                                voices.find(v => v.lang.includes("en-GB")) || 
-                                voices.find(v => v.lang.startsWith("en")) || 
-                                voices[0] || null;
-  };
-
-  const speakEnglish = (text: string) => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    if (synthesisVoiceRef.current) {
-      utterance.voice = synthesisVoiceRef.current;
-    }
-    utterance.rate = 0.85;
-    utterance.pitch = 1.1;
-    
-    window.speechSynthesis.speak(utterance);
-  };
-
-  // --- MASCOTA VIRTUAL FRASES ---
-  const cosmoQuotes = {
-    start: ["¡Despegamos!", "¡Aventura en el espacio!", "Let's learn English!", "¡Mucho éxito!"],
-    correct: ["¡Amazing! 🌟", "¡You rock! 🚀", "¡Fabuloso!", "¡To the stars!", "¡Good job!"],
-    incorrect: ["¡Casi! Intenta otra vez.", "¡Keep trying! 💪", "¡You can do it!", "¡Ánimo!"],
-    victory: ["¡Misión cumplida! 🎉", "¡Eres una super estrella!", "¡Increíble!", "¡Wow! ¡Buen viaje!"]
-  };
-
-  const triggerCosmoSpeech = (phrase: string) => {
-    setCosmoText(phrase);
-    setCosmoSpeechActive(true);
-    setTimeout(() => {
-      setCosmoSpeechActive(false);
-    }, 3000);
-  };
-
-  const triggerCosmoGreeting = () => {
-    const quotes = cosmoQuotes.start;
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    triggerCosmoSpeech(randomQuote);
-  };
-
-  // --- NORMALIZACIÓN DE TEXTO ---
-  const normalizeText = (text: string): string => {
-    if (!text) return "";
-    return text
-      .toUpperCase()
-      .trim()
-      .replace(/\s+/g, " ");
-  };
-
-  // --- ENRUTAMIENTO SPA ---
-  const handleNavigate = (view: "welcome" | "subjects" | "map" | "album" | "leaderboard") => {
-    playSound("click");
-    setActiveView(view);
-    
-    // Refrescar datos del backend al navegar para evitar estados obsoletos
-    if (view === "welcome") {
-      setCurrentPlayer(null);
-      setCurrentSubject(null);
-      fetchPlayersProgress("ingles");
-    } else if (view === "album" || view === "map" || view === "leaderboard") {
-      if (currentSubject) {
-        fetchPlayersProgress(currentSubject.id);
-      }
-    }
-  };
-
-  // --- LOGIN ---
-  const handleLogin = (player: "Sofia" | "Luciano") => {
-    playSound("click");
-    try {
-      getAudioContext();
-      speakEnglish("");
-    } catch(e) {}
-    
-    setCurrentPlayer(player);
-    setActiveView("subjects");
-    triggerCosmoSpeech(`¡Bienvenido/a a bordo, ${player}! Elige tu misión de hoy.`);
-  };
-
-  // --- SELECCIONAR MATERIA (RAMO) ---
+  // --- ACCIÓN SELECCIÓN MATERIA (CENTRO DE MANDO) ---
   const selectSubject = async (subject: Subject) => {
-    playSound("click");
     setLoading(true);
     try {
-      // 1. Cargar planetas de la materia
-      const pRes = await fetch(`${API_URL}/api/subjects/${subject.id}/planets`);
-      if (!pRes.ok) throw new Error("No se pudieron cargar los planetas de esta materia");
-      const pData = await pRes.json();
-      setPlanets(pData);
+      const res = await fetch(`${API_URL}/api/subjects/${subject.id}/planets`);
+      if (!res.ok) throw new Error("Fallo al descargar planetas de la materia");
+      const planetsData = await res.json();
+      
+      const resStickers = await fetch(`${API_URL}/api/subjects/${subject.id}/stickers`);
+      if (!resStickers.ok) throw new Error("Fallo al descargar stickers de la materia");
+      const stickersData = await resStickers.json();
 
-      // 2. Cargar stickers de la materia
-      const sRes = await fetch(`${API_URL}/api/subjects/${subject.id}/stickers`);
-      if (!sRes.ok) throw new Error("No se pudieron cargar los stickers de esta materia");
-      const sData = await sRes.json();
-      setStickers(sData);
-
-      // Guardar materia actual y cargar su progreso para el alumno actual
       setCurrentSubject(subject);
-      if (currentPlayer) {
-        const res = await fetch(`${API_URL}/api/players?subjectId=${subject.id}`);
-        if (res.ok) {
-          const progressData = await res.json();
-          setPlayersProgress(progressData);
-        }
-      }
+      setPlanets(planetsData);
+      setStickers(stickersData);
+
+      // Cargar progreso del estudiante para esta materia
+      await fetchPlayersProgress(subject.id);
 
       setActiveView("map");
-      triggerCosmoSpeech(`¡Fijando curso al mapa de ${subject.name}!`);
     } catch (e: any) {
       console.error(e);
       alert("Error al cargar la materia: " + e.message);
@@ -346,35 +127,26 @@ export default function App() {
     }
   };
 
-  // --- LOGOUT / SALIR ---
-  const handleLogout = () => {
-    handleNavigate("welcome");
+  // --- LOGIN Y RUTEO ---
+  const handleLogin = (name: "Sofia" | "Luciano") => {
+    playSound("click");
+    setCurrentPlayer(name);
+    setActiveView("subjects");
   };
 
-  // --- LANZAMIENTO COHETE MAPA ---
-  const handlePlanetSelect = (event: React.MouseEvent<HTMLDivElement>, planet: Planet) => {
+  const handleLogout = () => {
     playSound("click");
-    
-    const container = document.getElementById("map-container");
-    const node = event.currentTarget;
-    if (!container || !node) return;
+    setCurrentPlayer(null);
+    setActiveView("welcome");
+  };
 
-    const mapRect = container.getBoundingClientRect();
-    const nodeRect = node.getBoundingClientRect();
-
-    const targetX = nodeRect.left - mapRect.left + (nodeRect.width / 2) - 15;
-    const targetY = nodeRect.top - mapRect.top - 40;
-
-    setRocketPosition({ left: `${targetX}px`, top: `${targetY}px` });
-
-    setTimeout(() => {
-      startPlanetMission(planet);
-    }, 1200);
+  const handleNavigate = (view: "welcome" | "subjects" | "map" | "album" | "leaderboard") => {
+    playSound("click");
+    setActiveView(view);
   };
 
   // --- MISION DEL PLANETA ---
   const startPlanetMission = async (planetMeta: Planet) => {
-    console.log("startPlanetMission iniciada para:", planetMeta.id, planetMeta.name, "Dificultad:", difficulty);
     setLoading(true);
     try {
       // Descargar dinámicamente la información completa del planeta (con vocabulario y preguntas)
@@ -383,30 +155,13 @@ export default function App() {
       const fullPlanet: Planet = await res.json();
 
       setCurrentPlanet(fullPlanet);
-      setScore(0);
-      setStreak(0);
-      setCorrectCount(0);
-      setCurrentQuestionIndex(0);
       
-      // Inicializar estados de racha y logros personales
-      setPerfectRunFlag(true);
-      setUserVowels([]);
-      setUserWritingInput("");
-      setMaxStreak(0);
-      setAudioStreak(0);
-      setWriteStreak(0);
-      setCurrentWriteStreak(0);
-      setCurrentAudioStreak(0);
+      // Generar ronda aleatoria de preguntas
+      const generated = generateRandomQuestions(fullPlanet);
+      setQuestions(generated);
 
-      const qList = generateRandomQuestions(fullPlanet);
-      console.log("Preguntas calculadas:", qList);
-      setQuestions(qList);
-      
       setActiveView("game");
-      console.log("Cambiado activeView a 'game'");
-      triggerCosmoGreeting();
     } catch (e: any) {
-      console.error("Error en startPlanetMission:", e);
       alert("¡Ups! Ocurrió un problema al viajar al planeta: " + e.message);
     } finally {
       setLoading(false);
@@ -414,11 +169,9 @@ export default function App() {
   };
 
   const generateRandomQuestions = (planet: Planet): GameQuestion[] => {
-    console.log("generateRandomQuestions ejecutándose para:", planet.id, "Vocabulario:", planet.vocabulary, "Dificultad:", difficulty);
     const list: GameQuestion[] = [];
     const vocab = [...(planet.vocabulary || [])];
     if (vocab.length === 0) {
-      console.error("ERROR: El vocabulario del planeta está vacío o es nulo.");
       return [];
     }
     vocab.sort(() => Math.random() - 0.5);
@@ -443,342 +196,118 @@ export default function App() {
     }
 
     selectedVocab.forEach((item, idx) => {
-      let type = gameTypes[idx % gameTypes.length];
-      
-      // Excepción planet-6 preposiciones
-      if (planet.id === "planet-6" && planet.specialQuestions && idx >= targetLength - 3) {
-        const specIndex = (idx - (targetLength - 3)) % planet.specialQuestions.length;
-        const spec = planet.specialQuestions[specIndex];
-        if (spec) {
-          list.push({
-            type: "preposition",
-            phrase: spec.phrase,
-            preposition: spec.preposition,
-            translation: spec.translation,
-            options: [...spec.options],
-            visual: spec.visual
-          });
-          return;
-        }
+      let type = gameTypes[Math.floor(Math.random() * gameTypes.length)];
+      if (planet.specialQuestions && planet.specialQuestions.length > 0 && Math.random() < 0.25) {
+        type = "preposition";
       }
 
-      // Memorice en planetas 2 y 5 (como última pregunta de la ronda)
-      if (idx === targetLength - 1 && (planet.id === "planet-2" || planet.id === "planet-5")) {
-        type = "memorice";
-      }
-
-      if (type === "trivia") {
-        const distractors = vocab
-          .filter(v => v.word !== item.word)
-          .map(v => v.word)
-          .slice(0, 3);
-        while (distractors.length < 3) distractors.push("hello", "goodbye", "star");
-        const options = [item.word, ...distractors].sort(() => Math.random() - 0.5);
-
+      if (type === "preposition" && planet.specialQuestions) {
+        const sq = planet.specialQuestions[Math.floor(Math.random() * planet.specialQuestions.length)];
         list.push({
+          id: `q-prep-${idx}`,
+          type: "preposition",
+          phrase: sq.phrase,
+          preposition: sq.preposition,
+          translation: sq.translation,
+          options: sq.options.sort(() => Math.random() - 0.5),
+          visual: sq.visual
+        });
+      } else if (type === "trivia") {
+        const distractors = vocab.filter(v => v.word !== item.word).map(v => v.word);
+        const options = [item.word, ...distractors.slice(0, 3)].sort(() => Math.random() - 0.5);
+        list.push({
+          id: `q-trivia-${idx}`,
           type: "trivia",
-          word: item.word,
           translation: item.translation,
-          emoji: item.emoji,
+          correctAnswer: item.word,
           options,
-          correctAnswer: item.word
+          emoji: item.emoji,
+          word: item.word
         });
       } else if (type === "audio") {
-        const distractors = vocab
-          .filter(v => v.word !== item.word)
-          .map(v => v.translation)
-          .slice(0, 3);
-        while (distractors.length < 3) distractors.push("hola", "adiós", "estrella");
-        const options = [item.translation, ...distractors].sort(() => Math.random() - 0.5);
-
+        const distractors = vocab.filter(v => v.word !== item.word).map(v => v.translation);
+        const options = [item.translation, ...distractors.slice(0, 3)].sort(() => Math.random() - 0.5);
         list.push({
+          id: `q-audio-${idx}`,
           type: "audio",
           word: item.word,
           translation: item.translation,
-          emoji: item.emoji,
+          correctAnswer: item.translation,
           options,
-          correctAnswer: item.translation
-        });
-      } else if (type === "drag-drop") {
-        // Unión de 4 elementos
-        const partners = vocab.filter(v => v.word !== item.word).slice(0, 3);
-        const allItems = [item, ...partners].sort(() => Math.random() - 0.5);
-        const isSpanishLeft = Math.random() > 0.5;
-
-        list.push({
-          type: "drag-drop",
-          items: allItems.map(v => ({ word: v.word, emoji: v.emoji, translation: v.translation })),
-          isSpanishLeft
-        });
-      } else if (type === "memorice") {
-        const partner = vocab.find(v => v.word !== item.word) || vocab[0];
-        list.push({
-          type: "memorice",
-          pairs: [
-            { word: item.word, emoji: item.emoji, id: 1 },
-            { word: item.translation, emoji: item.emoji, id: 1 },
-            { word: partner.word, emoji: partner.emoji, id: 2 },
-            { word: partner.translation, emoji: partner.emoji, id: 2 }
-          ].sort(() => Math.random() - 0.5)
+          emoji: item.emoji
         });
       } else if (type === "true-false") {
         const isCorrectMatch = Math.random() > 0.5;
-        let shownTranslation = item.translation;
-        if (!isCorrectMatch) {
-          const alternatives = vocab.filter(v => v.word !== item.word);
-          if (alternatives.length > 0) {
-            shownTranslation = alternatives[Math.floor(Math.random() * alternatives.length)].translation;
-          }
-        }
-
+        const shownTranslation = isCorrectMatch 
+          ? item.translation 
+          : (vocab.find(v => v.word !== item.word)?.translation || item.translation);
+        
         list.push({
+          id: `q-tf-${idx}`,
           type: "true-false",
           word: item.word,
           translation: item.translation,
-          emoji: item.emoji,
+          shownTranslation,
           isCorrectMatch,
-          shownTranslation
+          emoji: item.emoji
         });
       } else if (type === "fill-vowels") {
         const vowels = ["a", "e", "i", "o", "u"];
-        const chars = item.word.split("");
-        const correctVowels: string[] = [];
-        
-        const maskedWord = chars.map(char => {
-          const lower = char.toLowerCase();
-          if (vowels.includes(lower)) {
-            correctVowels.push(lower);
-            return "_";
-          }
-          return char;
-        }).join(" ");
-
+        const correctVowels = item.word.split("").filter(char => vowels.includes(char.toLowerCase())).map(char => char.toLowerCase());
         list.push({
+          id: `q-vowels-${idx}`,
           type: "fill-vowels",
           word: item.word,
           translation: item.translation,
-          emoji: item.emoji,
-          maskedWord,
-          correctVowels
+          correctVowels,
+          emoji: item.emoji
         });
       } else if (type === "writing") {
         list.push({
+          id: `q-writing-${idx}`,
           type: "writing",
           word: item.word,
           translation: item.translation,
           emoji: item.emoji
         });
+      } else if (type === "drag-drop") {
+        const count = Math.min(3, vocab.length);
+        const currentGroup = [item, ...vocab.filter(v => v.word !== item.word).slice(0, count - 1)].sort(() => Math.random() - 0.5);
+        list.push({
+          id: `q-dd-${idx}`,
+          type: "drag-drop",
+          isSpanishLeft: Math.random() > 0.5,
+          items: currentGroup
+        });
       }
     });
+
+    // Añadir Memorice al final en dificultades altas del planeta 6
+    if (planet.id === "planet-6") {
+      const selectedList = vocab.slice(0, 4);
+      const cards: any[] = [];
+      selectedList.forEach(it => {
+        cards.push({ id: it.word, word: it.word.toUpperCase(), emoji: it.emoji, isSpanish: false });
+        cards.push({ id: it.word, word: it.translation.toUpperCase(), emoji: it.emoji, isSpanish: true });
+      });
+      list.push({
+        id: `q-memorice-${planet.id}`,
+        type: "memorice",
+        pairs: cards.sort(() => Math.random() - 0.5)
+      });
+    }
 
     return list;
   };
 
-  // --- AUTOMATIC AUDIO TRIGGER AND STATE INITIALIZATION FOR QUESTIONS ---
-  useEffect(() => {
-    if (activeView !== "game" || questions.length === 0) return;
-    const q = questions[currentQuestionIndex];
-    if (!q) return;
-
-    if (q.type === "audio") {
-      setTimeout(() => {
-        speakEnglish(q.word);
-      }, 500);
-    }
-    
-    // Inicializar estados de pregunta específica
-    setFlippedCards([]);
-    setMatchedPairs([]);
-    setSelectedWord(null);
-    setPlacedWords({});
-    setUserVowels([]);
-    setUserWritingInput("");
-
-    if (q.type === "drag-drop") {
-      const leftItems = q.items.map(item => q.isSpanishLeft ? item.translation : item.word);
-      // Mezclar la derecha
-      const rightItems = q.items.map(item => q.isSpanishLeft ? item.word : item.translation).sort(() => Math.random() - 0.5);
-      setLeftColumnCards(leftItems);
-      setRightColumnCards(rightItems);
-    }
-
-    if (q.type === "writing") {
-      // Separar letras, barajarlas y guardarlas
-      const letters = q.word.toLowerCase().split("").sort(() => Math.random() - 0.5);
-      setScrambledLetters(letters);
-    }
-  }, [currentQuestionIndex, activeView, questions]);
-
-  // --- EVALUACION DE RESPUESTAS ---
-  const handleCheckAnswer = (isCorrect: boolean, spokenWord?: string) => {
-    if (isCorrect) {
-      playSound("correct");
-      setFeedback({ show: true, correct: true, text: "¡CORRECTO! 🚀" });
-      setScore(prev => prev + 100 + (streak * 10));
-      
-      const newStreak = streak + 1;
-      setStreak(newStreak);
-      if (newStreak > maxStreak) setMaxStreak(newStreak);
-
-      setCorrectCount(prev => prev + 1);
-
-      // Evaluar racha de audio si la pregunta actual es de tipo audio
-      const q = questions[currentQuestionIndex];
-      if (q && q.type === "audio") {
-        const nextAudioStreak = currentAudioStreak + 1;
-        setCurrentAudioStreak(nextAudioStreak);
-        if (nextAudioStreak > audioStreak) setAudioStreak(nextAudioStreak);
-      }
-
-      // Evaluar racha de escritura
-      if (q && q.type === "writing") {
-        const nextWriteStreak = currentWriteStreak + 1;
-        setCurrentWriteStreak(nextWriteStreak);
-        if (nextWriteStreak > writeStreak) setWriteStreak(nextWriteStreak);
-      }
-
-      const quotes = cosmoQuotes.correct;
-      triggerCosmoSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
-      
-      if (spokenWord) speakEnglish(spokenWord);
-    } else {
-      playSound("incorrect");
-      
-      const q = questions[currentQuestionIndex];
-      let feedbackText = "¡UPS! 🛸";
-      
-      if (q) {
-        if (q.type === "trivia") {
-          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
-        } else if (q.type === "audio") {
-          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.translation.toUpperCase()} (${q.word}) ${q.emoji}`;
-        } else if (q.type === "preposition") {
-          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.preposition.toUpperCase()} (${q.translation}) 🪐`;
-        } else if (q.type === "true-false") {
-          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} = ${q.translation} ${q.emoji}`;
-        } else if (q.type === "fill-vowels") {
-          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
-        } else if (q.type === "writing") {
-          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
-        }
-      }
-      
-      setFeedback({ show: true, correct: false, text: feedbackText });
-      setStreak(0);
-      setPerfectRunFlag(false);
-
-      if (q && q.type === "audio") {
-        setCurrentAudioStreak(0);
-      }
-      if (q && q.type === "writing") {
-        setCurrentWriteStreak(0);
-      }
-
-      const quotes = cosmoQuotes.incorrect;
-      triggerCosmoSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
-    }
-
-    const delay = isCorrect ? 1500 : 4000;
-    setTimeout(() => {
-      setFeedback(prev => ({ ...prev, show: false }));
-      setCurrentQuestionIndex(prev => prev + 1);
-    }, delay);
-  };
-
-  // --- INTERACCIONES DE JUEGO ---
-
-  // Drag & Drop
-  const handleDragItemSelect = (word: string) => {
-    playSound("click");
-    setSelectedWord(word);
-  };
-
-  const handleDropTargetSelect = (expectedWord: string, itemsLength: number) => {
-    if (!selectedWord) return;
-    
-    // Obtener la pregunta actual
-    const q = questions[currentQuestionIndex] as DragDropQuestion;
-    let isCorrectMatch = false;
-
-    if (q.isSpanishLeft) {
-      // selectedWord es español (translation), expectedWord es inglés (word)
-      const pair = q.items.find(item => item.translation === selectedWord);
-      if (pair && pair.word === expectedWord) {
-        isCorrectMatch = true;
-      }
-    } else {
-      // selectedWord es inglés (word), expectedWord es español (translation)
-      const pair = q.items.find(item => item.word === selectedWord);
-      if (pair && pair.translation === expectedWord) {
-        isCorrectMatch = true;
-      }
-    }
-
-    if (isCorrectMatch) {
-      playSound("click");
-      const updated = { ...placedWords, [selectedWord]: expectedWord };
-      setPlacedWords(updated);
-      setSelectedWord(null);
-
-      if (Object.keys(updated).length === itemsLength) {
-        setTimeout(() => {
-          handleCheckAnswer(true);
-        }, 600);
-      }
-    } else {
-      playSound("incorrect");
-      setSelectedWord(null);
-      setPerfectRunFlag(false);
-      
-      // Feedback visual temporal para error sin abortar la pregunta
-      setFeedback({ show: true, correct: false, text: "¡Inténtalo otra vez! 💫" });
-      setTimeout(() => {
-        setFeedback(prev => ({ ...prev, show: false }));
-      }, 1000);
-    }
-  };
-
-  // Memorice
-  const handleMemoryCardClick = (cardIdx: number, cardData: MemoryCard) => {
-    if (isCheckingMemory || flippedCards.includes(cardIdx) || matchedPairs.includes(cardData.id)) return;
-    
-    playSound("click");
-    const updatedFlipped = [...flippedCards, cardIdx];
-    setFlippedCards(updatedFlipped);
-
-    if (updatedFlipped.length === 2) {
-      setIsCheckingMemory(true);
-      const firstCardIdx = updatedFlipped[0];
-      const q = questions[currentQuestionIndex] as MemoriceQuestion;
-      const firstCard = q.pairs[firstCardIdx];
-      const secondCard = cardData;
-
-      if (firstCard.id === secondCard.id) {
-        setTimeout(() => {
-          playSound("correct");
-          setMatchedPairs(prev => [...prev, firstCard.id]);
-          setFlippedCards([]);
-          setIsCheckingMemory(false);
-          
-          if (matchedPairs.length + 1 === q.pairs.length / 2) {
-            setTimeout(() => {
-              handleCheckAnswer(true);
-            }, 800);
-          }
-        }, 500);
-      } else {
-        setTimeout(() => {
-          playSound("incorrect");
-          setFlippedCards([]);
-          setIsCheckingMemory(false);
-          setStreak(0);
-        }, 1200);
-      }
-    }
-  };
-
   // --- MISION COMPLETADA / LLAMADA API POST ---
-  const finishPlanetMission = async () => {
+  const finishPlanetMission = async (
+    correctCount: number,
+    maxStreak: number,
+    audioStreak: number,
+    writeStreak: number,
+    perfectRun: boolean
+  ) => {
     if (!currentPlayer || !currentPlanet) return;
     playSound("victory");
 
@@ -788,9 +317,8 @@ export default function App() {
     else if (ratio >= 0.7) earnedStars = 2;
     else if (ratio >= 0.5) earnedStars = 1;
 
-    // Guardar stickers antiguos antes de actualizar
     const oldStickers = playersProgress[currentPlayer]?.stickers || [];
-    let newlyUnlockedStickers: { emoji: string; name: string }[] = [];
+    const newlyUnlockedStickers: { emoji: string; name: string }[] = [];
 
     try {
       const res = await fetch(`${API_URL}/api/progress`, {
@@ -803,7 +331,7 @@ export default function App() {
           stars: earnedStars,
           maxStreak,
           audioStreak,
-          perfectRun: perfectRunFlag,
+          perfectRun,
           writeStreak
         })
       });
@@ -812,7 +340,6 @@ export default function App() {
       const updatedProgress = await res.json();
       setPlayersProgress(updatedProgress);
 
-      // Comparamos stickers viejos y nuevos para ver qué logros se consiguieron
       const newStickers = updatedProgress[currentPlayer]?.stickers || [];
       const unlockedIDs = newStickers.filter((s: string) => !oldStickers.includes(s));
 
@@ -824,28 +351,19 @@ export default function App() {
           }
         });
       }
-    } catch(e) {
+    } catch (e) {
       console.error("Error al guardar progreso:", e);
     }
 
     setResultsData({
       stars: earnedStars,
       correct: `${correctCount}/${questions.length}`,
-      points: score,
+      points: correctCount * 100 + maxStreak * 10,
       stickersUnlocked: newlyUnlockedStickers
     });
     
-    const quotes = cosmoQuotes.victory;
-    triggerCosmoSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
     setShowResultsModal(true);
   };
-
-  // Chequeo de término de preguntas
-  useEffect(() => {
-    if (activeView === "game" && questions.length > 0 && currentQuestionIndex >= questions.length) {
-      finishPlanetMission();
-    }
-  }, [currentQuestionIndex]);
 
   // --- RESET DE DATOS API ---
   const handleResetData = async () => {
@@ -872,11 +390,26 @@ export default function App() {
     }
   };
 
-  // --- RENDERS DE COMPONENTES ---
-  const playerStats = currentPlayer ? playersProgress[currentPlayer] : null;
+  // --- GENERACIÓN DE ESTRELLAS CÓSMICAS DE FONDO ---
+  const generateStars = () => {
+    const container = document.getElementById("stars-container");
+    if (!container) return;
+    container.innerHTML = "";
+    const totalStars = 80;
+    for (let i = 0; i < totalStars; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.width = `${Math.random() * 2 + 1}px`;
+      star.style.height = star.style.width;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      star.style.animationDelay = `${Math.random() * 5}s`;
+      container.appendChild(star);
+    }
+  };
 
-  // --- LOG DE RENDERIZADO ---
-  console.log("Renderizando App. activeView:", activeView, "currentPlayer:", currentPlayer, "questionsLength:", questions.length, "currentPlanet:", currentPlanet ? currentPlanet.id : null, "loading:", loading, "error:", error);
+  const playerStats = currentPlayer ? playersProgress[currentPlayer] : null;
 
   return (
     <>
@@ -884,16 +417,16 @@ export default function App() {
 
       <main>
         {/* Cabecera / Navbar */}
-        {currentPlayer && activeView !== "welcome" && !loading && !error && (
+        {currentPlayer && activeView !== "welcome" && !loading && !error && playerStats && (
           <header>
             <div className="logo" onClick={() => handleNavigate("map")} style={{ cursor: "pointer" }}>
-              <span>🚀</span> Space English
+              <span>🚀</span> Space Academy
             </div>
             <div className="nav-buttons">
               <button className="btn btn-secondary">
                 <span>{currentPlayer === "Sofia" ? "👧" : "👦"}</span> {currentPlayer}
                 <span style={{ color: "var(--color-warning)", marginLeft: "5px" }}>
-                  ⭐ {Object.values(playerStats?.stars || {}).reduce((a, b) => a + b, 0)}
+                  ⭐ {Object.values(playerStats.stars || {}).reduce((a, b) => a + b, 0)}
                 </span>
               </button>
               <button className="btn btn-secondary" onClick={() => handleNavigate("map")}>
@@ -903,7 +436,7 @@ export default function App() {
                 🖼️ Álbum
               </button>
               <button className="btn btn-secondary" onClick={() => handleNavigate("leaderboard")}>
-                🏆 Tabla de Honor
+                🏆 Honor
               </button>
               <button className="btn btn-danger" onClick={handleLogout}>
                 🚪 Salir
@@ -912,21 +445,12 @@ export default function App() {
           </header>
         )}
 
-        {/* Vista de Carga */}
+        {/* Carga e indicadores */}
         {loading && (
-          <section className="view active" id="loading-view" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <div className="welcome-box">
-              <h1 style={{ fontSize: "2rem", marginBottom: "15px" }}>🚀 Iniciando Motores...</h1>
-              <p>Conectando con el centro de control galáctico para cargar el vocabulario de Sofía y Luciano...</p>
-              <div className="loader-container" style={{ margin: "30px auto", width: "80px", height: "80px", position: "relative" }}>
-                <div style={{
-                  position: "absolute", width: "100%", height: "100%",
-                  border: "4px solid rgba(255, 255, 255, 0.1)",
-                  borderTopColor: "var(--color-cyan)",
-                  borderRadius: "50%",
-                  animation: "spin 1s linear infinite"
-                }}></div>
-              </div>
+          <section className="view active" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ border: "4px solid rgba(255,255,255,0.1)", borderLeftColor: "var(--color-cyan)", borderRadius: "50%", width: "50px", height: "50px", animation: "spin 1s linear infinite", margin: "0 auto 20px auto" }}></div>
+              <p style={{ color: "var(--text-muted)", fontFamily: "var(--font-title)" }}>Viajando a través del hiperespacio...</p>
             </div>
           </section>
         )}
@@ -947,884 +471,120 @@ export default function App() {
                 fontSize: "0.9rem",
                 wordBreak: "break-all"
               }}>{error}</div>
-              <p style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: "25px" }}>
-                Asegúrate de que el backend Docker esté arriba y accesible en <code>{API_URL}</code>.
-              </p>
-              <button className="btn btn-primary" onClick={() => {
-                setError(null);
-                setLoading(true);
-                fetchSubjects();
-                if (currentSubject) {
-                  fetchPlayersProgress(currentSubject.id);
-                } else {
-                  fetchPlayersProgress("ingles");
-                }
-              }}>
+              <button className="btn btn-primary" onClick={fetchSubjects}>
                 🔄 Reintentar Conexión
               </button>
             </div>
           </section>
         )}
 
-        {/* 1. Vista de Bienvenida */}
-        {!loading && !error && activeView === "welcome" && (
-          <section className="view active" id="welcome-view">
-            <div className="welcome-box">
-              <h1>🌌 Space Academy</h1>
-              <p>¡Prepárate para una aventura estelar de aprendizaje!</p>
-              
-              <h2 style={{ fontFamily: "var(--font-title)", fontSize: "1.4rem", marginBottom: "20px" }}>
-                ¿Quién va a pilotar la nave hoy?
-              </h2>
-              
-              <div className="profile-select">
-                {["Sofia", "Luciano"].map(p => {
-                  const starsCount = Object.values(playersProgress[p]?.stars || {}).reduce((a, b) => a + b, 0);
-                  return (
-                    <div 
-                      key={p} 
-                      className="profile-card" 
-                      onClick={() => handleLogin(p as any)}
-                    >
-                      <span className="profile-avatar">{p === "Sofia" ? "👧" : "👦"}</span>
-                      <span className="profile-name">{p}</span>
-                      <div className="profile-stars">⭐ {starsCount}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              
-              <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>¡Elige tu perfil para continuar tu viaje estelar!</p>
-            </div>
-          </section>
+        {/* Renders de Vistas Modulares */}
+        {!loading && !error && (
+          <>
+            {activeView === "welcome" && (
+              <WelcomeView 
+                playersProgress={playersProgress} 
+                onLogin={handleLogin} 
+              />
+            )}
+
+            {activeView === "subjects" && (
+              <SubjectsView 
+                currentPlayer={currentPlayer} 
+                subjects={subjects} 
+                playersProgress={playersProgress} 
+                onSelectSubject={selectSubject} 
+                onBack={handleLogout} 
+              />
+            )}
+
+            {activeView === "map" && currentSubject && playerStats && (
+              <MapView 
+                currentSubject={currentSubject}
+                planets={planets}
+                playerStats={playerStats}
+                difficulty={difficulty}
+                setDifficulty={setDifficulty}
+                onPlanetSelect={startPlanetMission}
+                onBackToSubjects={() => handleNavigate("subjects")}
+              />
+            )}
+
+            {activeView === "album" && currentSubject && playerStats && (
+              <AlbumView 
+                currentSubject={currentSubject}
+                stickers={stickers}
+                playerStats={playerStats}
+                onBack={() => handleNavigate("map")}
+              />
+            )}
+
+            {activeView === "leaderboard" && (
+              <LeaderboardView 
+                playersProgress={playersProgress} 
+                onResetData={handleResetData} 
+              />
+            )}
+
+            {activeView === "game" && currentPlanet && questions.length > 0 && (
+              <GameArena 
+                questions={questions}
+                planet={currentPlanet}
+                difficulty={difficulty}
+                onFinish={finishPlanetMission}
+                onAbort={() => handleNavigate("map")}
+              />
+            )}
+          </>
         )}
 
-        {/* 1.5 Vista Centro de Mando (Selección de Materia) */}
-        {!loading && !error && activeView === "subjects" && (
-          <section className="view active" id="subjects-view" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "80vh" }}>
-            <div className="welcome-box" style={{ maxWidth: "850px", width: "95%" }}>
-              <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2.4rem", marginBottom: "10px", textShadow: "0 0 10px rgba(9, 132, 227, 0.4)" }}>Centro de Mando Galáctico</h1>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "30px" }}>
-                Piloto <strong>{currentPlayer}</strong>, selecciona el rumbo de tu misión de aprendizaje:
-              </p>
+        {/* Modal de Resultados de la Misión */}
+        {showResultsModal && resultsData && (
+          <div className="modal-backdrop" style={{
+            position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+            background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)",
+            display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000,
+            animation: "fadeIn 0.3s ease-out forwards"
+          }}>
+            <div className="welcome-box" style={{ maxWidth: "450px", textAlign: "center", border: "2px solid var(--color-success)", boxShadow: "0 0 30px rgba(0, 184, 148, 0.3)" }}>
+              <h1 style={{ color: "var(--color-success)", fontSize: "2.4rem", marginBottom: "15px" }}>🎉 ¡Misión Completada! 🎉</h1>
+              <p style={{ fontSize: "1.1rem", marginBottom: "20px" }}>¡Has regresado a la base a salvo!</p>
+              
+              <div style={{ display: "flex", justifyContent: "center", gap: "10px", fontSize: "2.2rem", margin: "20px 0", color: "var(--star-yellow)" }}>
+                {"⭐".repeat(resultsData.stars) + "☆".repeat(3 - resultsData.stars)}
+              </div>
 
-              <div className="subjects-grid" style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                gap: "25px",
-                width: "100%",
-                marginBottom: "30px"
-              }}>
-                {subjects.map(sub => {
-                  const subjectStars = Object.values(playersProgress[currentPlayer || ""]?.stars || {}).reduce((a, b) => a + b, 0);
-                  return (
-                    <div 
-                      key={sub.id} 
-                      className="subject-card"
-                      onClick={() => selectSubject(sub)}
-                      style={{
-                        background: "rgba(255, 255, 255, 0.05)",
-                        backdropFilter: "blur(12px)",
-                        border: `2px solid ${sub.themeColor || "var(--glass-border)"}`,
-                        borderRadius: "24px",
-                        padding: "30px 20px",
-                        textAlign: "center",
-                        cursor: "pointer",
-                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: "15px"
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = "translateY(-8px) scale(1.03)";
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.12)";
-                        e.currentTarget.style.boxShadow = `0 12px 30px ${sub.themeColor}4d`;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = "none";
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                        e.currentTarget.style.boxShadow = "none";
-                      }}
-                    >
-                      <span style={{ fontSize: "4.5rem", filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))" }}>{sub.emoji}</span>
-                      <h3 style={{ fontSize: "1.6rem", fontFamily: "var(--font-title)", color: "white", margin: 0 }}>{sub.name}</h3>
-                      <div style={{
-                        background: "rgba(0,0,0,0.4)",
-                        borderRadius: "20px",
-                        padding: "6px 16px",
-                        fontSize: "0.9rem",
-                        color: "var(--star-yellow)",
-                        fontWeight: "bold",
-                        border: "1px solid rgba(255, 234, 167, 0.15)"
-                      }}>
-                        ⭐ {subjectStars} Estrellas
+              <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: "15px", padding: "15px", margin: "20px 0", textAlign: "left", fontSize: "1rem" }}>
+                <p>🎯 Aciertos: <strong>{resultsData.correct}</strong></p>
+                <p>✨ Puntos de la ronda: <strong>{resultsData.points}</strong></p>
+              </div>
+
+              {resultsData.stickersUnlocked.length > 0 && (
+                <div style={{ margin: "20px 0" }}>
+                  <h3 style={{ fontSize: "1.1rem", color: "var(--color-primary)", marginBottom: "10px" }}>🎁 ¡Nuevos Stickers Desbloqueados!</h3>
+                  <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+                    {resultsData.stickersUnlocked.map((s, idx) => (
+                      <div key={idx} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid var(--glass-border)", borderRadius: "12px", padding: "10px", minWidth: "80px", textAlign: "center" }}>
+                        <span style={{ fontSize: "2.2rem", display: "block" }}>{s.emoji}</span>
+                        <span style={{ fontSize: "0.75rem", display: "block", marginTop: "5px", color: "white", fontWeight: "bold" }}>{s.name}</span>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <button 
-                className="btn btn-secondary" 
-                onClick={() => handleNavigate("welcome")}
-                style={{ padding: "10px 24px" }}
-              >
-                🛸 Cambiar de Piloto
-              </button>
-            </div>
-          </section>
-        )}
-
-        {/* 2. Vista de Mapa Estelar */}
-        {!loading && !error && activeView === "map" && currentSubject && planets && playerStats && (
-          <section className="view active" id="map-view">
-            <div className="map-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                <button 
-                  className="btn btn-secondary" 
-                  onClick={() => handleNavigate("subjects")}
-                  style={{ fontSize: "1.4rem", padding: "8px 16px" }}
-                  title="Volver a la selección de ramos"
-                >
-                  🛰️
-                </button>
-                <div>
-                  <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2rem" }}>Mapa Estelar: {currentSubject.name}</h1>
-                  <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Selecciona un planeta para viajar y jugar</p>
-                </div>
-              </div>
-
-              {/* Selector de Dificultad Galáctica */}
-              <div className="difficulty-toggle-container" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span style={{ fontSize: "0.9rem", color: difficulty === "normal" ? "var(--color-cyan)" : "var(--text-muted)", fontWeight: "bold" }}>🌌 Modo Normal</span>
-                <label className="difficulty-switch" style={{ position: "relative", display: "inline-block", width: "60px", height: "34px" }}>
-                  <input 
-                    type="checkbox" 
-                    checked={difficulty === "hard"}
-                    onChange={(e) => {
-                      playSound("click");
-                      setDifficulty(e.target.checked ? "hard" : "normal");
-                    }}
-                    style={{ opacity: 0, width: 0, height: 0 }}
-                  />
-                  <span className="difficulty-slider" style={{
-                    position: "absolute", cursor: "pointer", top: 0, left: 0, right: 0, bottom: 0,
-                    backgroundColor: "rgba(255,255,255,0.1)",
-                    border: "2px solid var(--glass-border)",
-                    transition: "0.4s", borderRadius: "34px",
-                    boxShadow: difficulty === "hard" ? "0 0 15px rgba(255, 118, 117, 0.4)" : ""
-                  }}>
-                    <span style={{
-                      position: "absolute", content: '""', height: "24px", width: "24px", left: "3px", bottom: "3px",
-                      backgroundColor: difficulty === "hard" ? "#ff7675" : "var(--color-cyan)",
-                      transition: "0.4s", borderRadius: "50%",
-                      transform: difficulty === "hard" ? "translateX(26px)" : "none",
-                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem"
-                    }}>
-                      {difficulty === "hard" ? "🔥" : "✨"}
-                    </span>
-                  </span>
-                </label>
-                <span style={{ fontSize: "0.9rem", color: difficulty === "hard" ? "#ff7675" : "var(--text-muted)", fontWeight: "bold" }}>🔥 Modo Hard</span>
-              </div>
-            </div>
-            
-            <div className={`map-container ${difficulty === "hard" ? "hard-nebula" : ""}`} id="map-container">
-              <div className="nebula"></div>
-              <div 
-                className="player-rocket" 
-                style={{ left: rocketPosition.left, top: rocketPosition.top }}
-                aria-hidden="true"
-              >
-                🚀
-              </div>
-              
-              <div className="planets-grid">
-                {planets.map(planet => {
-                  // Bloqueo: En Hard requiere al menos 2 estrellas en el Normal de ese mismo planeta
-                  const isLocked = difficulty === "hard" 
-                    ? (playerStats.stars[planet.id] || 0) < 2 
-                    : !playerStats.unlockedPlanets.includes(planet.id);
-
-                  // Estrellas obtenidas según el modo seleccionado
-                  const targetID = difficulty === "hard" ? `${planet.id}-hard` : planet.id;
-                  const stars = playerStats.stars[targetID] || 0;
-                  const starsStr = "⭐".repeat(stars) + "☆".repeat(3 - stars);
-
-                  // Estrellas de ambas dificultades para brillo
-                  const starsNormal = playerStats.stars[planet.id] || 0;
-                  const starsHard = playerStats.stars[`${planet.id}-hard`] || 0;
-
-                  // Definir brillo premium del planeta según logros
-                  let glowClass = "";
-                  if (starsHard === 3) {
-                    glowClass = "planet-glow-cosmic";
-                  } else if (starsHard > 0) {
-                    glowClass = "planet-glow-silver";
-                  } else if (starsNormal > 0) {
-                    glowClass = "planet-glow-bronze";
-                  }
-
-                  return (
-                    <div 
-                      key={planet.id}
-                      className={`planet-node ${isLocked ? 'locked' : ''} ${difficulty === "hard" && !isLocked ? 'hard-aura' : ''} ${glowClass}`}
-                      style={{ ["--planet-color" as any]: difficulty === "hard" ? "#ff7675" : planet.color }}
-                      onClick={(e) => !isLocked && handlePlanetSelect(e, planet)}
-                    >
-                      <span className="planet-sphere" style={{ filter: `drop-shadow(0 0 10px ${difficulty === "hard" ? "#ff7675" : planet.color})` }}>
-                        {isLocked ? "🪐" : planet.emoji}
-                      </span>
-                      <div className="planet-name">{planet.name} {difficulty === "hard" && "🔥"}</div>
-                      <div className="planet-subtitle">{planet.subtitle}</div>
-                      <div className="planet-stars-earned">
-                        {!isLocked && starsStr}
-                      </div>
-                      {isLocked && (
-                        <div className="lock-icon" style={{ color: difficulty === "hard" ? "#ff7675" : "" }}>
-                          {difficulty === "hard" ? "🔒 Requiere 2⭐ en Normal" : "🔒 Bloqueado"}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 3. Vista de Juego (Play Arena) */}
-        {!loading && !error && activeView === "game" && currentPlanet && questions.length > 0 && currentQuestionIndex < questions.length && (
-          <section className="view active" id="game-view">
-            <div className="game-header">
-              <button 
-                className="btn btn-secondary" 
-                onClick={() => {
-                  if (confirm("¿Seguro que quieres salir? Perderás el progreso.")) handleNavigate("map");
-                }}
-              >
-                🛸 Abortar Misión
-              </button>
-              <div className="game-progress-bar">
-                <div 
-                  className="game-progress-fill" 
-                  style={{ width: `${(currentQuestionIndex / questions.length) * 100}%` }}
-                ></div>
-              </div>
-              <div className="game-score-display">
-                <span>Racha: <strong style={{ color: "var(--color-cyan)" }}>{streak}</strong> 🔥</span>
-                <span>Puntos: <strong style={{ color: "var(--color-warning)" }}>{score}</strong></span>
-              </div>
-            </div>
-
-            <div className="game-arena">
-              {/* Feedback Overlay */}
-              {feedback.show && (
-                <div className={`feedback-overlay ${feedback.correct ? 'correct' : 'incorrect'}`}>
-                  <div style={{ 
-                    fontSize: feedback.text.length > 15 ? "1.8rem" : "3.5rem", 
-                    textAlign: "center", 
-                    padding: "20px", 
-                    lineHeight: "1.4" 
-                  }}>
-                    {feedback.text}
+                    ))}
                   </div>
                 </div>
               )}
-              
-              {/* Contenedor de preguntas según tipo */}
-              <div className="question-container">
-                {questions[currentQuestionIndex].type === "trivia" && (
-                  <>
-                    <div className="question-subtitle">¿Cómo se dice en inglés?</div>
-                    <div className="question-text">
-                      {(questions[currentQuestionIndex] as any).translation.toUpperCase()} {difficulty !== "hard" && (questions[currentQuestionIndex] as any).emoji}
-                    </div>
-                    <div className="options-grid">
-                      {(questions[currentQuestionIndex] as any).options.map((opt: string) => (
-                        <button 
-                          key={opt}
-                          className="option-card"
-                          onClick={() => handleCheckAnswer(opt === (questions[currentQuestionIndex] as any).correctAnswer, opt)}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
 
-
-
-                {questions[currentQuestionIndex].type === "audio" && (
-                  <>
-                    <div className="question-subtitle">Escucha con atención y selecciona la respuesta correcta</div>
-                    <button 
-                      className="audio-pronounce-btn"
-                      onClick={() => speakEnglish((questions[currentQuestionIndex] as any).word)}
-                      title="Escuchar"
-                    >
-                      🔊
-                    </button>
-                    <div className="options-grid">
-                      {(questions[currentQuestionIndex] as any).options.map((opt: string) => (
-                        <button 
-                          key={opt}
-                          className="option-card"
-                          onClick={() => handleCheckAnswer(opt === (questions[currentQuestionIndex] as any).correctAnswer)}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                {questions[currentQuestionIndex].type === "drag-drop" && (
-                  <>
-                    <div className="question-subtitle" style={{ marginBottom: "15px", fontWeight: "bold", fontSize: "1.1rem" }}>
-                      Instrucciones: Une la palabra de la izquierda con su pareja correcta de la derecha haciendo clic en ambas.
-                    </div>
-                    <div className="drag-drop-columns-container" style={{ display: "flex", gap: "30px", width: "100%", justifyContent: "center", marginTop: "20px" }}>
-                      
-                      {/* Columna Izquierda (Origen) */}
-                      <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "45%" }}>
-                        <div style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>
-                          {(questions[currentQuestionIndex] as any).isSpanishLeft ? "Español 🇨🇱" : "Inglés 🇺🇸"}
-                        </div>
-                        {leftColumnCards.map((card) => {
-                          const isMatched = placedWords[card] !== undefined;
-                          const isSelected = selectedWord === card;
-                          const itemData = (questions[currentQuestionIndex] as any).items.find((it: any) => it.translation === card || it.word === card);
-                          const emoji = difficulty !== "hard" ? (itemData?.emoji || "") : "";
-                          
-                          return (
-                            <button
-                              key={card}
-                              className={`option-card ${isSelected ? 'selected' : ''} ${isMatched ? 'matched' : ''}`}
-                              onClick={() => !isMatched && handleDragItemSelect(card)}
-                              disabled={isMatched}
-                              style={{
-                                borderColor: isMatched ? "var(--color-success)" : isSelected ? "var(--color-cyan)" : "",
-                                background: isMatched ? "rgba(0,184,148,0.15)" : isSelected ? "rgba(0,206,201,0.1)" : "",
-                                color: isMatched ? "var(--color-success)" : "",
-                                cursor: isMatched ? "default" : "pointer"
-                              }}
-                            >
-                              <span>{emoji}</span> {card} {isMatched && " ✓"}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Columna Derecha (Destino) */}
-                      <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "45%" }}>
-                        <div style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>
-                          {(questions[currentQuestionIndex] as any).isSpanishLeft ? "Inglés 🇺🇸" : "Español 🇨🇱"}
-                        </div>
-                        {rightColumnCards.map((card) => {
-                          const isMatched = Object.values(placedWords).includes(card);
-                          const itemData = (questions[currentQuestionIndex] as any).items.find((it: any) => it.translation === card || it.word === card);
-                          const emoji = difficulty !== "hard" ? (itemData?.emoji || "") : "";
-                          
-                          return (
-                            <button
-                              key={card}
-                              className={`option-card ${isMatched ? 'matched' : ''}`}
-                              onClick={() => !isMatched && handleDropTargetSelect(card, (questions[currentQuestionIndex] as any).items.length)}
-                              disabled={isMatched}
-                              style={{
-                                borderColor: isMatched ? "var(--color-success)" : "",
-                                background: isMatched ? "rgba(0,184,148,0.15)" : "",
-                                color: isMatched ? "var(--color-success)" : "",
-                                cursor: isMatched ? "default" : "pointer"
-                              }}
-                            >
-                              <span>{emoji}</span> {card} {isMatched && " ✓"}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {questions[currentQuestionIndex].type === "memorice" && (
-                  <>
-                    <div className="question-subtitle">Juego de Memoria: Empareja la palabra en inglés con su traducción</div>
-                    <div className="memory-grid">
-                      {(questions[currentQuestionIndex] as any).pairs.map((card: any, idx: number) => {
-                        const isFlipped = flippedCards.includes(idx);
-                        const isMatched = matchedPairs.includes(card.id);
-
-                        return (
-                          <div 
-                            key={idx}
-                            className={`memory-card ${isFlipped || isMatched ? 'flipped' : ''}`}
-                            onClick={() => handleMemoryCardClick(idx, card)}
-                          >
-                            <div className="memory-card-inner">
-                              <div className="memory-card-front">❓</div>
-                              <div className={`memory-card-back ${isMatched ? 'matched' : ''}`}>
-                                {difficulty !== "hard" && <div>{card.emoji}</div>}
-                                <div style={{ fontSize: "0.8rem", marginTop: "5px" }}>{card.word}</div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
-
-                {questions[currentQuestionIndex].type === "preposition" && (
-                  <>
-                    <div className="question-subtitle">Completa la frase espacial con la preposición correcta</div>
-                    <div className="prep-visual-box">{(questions[currentQuestionIndex] as any).visual}</div>
-                    <div className="prep-phrase-display">
-                      {(questions[currentQuestionIndex] as any).phrase.replace("___", "?")}
-                    </div>
-                    <div style={{ fontSize: "0.9rem", color: "var(--text-muted)", marginBottom: "20px" }}>
-                      Traducción: "{(questions[currentQuestionIndex] as any).translation}"
-                    </div>
-                    <div className="options-grid">
-                      {(questions[currentQuestionIndex] as any).options.map((opt: string) => (
-                        <button 
-                          key={opt}
-                          className="option-card"
-                          onClick={() => handleCheckAnswer(opt === (questions[currentQuestionIndex] as any).preposition)}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                {questions[currentQuestionIndex].type === "true-false" && (
-                  <>
-                    <div className="question-subtitle" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-                      ¿Significa "{(questions[currentQuestionIndex] as any).shownTranslation.toUpperCase()}" la palabra en inglés?
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "20px 0" }}>
-                      {difficulty !== "hard" && (
-                        <span style={{ fontSize: "5.5rem", filter: "drop-shadow(0 0 10px rgba(255,255,255,0.2))", marginBottom: "10px" }}>
-                          {(questions[currentQuestionIndex] as any).emoji}
-                        </span>
-                      )}
-                      <h2 style={{ fontFamily: "var(--font-title)", fontSize: "3rem", color: "var(--color-cyan)", margin: "10px 0" }}>
-                        {(questions[currentQuestionIndex] as any).word.toUpperCase()}
-                      </h2>
-                    </div>
-                    <div className="options-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "500px", margin: "20px auto 0 auto" }}>
-                      <button 
-                        className="option-card" 
-                        onClick={() => handleCheckAnswer((questions[currentQuestionIndex] as any).isCorrectMatch)}
-                        style={{ borderColor: "var(--color-success)", background: "rgba(0, 184, 148, 0.05)" }}
-                      >
-                        👍 SÍ (Yes)
-                      </button>
-                      <button 
-                        className="option-card" 
-                        onClick={() => handleCheckAnswer(!(questions[currentQuestionIndex] as any).isCorrectMatch)}
-                        style={{ borderColor: "var(--color-danger)", background: "rgba(214, 48, 49, 0.05)" }}
-                      >
-                        👎 NO (No)
-                      </button>
-                    </div>
-                  </>
-                )}
-
-                {questions[currentQuestionIndex].type === "fill-vowels" && (
-                  <>
-                    <div className="question-subtitle">Instrucciones: Completa las vocales que le faltan a la palabra en inglés</div>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "20px 0" }}>
-                      {difficulty !== "hard" && (
-                        <span style={{ fontSize: "4rem", marginBottom: "10px" }}>
-                          {(questions[currentQuestionIndex] as any).emoji}
-                        </span>
-                      )}
-                      <p style={{ color: "var(--text-muted)", fontSize: "1rem", marginBottom: "15px" }}>
-                        Traducción: "{(questions[currentQuestionIndex] as any).translation}"
-                      </p>
-                      
-                      {/* Mostrar palabra enmascarada rellenada con vocales de usuario */}
-                      <h2 style={{ fontFamily: "monospace", fontSize: "3rem", color: "white", letterSpacing: "6px", background: "rgba(255,255,255,0.05)", padding: "10px 30px", borderRadius: "15px", border: "1px solid var(--glass-border)" }}>
-                        {(() => {
-                          const q = questions[currentQuestionIndex] as any;
-                          const vowels = ["a", "e", "i", "o", "u"];
-                          let vowelIndex = 0;
-                          return q.word.split("").map((char: string) => {
-                            const isVowel = vowels.includes(char.toLowerCase());
-                            if (isVowel) {
-                              const userChar = userVowels[vowelIndex];
-                              vowelIndex++;
-                              return userChar ? userChar.toUpperCase() : "_";
-                            }
-                            return char.toUpperCase();
-                          }).join(" ");
-                        })()}
-                      </h2>
-                    </div>
-
-                    <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
-                      {["a", "e", "i", "o", "u"].map(v => (
-                        <button 
-                          key={v}
-                          className="btn btn-secondary"
-                          onClick={() => {
-                            playSound("click");
-                            const q = questions[currentQuestionIndex] as any;
-                            const nextVowels = [...userVowels, v];
-                            setUserVowels(nextVowels);
-                            
-                            if (nextVowels.length === q.correctVowels.length) {
-                              const isCorrect = nextVowels.every((val, index) => val === q.correctVowels[index]);
-                              setTimeout(() => {
-                                handleCheckAnswer(isCorrect);
-                              }, 400);
-                            }
-                          }}
-                          style={{ fontSize: "1.4rem", width: "60px", height: "60px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}
-                          disabled={userVowels.length >= (questions[currentQuestionIndex] as any).correctVowels.length}
-                        >
-                          {v.toUpperCase()}
-                        </button>
-                      ))}
-                    </div>
-
-                    {userVowels.length > 0 && (
-                      <button 
-                        className="btn btn-danger" 
-                        onClick={() => {
-                          playSound("click");
-                          setUserVowels([]);
-                        }}
-                        style={{ display: "block", margin: "20px auto 0 auto", padding: "8px 16px", fontSize: "0.85rem" }}
-                      >
-                        🧼 Borrar Vocales
-                      </button>
-                    )}
-                  </>
-                )}
-
-                {questions[currentQuestionIndex].type === "writing" && (
-                  <>
-                    <div className="question-subtitle">Escribe la palabra en inglés usando el teclado o las letras de pista</div>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "15px 0" }}>
-                      {difficulty !== "hard" && (
-                        <span style={{ fontSize: "4.5rem", marginBottom: "10px" }}>
-                          {(questions[currentQuestionIndex] as any).emoji}
-                        </span>
-                      )}
-                      <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "15px" }}>
-                        Traducción: <strong>{(questions[currentQuestionIndex] as any).translation.toUpperCase()}</strong>
-                      </p>
-                      
-                      {/* Campo de Escritura */}
-                      <input 
-                        type="text"
-                        value={userWritingInput}
-                        onChange={(e) => setUserWritingInput(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            playSound("click");
-                            const isCorrect = normalizeText(userWritingInput) === normalizeText((questions[currentQuestionIndex] as any).word);
-                            handleCheckAnswer(isCorrect);
-                          }
-                        }}
-                        placeholder="Escribe aquí..."
-                        autoFocus
-                        style={{
-                          background: "rgba(0,0,0,0.2)",
-                          border: "2px solid var(--glass-border)",
-                          borderRadius: "15px",
-                          padding: "15px 25px",
-                          fontSize: "1.6rem",
-                          color: "white",
-                          textAlign: "center",
-                          width: "100%",
-                          maxWidth: "350px",
-                          fontFamily: "var(--font-title)",
-                          letterSpacing: "1px",
-                          outline: "none",
-                          boxShadow: "inset 0 4px 10px rgba(0,0,0,0.3)"
-                        }}
-                      />
-                    </div>
-
-                    {/* Letras desordenadas de ayuda */}
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "450px", margin: "15px auto" }}>
-                      {scrambledLetters.map((letter, lIdx) => (
-                        <button
-                          key={lIdx}
-                          className="btn btn-secondary"
-                          onClick={() => {
-                            playSound("click");
-                            setUserWritingInput(prev => prev + letter);
-                          }}
-                          style={{
-                            fontSize: "1.1rem",
-                            padding: "8px 15px",
-                            borderRadius: "10px",
-                            fontWeight: "bold",
-                            textTransform: "uppercase"
-                          }}
-                        >
-                          {letter}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div style={{ display: "flex", gap: "15px", justifyContent: "center", marginTop: "15px" }}>
-                      <button 
-                        className="btn btn-danger" 
-                        onClick={() => {
-                          playSound("click");
-                          setUserWritingInput("");
-                        }}
-                      >
-                        🧼 Limpiar
-                      </button>
-                      <button 
-                        className="btn btn-primary" 
-                        onClick={() => {
-                          playSound("click");
-                          const isCorrect = normalizeText(userWritingInput) === normalizeText((questions[currentQuestionIndex] as any).word);
-                          handleCheckAnswer(isCorrect);
-                        }}
-                      >
-                        🚀 Validar
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-              
-              {/* Mascota Cosmo */}
-              <div className="cosmo-pet" onClick={() => triggerCosmoSpeech("¡Sigue adelante, astronauta!")}>
-                <div className={`cosmo-bubble ${cosmoSpeechActive ? 'active' : ''}`}>{cosmoText}</div>
-                <span className="cosmo-avatar">👽</span>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 4. Vista de Álbum de Stickers */}
-        {!loading && !error && activeView === "album" && currentSubject && stickers && playerStats && (
-          <section className="view active" id="album-view">
-            <div className="map-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                <button 
-                  className="btn btn-secondary" 
-                  onClick={() => handleNavigate("map")}
-                  style={{ fontSize: "1.4rem", padding: "8px 16px" }}
-                  title="Volver al mapa estelar"
-                >
-                  🪐
-                </button>
-                <div>
-                  <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2rem" }}>Álbum de Stickers Coleccionables</h1>
-                  <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>
-                    ¡Completa las misiones y obtén logros para llenar tu álbum!
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Pestañas de Colección */}
-            <div className="album-tabs" style={{ display: "flex", gap: "15px", margin: "25px 0", justifyContent: "center" }}>
-              <button 
-                className={`btn ${activeAlbumTab === "global" ? "btn-primary" : "btn-secondary"}`}
-                onClick={() => { playSound("click"); setActiveAlbumTab("global"); }}
-                style={{ padding: "12px 24px", fontSize: "1.05rem", borderRadius: "15px", display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                🌌 Logros de la Galaxia
-              </button>
-              <button 
-                className={`btn ${activeAlbumTab === "subject" ? "btn-primary" : "btn-secondary"}`}
-                onClick={() => { playSound("click"); setActiveAlbumTab("subject"); }}
-                style={{ padding: "12px 24px", fontSize: "1.05rem", borderRadius: "15px", display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <span>{currentSubject.emoji}</span> {currentSubject.name}
-              </button>
-            </div>
-            
-            <div className="stickers-grid">
-              {stickers
-                .filter(sticker => {
-                  const isGlobal = ["st-explorer", "st-first-star", "st-streak-5", "st-streak-10", "st-perfect-run", "st-tropa"].includes(sticker.id);
-                  return activeAlbumTab === "global" ? isGlobal : !isGlobal;
-                })
-                .map(sticker => {
-                  const isLocked = !playerStats.stickers.includes(sticker.id);
-                  
-                  // Determinar clase de brillo en base a dificultad y si está desbloqueado
-                  let glowClass = "";
-                  if (!isLocked) {
-                    if (sticker.difficulty === "medium") glowClass = "glow-silver";
-                    else if (sticker.difficulty === "hard") glowClass = "glow-gold";
-                    else if (sticker.difficulty === "legendary") glowClass = "glow-cosmic";
-                  }
-
-                  return (
-                    <div 
-                      key={sticker.id} 
-                      className={`sticker-card ${isLocked ? 'locked' : ''} ${glowClass}`}
-                      style={{
-                        position: "relative",
-                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      }}
-                    >
-                      <span className="sticker-emoji" style={{ filter: isLocked ? "grayscale(100%) opacity(40%)" : "none" }}>
-                        {isLocked ? "❓" : sticker.emoji}
-                      </span>
-                      <div className="sticker-name" style={{ fontWeight: "bold", marginTop: "10px" }}>
-                        {isLocked ? "Bloqueado" : sticker.name}
-                      </div>
-                      <div className="sticker-desc" style={{ fontSize: "0.85rem", opacity: 0.8, marginTop: "5px" }}>
-                        {sticker.desc}
-                      </div>
-                      {!isLocked && (
-                        <div style={{
-                          position: "absolute",
-                          top: "8px",
-                          right: "8px",
-                          background: "var(--color-success)",
-                          color: "white",
-                          borderRadius: "50%",
-                          width: "20px",
-                          height: "20px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "0.7rem",
-                          fontWeight: "bold",
-                          boxShadow: "0 2px 5px rgba(0,0,0,0.3)"
-                        }}>
-                          ✓
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-            </div>
-          </section>
-        )}
-
-        {/* 5. Vista de Tabla de Honor (Leaderboard) */}
-        {!loading && !error && activeView === "leaderboard" && (
-          <section className="view active" id="leaderboard-view">
-            <div className="map-header" style={{ justifyContent: "center", textAlign: "center", marginBottom: "30px" }}>
-              <div>
-                <h1 style={{ fontFamily: "var(--font-title)", fontSize: "2.2rem" }}>🏆 Tabla de Honor Galáctica</h1>
-                <p style={{ color: "var(--text-muted)", fontSize: "1rem" }}>¿Quién tiene más estrellas en La Tropa?</p>
-              </div>
-            </div>
-            
-            <div className="leaderboard-container">
-              <div>
-                {["Sofia", "Luciano"]
-                  .map(p => {
-                    const starsCount = Object.values(playersProgress[p]?.stars || {}).reduce((a, b) => a + b, 0);
-                    return {
-                      name: p,
-                      avatar: p === "Sofia" ? "👧" : "👦",
-                      stars: starsCount,
-                      stickersCount: playersProgress[p]?.stickers.length || 0
-                    };
-                  })
-                  .sort((a, b) => b.stars - a.stars)
-                  .map((player, idx) => (
-                    <div key={player.name} className={`leaderboard-row ${idx === 0 ? 'podium-1' : ''}`}>
-                      <div className="leaderboard-player">
-                        <span className="leaderboard-rank">#{idx + 1}</span>
-                        <span className="leaderboard-avatar">{player.avatar}</span>
-                        <span className="leaderboard-name">{player.name}</span>
-                      </div>
-                      <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-                        <span style={{ fontSize: "0.9rem", color: "var(--color-accent)" }}>
-                          Stickers: 🖼️ {player.stickersCount}
-                        </span>
-                        <span className="leaderboard-score">⭐ {player.stars}</span>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-
-              {/* Panel Admin */}
-              <div className="admin-panel">
-                <div>
-                  <h3>Panel de Control de Papá</h3>
-                  <p>Reiniciar las estrellas y stickers guardados en el servidor.</p>
-                </div>
-                <button className="btn btn-danger" onClick={handleResetData}>
-                  🔄 Reiniciar Datos
-                </button>
-              </div>
-            </div>
-          </section>
-        )}
-      </main>
-
-      {/* Modal de Resultados */}
-      {showResultsModal && resultsData && (
-        <div className="modal-overlay" style={{ display: "flex" }}>
-          <div className="modal-content">
-            <h2 className="modal-title">{resultsData.stars > 0 ? "¡Misión Completada!" : "¡Misión Fallida!"}</h2>
-            <p style={{ color: "var(--text-muted)" }}>
-              {resultsData.stars > 0 
-                ? "Has regresado a salvo a la base espacial con nueva materia aprendida."
-                : "Tu nave se quedó sin combustible. ¡Inténtalo de nuevo para repasar!"}
-            </p>
-            
-            <div className="modal-stars">
-              {"⭐".repeat(resultsData.stars) + "☆".repeat(3 - resultsData.stars)}
-            </div>
-            
-            <div className="modal-stat">Preguntas correctas: <strong>{resultsData.correct}</strong></div>
-            <div className="modal-stat">Puntos ganados: <strong style={{ color: "var(--color-warning)" }}>{resultsData.points}</strong></div>
-            
-            {resultsData.stickersUnlocked && resultsData.stickersUnlocked.length > 0 && (
-              <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                <span style={{ fontSize: "0.85rem", color: "var(--color-cyan)", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px" }}>
-                  ¡NUEVOS LOGROS DESBLOQUEADOS! 🏆
-                </span>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center" }}>
-                  {resultsData.stickersUnlocked.map((stk, sIdx) => (
-                    <div key={sIdx} className="sticker-awarded-box" style={{ margin: "5px", padding: "10px 15px", display: "flex", flexDirection: "column", alignItems: "center", minWidth: "120px" }}>
-                      <span className="sticker-awarded-emoji" style={{ fontSize: "2rem" }}>{stk.emoji}</span>
-                      <span className="sticker-awarded-name" style={{ fontSize: "0.85rem", fontWeight: "bold", textAlign: "center" }}>{stk.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            <div className="modal-actions">
-              <button 
-                className="btn btn-secondary" 
-                onClick={() => {
-                  setShowResultsModal(false);
-                  if (currentPlanet) startPlanetMission(currentPlanet);
-                }}
-              >
-                🔄 Reintentar Planeta
-              </button>
-              <button 
-                className="btn btn-primary" 
-                onClick={() => {
-                  setShowResultsModal(false);
-                  handleNavigate("map");
-                }}
-              >
-                🪐 Volver al Mapa
+              <button className="btn btn-primary" onClick={() => {
+                playSound("click");
+                setShowResultsModal(false);
+                setResultsData(null);
+                handleNavigate("map");
+              }} style={{ marginTop: "20px", padding: "12px 30px", fontSize: "1.1rem" }}>
+                🚀 Continuar Viaje
               </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </main>
     </>
   );
 }

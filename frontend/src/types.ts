@@ -41,6 +41,8 @@ export interface Subject {
   name: string;
   emoji: string;
   themeColor: string;
+  planets?: Planet[];
+  stickers?: Sticker[];
 }
 
 export interface PlayerState {
@@ -55,6 +57,7 @@ export type PlayersProgress = Record<string, PlayerState>;
 export type QuestionType = "trivia" | "audio" | "drag-drop" | "memorice" | "preposition" | "true-false" | "fill-vowels" | "writing";
 
 export interface StandardQuestion {
+  id?: string;
   type: "trivia" | "audio";
   word: string;
   translation: string;
@@ -64,6 +67,7 @@ export interface StandardQuestion {
 }
 
 export interface DragDropQuestion {
+  id?: string;
   type: "drag-drop";
   items: { word: string; emoji: string; translation: string }[];
   isSpanishLeft: boolean; // Indica si la columna izquierda es español y derecha inglés
@@ -72,15 +76,18 @@ export interface DragDropQuestion {
 export interface MemoryCard {
   word: string;
   emoji: string;
-  id: number;
+  id: string; // Cambiado a string para admitir identificadores de palabras
+  isSpanish: boolean;
 }
 
 export interface MemoriceQuestion {
+  id?: string;
   type: "memorice";
   pairs: MemoryCard[];
 }
 
 export interface PrepositionQuestion {
+  id?: string;
   type: "preposition";
   phrase: string;
   preposition: string;
@@ -90,6 +97,7 @@ export interface PrepositionQuestion {
 }
 
 export interface TrueFalseQuestion {
+  id?: string;
   type: "true-false";
   word: string;
   translation: string;
@@ -99,15 +107,17 @@ export interface TrueFalseQuestion {
 }
 
 export interface FillVowelsQuestion {
+  id?: string;
   type: "fill-vowels";
   word: string;
   translation: string;
   emoji: string;
-  maskedWord: string;
+  maskedWord?: string;
   correctVowels: string[];
 }
 
 export interface WritingQuestion {
+  id?: string;
   type: "writing";
   word: string;
   translation: string;
