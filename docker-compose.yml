@@ -8,9 +8,9 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./data:/app/data
+      - ./data:/app/db
     environment:
-      - DB_PATH=/app/data/game.db
+      - DB_PATH=/app/db/game.db
       - PORT=8080
       - GIN_MODE=release
     restart: always

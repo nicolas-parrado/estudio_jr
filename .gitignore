@@ -1,8 +1,7 @@
 # Base de datos local SQLite
-data/*
+data/
 *.db
 *.db-journal
-!data/subjects/
 
 # Node.js
 frontend/node_modules/
