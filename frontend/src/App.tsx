@@ -578,11 +578,30 @@ export default function App() {
       if (spokenWord) speakEnglish(spokenWord);
     } else {
       playSound("incorrect");
-      setFeedback({ show: true, correct: false, text: "¡UPS! 🛸" });
+      
+      const q = questions[currentQuestionIndex];
+      let feedbackText = "¡UPS! 🛸";
+      
+      if (q) {
+        if (q.type === "trivia") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
+        } else if (q.type === "audio") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.translation.toUpperCase()} (${q.word}) ${q.emoji}`;
+        } else if (q.type === "preposition") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.preposition.toUpperCase()} (${q.translation}) 🪐`;
+        } else if (q.type === "true-false") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} = ${q.translation} ${q.emoji}`;
+        } else if (q.type === "fill-vowels") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
+        } else if (q.type === "writing") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
+        }
+      }
+      
+      setFeedback({ show: true, correct: false, text: feedbackText });
       setStreak(0);
       setPerfectRunFlag(false);
 
-      const q = questions[currentQuestionIndex];
       if (q && q.type === "audio") {
         setCurrentAudioStreak(0);
       }
@@ -594,10 +613,11 @@ export default function App() {
       triggerCosmoSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
     }
 
+    const delay = isCorrect ? 1500 : 4000;
     setTimeout(() => {
       setFeedback(prev => ({ ...prev, show: false }));
       setCurrentQuestionIndex(prev => prev + 1);
-    }, 1500);
+    }, delay);
   };
 
   // --- INTERACCIONES DE JUEGO ---
@@ -1031,7 +1051,14 @@ export default function App() {
               {/* Feedback Overlay */}
               {feedback.show && (
                 <div className={`feedback-overlay ${feedback.correct ? 'correct' : 'incorrect'}`}>
-                  <div>{feedback.text}</div>
+                  <div style={{ 
+                    fontSize: feedback.text.length > 15 ? "1.8rem" : "3.5rem", 
+                    textAlign: "center", 
+                    padding: "20px", 
+                    lineHeight: "1.4" 
+                  }}>
+                    {feedback.text}
+                  </div>
                 </div>
               )}
               
@@ -1041,7 +1068,7 @@ export default function App() {
                   <>
                     <div className="question-subtitle">¿Cómo se dice en inglés?</div>
                     <div className="question-text">
-                      {(questions[currentQuestionIndex] as any).translation.toUpperCase()} {(questions[currentQuestionIndex] as any).emoji}
+                      {(questions[currentQuestionIndex] as any).translation.toUpperCase()} {difficulty !== "hard" && (questions[currentQuestionIndex] as any).emoji}
                     </div>
                     <div className="options-grid">
                       {(questions[currentQuestionIndex] as any).options.map((opt: string) => (
@@ -1099,7 +1126,7 @@ export default function App() {
                           const isMatched = placedWords[card] !== undefined;
                           const isSelected = selectedWord === card;
                           const itemData = (questions[currentQuestionIndex] as any).items.find((it: any) => it.translation === card || it.word === card);
-                          const emoji = itemData?.emoji || "";
+                          const emoji = difficulty !== "hard" ? (itemData?.emoji || "") : "";
                           
                           return (
                             <button
@@ -1128,7 +1155,7 @@ export default function App() {
                         {rightColumnCards.map((card) => {
                           const isMatched = Object.values(placedWords).includes(card);
                           const itemData = (questions[currentQuestionIndex] as any).items.find((it: any) => it.translation === card || it.word === card);
-                          const emoji = itemData?.emoji || "";
+                          const emoji = difficulty !== "hard" ? (itemData?.emoji || "") : "";
                           
                           return (
                             <button
@@ -1169,7 +1196,7 @@ export default function App() {
                             <div className="memory-card-inner">
                               <div className="memory-card-front">❓</div>
                               <div className={`memory-card-back ${isMatched ? 'matched' : ''}`}>
-                                <div>{card.emoji}</div>
+                                {difficulty !== "hard" && <div>{card.emoji}</div>}
                                 <div style={{ fontSize: "0.8rem", marginTop: "5px" }}>{card.word}</div>
                               </div>
                             </div>
@@ -1206,17 +1233,18 @@ export default function App() {
 
                 {questions[currentQuestionIndex].type === "true-false" && (
                   <>
-                    <div className="question-subtitle">¿Coinciden la palabra y el emoji?</div>
+                    <div className="question-subtitle" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+                      ¿Significa "{(questions[currentQuestionIndex] as any).shownTranslation.toUpperCase()}" la palabra en inglés?
+                    </div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "20px 0" }}>
-                      <span style={{ fontSize: "5rem", filter: "drop-shadow(0 0 10px rgba(255,255,255,0.2))" }}>
-                        {(questions[currentQuestionIndex] as any).emoji}
-                      </span>
-                      <h2 style={{ fontFamily: "var(--font-title)", fontSize: "2.5rem", color: "var(--color-cyan)", margin: "15px 0 5px 0" }}>
+                      {difficulty !== "hard" && (
+                        <span style={{ fontSize: "5.5rem", filter: "drop-shadow(0 0 10px rgba(255,255,255,0.2))", marginBottom: "10px" }}>
+                          {(questions[currentQuestionIndex] as any).emoji}
+                        </span>
+                      )}
+                      <h2 style={{ fontFamily: "var(--font-title)", fontSize: "3rem", color: "var(--color-cyan)", margin: "10px 0" }}>
                         {(questions[currentQuestionIndex] as any).word.toUpperCase()}
                       </h2>
-                      <p style={{ color: "var(--text-muted)", fontSize: "1.1rem" }}>
-                        Traducción mostrada: <strong>{(questions[currentQuestionIndex] as any).shownTranslation}</strong>
-                      </p>
                     </div>
                     <div className="options-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", maxWidth: "500px", margin: "20px auto 0 auto" }}>
                       <button 
@@ -1241,9 +1269,11 @@ export default function App() {
                   <>
                     <div className="question-subtitle">Instrucciones: Completa las vocales que le faltan a la palabra en inglés</div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "20px 0" }}>
-                      <span style={{ fontSize: "4rem", marginBottom: "10px" }}>
-                        {(questions[currentQuestionIndex] as any).emoji}
-                      </span>
+                      {difficulty !== "hard" && (
+                        <span style={{ fontSize: "4rem", marginBottom: "10px" }}>
+                          {(questions[currentQuestionIndex] as any).emoji}
+                        </span>
+                      )}
                       <p style={{ color: "var(--text-muted)", fontSize: "1rem", marginBottom: "15px" }}>
                         Traducción: "{(questions[currentQuestionIndex] as any).translation}"
                       </p>
@@ -1312,9 +1342,11 @@ export default function App() {
                   <>
                     <div className="question-subtitle">Escribe la palabra en inglés usando el teclado o las letras de pista</div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "15px 0" }}>
-                      <span style={{ fontSize: "4.5rem", marginBottom: "10px" }}>
-                        {(questions[currentQuestionIndex] as any).emoji}
-                      </span>
+                      {difficulty !== "hard" && (
+                        <span style={{ fontSize: "4.5rem", marginBottom: "10px" }}>
+                          {(questions[currentQuestionIndex] as any).emoji}
+                        </span>
+                      )}
                       <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "15px" }}>
                         Traducción: <strong>{(questions[currentQuestionIndex] as any).translation.toUpperCase()}</strong>
                       </p>
