@@ -45,10 +45,10 @@ export interface PlayerState {
 export type PlayersProgress = Record<string, PlayerState>;
 
 // Tipos para preguntas locales del frontend estructuradas
-export type QuestionType = "trivia" | "visual" | "audio" | "drag-drop" | "memorice" | "preposition" | "true-false" | "fill-vowels" | "writing";
+export type QuestionType = "trivia" | "audio" | "drag-drop" | "memorice" | "preposition" | "true-false" | "fill-vowels" | "writing";
 
 export interface StandardQuestion {
-  type: "trivia" | "visual" | "audio";
+  type: "trivia" | "audio";
   word: string;
   translation: string;
   emoji: string;

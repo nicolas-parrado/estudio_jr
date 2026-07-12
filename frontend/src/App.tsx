@@ -369,7 +369,7 @@ export default function App() {
     const selectedVocab = pool.slice(0, targetLength);
 
     // Tipos de juego disponibles
-    const gameTypes = ["trivia", "visual", "audio", "true-false", "fill-vowels"];
+    const gameTypes = ["trivia", "audio", "true-false", "fill-vowels"];
     if (difficulty === "hard") {
       gameTypes.push("writing");
     }
@@ -412,22 +412,6 @@ export default function App() {
 
         list.push({
           type: "trivia",
-          word: item.word,
-          translation: item.translation,
-          emoji: item.emoji,
-          options,
-          correctAnswer: item.word
-        });
-      } else if (type === "visual") {
-        const distractors = vocab
-          .filter(v => v.word !== item.word)
-          .map(v => v.word)
-          .slice(0, 3);
-        while (distractors.length < 3) distractors.push("hello", "goodbye", "star");
-        const options = [item.word, ...distractors].sort(() => Math.random() - 0.5);
-
-        list.push({
-          type: "visual",
           word: item.word,
           translation: item.translation,
           emoji: item.emoji,
@@ -1073,23 +1057,7 @@ export default function App() {
                   </>
                 )}
 
-                {questions[currentQuestionIndex].type === "visual" && (
-                  <>
-                    <div className="question-subtitle">¿Qué es esto?</div>
-                    <div className="question-helper">{(questions[currentQuestionIndex] as any).emoji}</div>
-                    <div className="options-grid">
-                      {(questions[currentQuestionIndex] as any).options.map((opt: string) => (
-                        <button 
-                          key={opt}
-                          className="option-card"
-                          onClick={() => handleCheckAnswer(opt === (questions[currentQuestionIndex] as any).correctAnswer, opt)}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
+
 
                 {questions[currentQuestionIndex].type === "audio" && (
                   <>
