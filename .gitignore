@@ -16,6 +16,7 @@ backend/backend
 backend/*.exe
 backend/*.test
 backend/*.out
+!backend/data
 
 # Sistema Operativo
 .DS_Store
