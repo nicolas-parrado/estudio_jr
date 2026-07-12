@@ -41,6 +41,16 @@ export default function App() {
     Luciano: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] }
   };
 
+  // Estado para la notificación tipo toast
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: "" });
+
+  const showToast = (msg: string) => {
+    setToast({ show: true, message: msg });
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, show: false }));
+    }, 3000);
+  };
+
   // Estado del juego activo
   const [difficulty, setDifficulty] = useState<"normal" | "hard">("normal");
   const [currentPlanet, setCurrentPlanet] = useState<Planet | null>(null);
@@ -151,17 +161,24 @@ export default function App() {
   const handleLogin = (name: "Sofia" | "Luciano") => {
     playSound("click");
     setCurrentPlayer(name);
+    setCurrentSubject(null);
     setActiveView("subjects");
   };
 
   const handleLogout = () => {
     playSound("click");
     setCurrentPlayer(null);
+    setCurrentSubject(null);
     setActiveView("welcome");
   };
 
   const handleNavigate = (view: "welcome" | "subjects" | "map" | "album" | "leaderboard") => {
     playSound("click");
+    if ((view === "map" || view === "album") && !currentSubject) {
+      playSound("incorrect");
+      showToast("¡Debes seleccionar una materia primero! 🎒");
+      return;
+    }
     setActiveView(view);
   };
 
@@ -702,6 +719,31 @@ export default function App() {
                 🚀 Continuar Viaje
               </button>
             </div>
+          </div>
+        )}
+        {toast.show && (
+          <div style={{
+            position: "fixed",
+            top: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "rgba(225, 112, 85, 0.95)",
+            backdropFilter: "blur(8px)",
+            color: "white",
+            padding: "12px 24px",
+            borderRadius: "15px",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+            zIndex: 9999,
+            fontFamily: "var(--font-title)",
+            fontSize: "1.05rem",
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            border: "1px solid rgba(255,255,255,0.2)",
+            animation: "slideDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards"
+          }}>
+            <span>⚠️</span> {toast.message}
           </div>
         )}
       </main>

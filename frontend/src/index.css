@@ -1174,3 +1174,15 @@ header {
   transform: scale(1.06) rotate(1deg);
   box-shadow: 0 0 35px rgba(108, 92, 231, 0.9), 0 0 25px rgba(232, 67, 147, 0.8);
 }
+
+/* Animación para el mensaje flotante de Toast */
+@keyframes slideDown {
+  0% {
+    transform: translate(-50%, -100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
