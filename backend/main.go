@@ -318,9 +318,7 @@ var vocabularyData = GameData{
 		// Logros divertidos / interactivos
 		{ID: "st-streak-5", Name: "Cometa Veloz", Emoji: "☄️", Desc: "Lograr una racha de 5 respuestas correctas en una partida."},
 		{ID: "st-streak-10", Name: "Centella del Cosmos", Emoji: "🌠", Desc: "Lograr una racha de 10 respuestas correctas en una partida."},
-		{ID: "st-audio-master", Name: "Oído Galáctico", Emoji: "🎧", Desc: "Responder 5 preguntas de audio correctas seguidas."},
 		{ID: "st-perfect-run", Name: "Misión Impecable", Emoji: "💯", Desc: "Completar cualquier planeta sin cometer fallos."},
-		{ID: "st-writing-master", Name: "Escribano Espacial", Emoji: "✍️", Desc: "Responder 5 preguntas de escritura seguidas correctamente en modo Hard."},
 		{ID: "st-tropa", Name: "La Tropa Unida", Emoji: "👨‍👩‍👧‍👦", Desc: "Obtener al menos 1 estrella con ambos perfiles (Sofía y Luciano) en el sistema."},
 	},
 }
@@ -454,14 +452,8 @@ func saveProgress(c *gin.Context) {
 	if req.MaxStreak >= 10 {
 		database.SaveSticker(req.PlayerName, "st-streak-10")
 	}
-	if req.AudioStreak >= 5 {
-		database.SaveSticker(req.PlayerName, "st-audio-master")
-	}
 	if req.PerfectRun {
 		database.SaveSticker(req.PlayerName, "st-perfect-run")
-	}
-	if req.WriteStreak >= 5 {
-		database.SaveSticker(req.PlayerName, "st-writing-master")
 	}
 
 	// 4. Logros Globales Acumulados
