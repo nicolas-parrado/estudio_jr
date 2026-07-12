@@ -124,6 +124,61 @@ export interface WritingQuestion {
   emoji: string;
 }
 
+// --- Preguntas de Ciencias Naturales ---
+export interface ScienceTriviaQuestion {
+  id?: string;
+  type: "science-trivia";
+  question: string;
+  correctAnswer: string;
+  options: string[];
+  emoji: string;
+}
+
+export interface ScienceTrueFalseQuestion {
+  id?: string;
+  type: "science-tf";
+  question: string;
+  correctAnswer: "verdadero" | "falso";
+  emoji: string;
+  explanation?: string;
+}
+
+export interface ScienceSequenceQuestion {
+  id?: string;
+  type: "science-sequence";
+  animal: string;
+  sequence: string[];
+  emoji: string;
+  instruction: string;
+}
+
+export interface ScienceClassifyQuestion {
+  id?: string;
+  type: "science-classify";
+  concept: string;
+  correctCategory: string;
+  options: string[];
+  emoji: string;
+  instruction: string;
+}
+
+export interface ScienceFillVowelsQuestion {
+  id?: string;
+  type: "science-vowels";
+  word: string;
+  translation: string;
+  emoji: string;
+  correctVowels: string[];
+}
+
+export interface ScienceWritingQuestion {
+  id?: string;
+  type: "science-writing";
+  word: string;
+  translation: string;
+  emoji: string;
+}
+
 export type GameQuestion = 
   | StandardQuestion 
   | DragDropQuestion 
@@ -131,4 +186,10 @@ export type GameQuestion =
   | PrepositionQuestion 
   | TrueFalseQuestion 
   | FillVowelsQuestion 
-  | WritingQuestion;
+  | WritingQuestion
+  | ScienceTriviaQuestion
+  | ScienceTrueFalseQuestion
+  | ScienceSequenceQuestion
+  | ScienceClassifyQuestion
+  | ScienceFillVowelsQuestion
+  | ScienceWritingQuestion;

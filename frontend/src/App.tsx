@@ -62,7 +62,6 @@ export default function App() {
     
     // Cargar datos del backend
     fetchSubjects();
-    fetchPlayersProgress("ingles");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,6 +78,7 @@ export default function App() {
           setCurrentSubject(data[0]);
           setPlanets(data[0].planets || []);
           setStickers(data[0].stickers || []);
+          fetchPlayersProgress(data[0].id);
         }
       }
     } catch (e: any) {
@@ -169,7 +169,6 @@ export default function App() {
   };
 
   const generateRandomQuestions = (planet: Planet): GameQuestion[] => {
-    const list: GameQuestion[] = [];
     const vocab = [...(planet.vocabulary || [])];
     if (vocab.length === 0) {
       return [];
@@ -178,8 +177,96 @@ export default function App() {
 
     // Cantidad de preguntas dinámicas desde el JSON
     const targetLength = difficulty === "hard" ? (planet.questionsCountHard || 15) : (planet.questionsCountNormal || 10);
+
+    // Lógica para Ciencias Naturales
+    if (currentSubject?.id === "ciencias_naturales") {
+      const scienceQuestions: GameQuestion[] = [];
+
+      // 1. Añadir todas las preguntas especiales del JSON si existen
+      if (planet.specialQuestions && planet.specialQuestions.length > 0) {
+        planet.specialQuestions.forEach((sq: any, idx: number) => {
+          if (sq.type === "science-sequence") {
+            scienceQuestions.push({
+              id: `q-sci-seq-${idx}`,
+              type: "science-sequence",
+              animal: sq.animal,
+              sequence: sq.sequence,
+              emoji: sq.emoji,
+              instruction: sq.instruction || "Ordena el ciclo de vida:"
+            });
+          } else if (sq.type === "science-classify") {
+            scienceQuestions.push({
+              id: `q-sci-class-${idx}`,
+              type: "science-classify",
+              concept: sq.concept,
+              correctCategory: sq.correctCategory,
+              options: [...sq.options].sort(() => Math.random() - 0.5),
+              emoji: sq.emoji,
+              instruction: sq.instruction || "Clasifica el concepto:"
+            });
+          } else if (sq.type === "science-trivia") {
+            scienceQuestions.push({
+              id: `q-sci-triv-${idx}`,
+              type: "science-trivia",
+              question: sq.question,
+              correctAnswer: sq.correctAnswer,
+              options: [...sq.options].sort(() => Math.random() - 0.5),
+              emoji: sq.emoji
+            });
+          } else if (sq.type === "science-tf") {
+            scienceQuestions.push({
+              id: `q-sci-tf-${idx}`,
+              type: "science-tf",
+              question: sq.question,
+              correctAnswer: sq.correctAnswer,
+              emoji: sq.emoji,
+              explanation: sq.explanation
+            });
+          }
+        });
+      }
+
+      // Mezclar las preguntas de Ciencias Especiales
+      scienceQuestions.sort(() => Math.random() - 0.5);
+
+      // 2. Si faltan preguntas para llegar a targetLength, generamos de vocabulario (vowels/writing)
+      let vocabIdx = 0;
+      while (scienceQuestions.length < targetLength && vocab.length > 0) {
+        const item = vocab[vocabIdx % vocab.length];
+        vocabIdx++;
+
+        const type = difficulty === "hard" ? "science-writing" : "science-vowels";
+
+        if (type === "science-vowels") {
+          const vowels = ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú"];
+          const correctVowels = item.word.split("")
+            .filter(char => vowels.includes(char.toLowerCase()))
+            .map(char => char.toLowerCase());
+          
+          scienceQuestions.push({
+            id: `q-sci-vow-${vocabIdx}`,
+            type: "science-vowels",
+            word: item.word,
+            translation: item.translation,
+            emoji: item.emoji,
+            correctVowels
+          });
+        } else {
+          scienceQuestions.push({
+            id: `q-sci-write-${vocabIdx}`,
+            type: "science-writing",
+            word: item.word,
+            translation: item.translation,
+            emoji: item.emoji
+          });
+        }
+      }
+
+      return scienceQuestions.sort(() => Math.random() - 0.5).slice(0, targetLength);
+    }
     
-    // Si el vocabulario tiene menos elementos de los requeridos, los repetimos para llenar la ronda
+    // Si el vocabulario tiene menos elementos de los requeridos, los repetimos para llenar la ronda (Inglés)
+    const list: GameQuestion[] = [];
     let pool = [...vocab];
     while (pool.length < targetLength) {
       pool = [...pool, ...vocab.sort(() => Math.random() - 0.5)];
@@ -531,6 +618,7 @@ export default function App() {
                 questions={questions}
                 planet={currentPlanet}
                 difficulty={difficulty}
+                subjectId={currentSubject?.id || "ingles"}
                 onFinish={finishPlanetMission}
                 onAbort={() => handleNavigate("map")}
               />

@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 
 # Compilar binario estático
-RUN CGO_ENABLED=0 GOOS=linux go build -o backend main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o backend .
 
 # Stage 2: Runner
 FROM alpine:latest

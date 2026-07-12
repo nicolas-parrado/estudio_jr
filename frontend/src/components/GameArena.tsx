@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { GameQuestion, Planet, MemoriceQuestion, DragDropQuestion } from "../types";
 import { playSound } from "../utils/audio";
-import { speakEnglish } from "../utils/speech";
+import { speakEnglish, speakSpanish } from "../utils/speech";
 
-// Importar minijuegos
+// Importar minijuegos de inglés
 import { TriviaGame } from "./games/TriviaGame";
 import { AudioGame } from "./games/AudioGame";
 import { TrueFalseGame } from "./games/TrueFalseGame";
@@ -13,10 +13,19 @@ import { DragDropGame } from "./games/DragDropGame";
 import { PrepositionGame } from "./games/PrepositionGame";
 import { MemoriceGame } from "./games/MemoriceGame";
 
+// Importar minijuegos de ciencias
+import { CienciasTriviaGame } from "./games/CienciasTriviaGame";
+import { CienciasTrueFalseGame } from "./games/CienciasTrueFalseGame";
+import { CienciasSequenceGame } from "./games/CienciasSequenceGame";
+import { CienciasClassifyGame } from "./games/CienciasClassifyGame";
+import { CienciasFillVowelsGame } from "./games/CienciasFillVowelsGame";
+import { CienciasWritingGame } from "./games/CienciasWritingGame";
+
 interface GameArenaProps {
   questions: GameQuestion[];
   planet: Planet;
   difficulty: "normal" | "hard";
+  subjectId: string;
   onFinish: (
     correctCount: number,
     maxStreak: number,
@@ -31,6 +40,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
   questions,
   planet,
   difficulty,
+  subjectId,
   onFinish,
   onAbort
 }) => {
@@ -122,13 +132,31 @@ export const GameArena: React.FC<GameArenaProps> = ({
       const quotes = cosmoQuotes.correct;
       triggerCosmoSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
       
-      if (spokenWord) speakEnglish(spokenWord);
+      if (spokenWord) {
+        if (subjectId === "ingles") {
+          speakEnglish(spokenWord);
+        } else {
+          speakSpanish(spokenWord);
+        }
+      }
     } else {
       playSound("incorrect");
       
       let feedbackText = "¡UPS! 🛸";
       if (q) {
-        if (q.type === "trivia") {
+        if (q.type === "science-trivia") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.correctAnswer.toUpperCase()} ${q.emoji}`;
+        } else if (q.type === "science-tf") {
+          feedbackText = `¡UPS! 🛸 Es ${q.correctAnswer.toUpperCase()}. ${q.explanation || ""}`;
+        } else if (q.type === "science-sequence") {
+          feedbackText = `¡UPS! 🛸 El orden correcto es: ${q.sequence.join(" -> ")} ${q.emoji}`;
+        } else if (q.type === "science-classify") {
+          feedbackText = `¡UPS! 🛸 Pertenece a: ${q.correctCategory.toUpperCase()} ${q.emoji}`;
+        } else if (q.type === "science-vowels") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} ${q.emoji}`;
+        } else if (q.type === "science-writing") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} ${q.emoji}`;
+        } else if (q.type === "trivia") {
           feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
         } else if (q.type === "audio") {
           feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.translation.toUpperCase()} (${q.word}) ${q.emoji}`;
@@ -177,6 +205,53 @@ export const GameArena: React.FC<GameArenaProps> = ({
     if (!q) return null;
 
     switch (q.type) {
+      case "science-trivia":
+        return (
+          <CienciasTriviaGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).correctAnswer : undefined)} 
+          />
+        );
+      case "science-tf":
+        return (
+          <CienciasTrueFalseGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={(isCorrect) => handleCheckAnswer(isCorrect)} 
+          />
+        );
+      case "science-sequence":
+        return (
+          <CienciasSequenceGame 
+            question={q as any} 
+            onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).animal : undefined)} 
+          />
+        );
+      case "science-classify":
+        return (
+          <CienciasClassifyGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).concept : undefined)} 
+          />
+        );
+      case "science-vowels":
+        return (
+          <CienciasFillVowelsGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).word : undefined)} 
+          />
+        );
+      case "science-writing":
+        return (
+          <CienciasWritingGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).word : undefined)} 
+          />
+        );
       case "trivia":
         return (
           <TriviaGame 
