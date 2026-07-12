@@ -8,14 +8,23 @@ type VocabularyItem struct {
 	Category    string `json:"category"`
 }
 
-// SpecialQuestion representa una pregunta de lógica (como preposiciones)
+// SpecialQuestion representa una pregunta de lógica (como preposiciones o ciencias)
 type SpecialQuestion struct {
-	Type        string   `json:"type"`
-	Phrase      string   `json:"phrase"`
-	Preposition string   `json:"preposition"`
-	Translation string   `json:"translation"`
-	Options     []string `json:"options"`
-	Visual      string   `json:"visual"`
+	Type            string   `json:"type"`
+	Phrase          string   `json:"phrase"`
+	Preposition     string   `json:"preposition"`
+	Translation     string   `json:"translation"`
+	Options         []string `json:"options"`
+	Visual          string   `json:"visual"`
+	Question        string   `json:"question,omitempty"`
+	CorrectAnswer   string   `json:"correctAnswer,omitempty"`
+	Emoji           string   `json:"emoji,omitempty"`
+	Animal          string   `json:"animal,omitempty"`
+	Sequence        []string `json:"sequence,omitempty"`
+	Instruction     string   `json:"instruction,omitempty"`
+	Concept         string   `json:"concept,omitempty"`
+	CorrectCategory string   `json:"correctCategory,omitempty"`
+	Explanation     string   `json:"explanation,omitempty"`
 }
 
 // Planet representa un planeta con sus detalles y vocabulario.
