@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GameQuestion, Planet, MemoriceQuestion, DragDropQuestion } from "../types";
 import { playSound } from "../utils/audio";
-import { speakEnglish, speakSpanish } from "../utils/speech";
+import { speakEnglish } from "../utils/speech";
 
 // Importar minijuegos de inglés
 import { TriviaGame } from "./games/TriviaGame";
@@ -132,12 +132,8 @@ export const GameArena: React.FC<GameArenaProps> = ({
       const quotes = cosmoQuotes.correct;
       triggerCosmoSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
       
-      if (spokenWord) {
-        if (subjectId === "ingles") {
-          speakEnglish(spokenWord);
-        } else {
-          speakSpanish(spokenWord);
-        }
+      if (spokenWord && subjectId === "ingles") {
+        speakEnglish(spokenWord);
       }
     } else {
       playSound("incorrect");
