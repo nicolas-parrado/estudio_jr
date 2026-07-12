@@ -21,8 +21,11 @@ WORKDIR /app
 # Copiar el binario desde el stage builder
 COPY --from=builder /app/backend .
 
+# Copiar archivos JSON de configuración
+COPY --from=builder /app/data ./data
+
 # Crear carpeta para la base de datos persistida
-RUN mkdir -p /app/data
+RUN mkdir -p /app/db
 
 EXPOSE 8080
 
