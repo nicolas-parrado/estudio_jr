@@ -69,6 +69,13 @@ func TestLoadSubjects(t *testing.T) {
 		if len(p.SpecialQuestions) == 0 {
 			t.Errorf("Planeta %d de matemáticas (%s) no tiene preguntas especiales cargadas", idx+1, p.ID)
 		}
+		// Verificar que los campos no se pierdan al deserializar
+		if idx == 0 && p.SpecialQuestions[0].Expression == "" {
+			t.Errorf("Planeta 1 de matemáticas perdió el campo Expression en sus preguntas")
+		}
+		if idx == 1 && p.SpecialQuestions[0].Story == "" {
+			t.Errorf("Planeta 2 de matemáticas perdió el campo Story en sus preguntas")
+		}
 	}
 	if len(matematicas.Stickers) != 8 {
 		t.Errorf("Se esperaban 8 stickers en matemáticas, se encontraron %d", len(matematicas.Stickers))

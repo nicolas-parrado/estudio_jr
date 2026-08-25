@@ -8,14 +8,14 @@ type VocabularyItem struct {
 	Category    string `json:"category"`
 }
 
-// SpecialQuestion representa una pregunta de lógica (como preposiciones o ciencias)
+// SpecialQuestion representa una pregunta de lógica (como preposiciones, ciencias o matemáticas)
 type SpecialQuestion struct {
 	Type            string   `json:"type"`
-	Phrase          string   `json:"phrase"`
-	Preposition     string   `json:"preposition"`
-	Translation     string   `json:"translation"`
-	Options         []string `json:"options"`
-	Visual          string   `json:"visual"`
+	Phrase          string   `json:"phrase,omitempty"`
+	Preposition     string   `json:"preposition,omitempty"`
+	Translation     string   `json:"translation,omitempty"`
+	Options         []string `json:"options,omitempty"`
+	Visual          string   `json:"visual,omitempty"`
 	Question        string   `json:"question,omitempty"`
 	CorrectAnswer   string   `json:"correctAnswer,omitempty"`
 	Emoji           string   `json:"emoji,omitempty"`
@@ -25,6 +25,22 @@ type SpecialQuestion struct {
 	Concept         string   `json:"concept,omitempty"`
 	CorrectCategory string   `json:"correctCategory,omitempty"`
 	Explanation     string   `json:"explanation,omitempty"`
+	// Campos para Matemáticas
+	Expression     string `json:"expression,omitempty"`
+	MissingNumber  string `json:"missingNumber,omitempty"`
+	LeftSide       string `json:"leftSide,omitempty"`
+	RightSide      string `json:"rightSide,omitempty"`
+	Story          string `json:"story,omitempty"`
+	QuestionPrompt string `json:"questionPrompt,omitempty"`
+	OperationType  string `json:"operationType,omitempty"`
+	Num1           int    `json:"num1,omitempty"`
+	Num2           int    `json:"num2,omitempty"`
+	Tens           *int   `json:"tens,omitempty"`
+	Units          *int   `json:"units,omitempty"`
+	Number         *int   `json:"number,omitempty"`
+	LeftNumber     *int   `json:"leftNumber,omitempty"`
+	RightNumber    *int   `json:"rightNumber,omitempty"`
+	Difficulty     string `json:"difficulty,omitempty"`
 }
 
 // Planet representa un planeta con sus detalles y vocabulario.
