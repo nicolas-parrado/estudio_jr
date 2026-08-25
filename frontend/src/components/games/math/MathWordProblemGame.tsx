@@ -26,8 +26,10 @@ export const MathWordProblemGame: React.FC<MathWordProblemGameProps> = ({
     setInputValue("");
     setOpError(false);
 
-    // Leer el problema en voz alta al cargar
-    speakSpanish(`${q.story} ${q.questionPrompt}`);
+    // Cancelar cualquier audio previo al cambiar de pregunta
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
   }, [q, difficulty]);
 
   const handleReadAloud = () => {
