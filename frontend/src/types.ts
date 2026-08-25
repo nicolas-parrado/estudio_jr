@@ -179,6 +179,96 @@ export interface ScienceWritingQuestion {
   emoji: string;
 }
 
+// --- Preguntas de Matemáticas ---
+export interface MathCalcQuestion {
+  id?: string;
+  type: "math-calc";
+  expression: string;
+  correctAnswer: string;
+  options?: string[];
+  instruction?: string;
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
+export interface MathMissingQuestion {
+  id?: string;
+  type: "math-missing";
+  expression: string;
+  missingNumber: string;
+  correctAnswer: string;
+  options?: string[];
+  instruction?: string;
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
+export interface MathBalanceQuestion {
+  id?: string;
+  type: "math-balance";
+  leftSide: string;
+  rightSide: string;
+  missingNumber: string;
+  correctAnswer: string;
+  options?: string[];
+  instruction?: string;
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
+export interface MathWordProblemQuestion {
+  id?: string;
+  type: "math-word-problem";
+  story: string;
+  questionPrompt: string;
+  operationType: "+" | "-";
+  num1: number;
+  num2: number;
+  correctAnswer: string;
+  options?: string[];
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
+export interface MathPlaceValueQuestion {
+  id?: string;
+  type: "math-place-value";
+  question: string;
+  number?: number;
+  tens?: number;
+  units?: number;
+  correctAnswer: string;
+  options: string[];
+  instruction?: string;
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
+export interface MathSequenceQuestion {
+  id?: string;
+  type: "math-sequence";
+  sequence: string[];
+  missingNumber: string;
+  correctAnswer: string;
+  options?: string[];
+  instruction?: string;
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
+export interface MathCompareQuestion {
+  id?: string;
+  type: "math-compare";
+  question: string;
+  leftNumber?: number;
+  rightNumber?: number;
+  correctAnswer: string;
+  options: string[];
+  instruction?: string;
+  emoji?: string;
+  difficulty?: "normal" | "hard";
+}
+
 export type GameQuestion = 
   | StandardQuestion 
   | DragDropQuestion 
@@ -192,4 +282,12 @@ export type GameQuestion =
   | ScienceSequenceQuestion
   | ScienceClassifyQuestion
   | ScienceFillVowelsQuestion
-  | ScienceWritingQuestion;
+  | ScienceWritingQuestion
+  | MathCalcQuestion
+  | MathMissingQuestion
+  | MathBalanceQuestion
+  | MathWordProblemQuestion
+  | MathPlaceValueQuestion
+  | MathSequenceQuestion
+  | MathCompareQuestion;
+

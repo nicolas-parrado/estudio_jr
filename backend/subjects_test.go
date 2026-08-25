@@ -57,7 +57,24 @@ func TestLoadSubjects(t *testing.T) {
 		t.Errorf("Planeta de ciencias no tiene preguntas especiales cargadas")
 	}
 
-	// 3. Verificar stickers
+	// 3. Verificar materia Matemáticas
+	matematicas, exists := subjectsMap["matematicas"]
+	if !exists {
+		t.Fatalf("Materia 'matematicas' no fue cargada en subjectsMap")
+	}
+	if len(matematicas.Planets) != 4 {
+		t.Fatalf("Se esperaban 4 planetas en 'matematicas', se encontraron %d", len(matematicas.Planets))
+	}
+	for idx, p := range matematicas.Planets {
+		if len(p.SpecialQuestions) == 0 {
+			t.Errorf("Planeta %d de matemáticas (%s) no tiene preguntas especiales cargadas", idx+1, p.ID)
+		}
+	}
+	if len(matematicas.Stickers) != 8 {
+		t.Errorf("Se esperaban 8 stickers en matemáticas, se encontraron %d", len(matematicas.Stickers))
+	}
+
+	// 4. Verificar stickers de inglés
 	if len(ingles.Stickers) < 15 {
 		t.Errorf("Stickers de inglés incompletos: %d", len(ingles.Stickers))
 	}

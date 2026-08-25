@@ -206,14 +206,52 @@ export default function App() {
   };
 
   const generateRandomQuestions = (planet: Planet): GameQuestion[] => {
+    // Cantidad de preguntas dinámicas desde el JSON
+    const targetLength = difficulty === "hard" ? (planet.questionsCountHard || 15) : (planet.questionsCountNormal || 10);
+
+    // Lógica para Matemáticas
+    if (currentSubject?.id === "matematicas") {
+      const mathQuestions: GameQuestion[] = [];
+      const specQuestions = planet.specialQuestions || [];
+      
+      // Filtrar por dificultad si está especificada
+      let pool = specQuestions.filter((sq: any) => {
+        if (!sq.difficulty) return true;
+        if (difficulty === "hard") {
+          return sq.difficulty === "hard";
+        }
+        return sq.difficulty === "normal";
+      });
+
+      // Si no hay suficientes en el pool estricto, usar todas
+      if (pool.length < targetLength) {
+        pool = [...specQuestions];
+      }
+
+      // Si aún faltan para targetLength, duplicar pool
+      let fullPool = [...pool];
+      while (fullPool.length < targetLength && pool.length > 0) {
+        fullPool = [...fullPool, ...pool.sort(() => Math.random() - 0.5)];
+      }
+
+      const shuffled = [...fullPool].sort(() => Math.random() - 0.5).slice(0, targetLength);
+      
+      shuffled.forEach((sq: any, idx: number) => {
+        mathQuestions.push({
+          ...sq,
+          id: `q-math-${idx}`,
+          options: sq.options ? [...sq.options].sort(() => Math.random() - 0.5) : undefined
+        });
+      });
+
+      return mathQuestions;
+    }
+
     const vocab = [...(planet.vocabulary || [])];
-    if (vocab.length === 0) {
+    if (vocab.length === 0 && (!planet.specialQuestions || planet.specialQuestions.length === 0)) {
       return [];
     }
     vocab.sort(() => Math.random() - 0.5);
-
-    // Cantidad de preguntas dinámicas desde el JSON
-    const targetLength = difficulty === "hard" ? (planet.questionsCountHard || 15) : (planet.questionsCountNormal || 10);
 
     // Lógica para Ciencias Naturales
     if (currentSubject?.id === "ciencias_naturales") {

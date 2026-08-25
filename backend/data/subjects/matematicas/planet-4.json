@@ -1,0 +1,162 @@
+{
+  "id": "planet-4",
+  "name": "Planeta de Patrones y Secuencias",
+  "subtitle": "Conteo, Recta Numérica y Comparación (2º Básico)",
+  "emoji": "🔢",
+  "color": "#e84393",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-math-patterns",
+  "stickerHard": "st-math-patterns-hard",
+  "specialQuestions": [
+    {
+      "type": "math-sequence",
+      "instruction": "Completa el patrón de conteo (de 2 en 2):",
+      "sequence": ["2", "4", "6", "___", "10"],
+      "missingNumber": "8",
+      "correctAnswer": "8",
+      "options": ["8", "7", "9", "12"],
+      "difficulty": "normal",
+      "emoji": "🚂"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Completa el patrón de conteo (de 5 en 5):",
+      "sequence": ["5", "10", "15", "20", "___"],
+      "missingNumber": "25",
+      "correctAnswer": "25",
+      "options": ["25", "30", "24", "22"],
+      "difficulty": "normal",
+      "emoji": "🚂"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Completa el patrón de conteo (de 10 en 10):",
+      "sequence": ["10", "20", "___", "40", "50"],
+      "missingNumber": "30",
+      "correctAnswer": "30",
+      "options": ["30", "25", "35", "32"],
+      "difficulty": "normal",
+      "emoji": "🚂"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Completa el conteo regresivo (hacia atrás de 1 en 1):",
+      "sequence": ["20", "19", "18", "___", "16"],
+      "missingNumber": "17",
+      "correctAnswer": "17",
+      "options": ["17", "16", "15", "18"],
+      "difficulty": "normal",
+      "emoji": "🚀"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "Compara los números espaciales:",
+      "leftNumber": 28,
+      "rightNumber": 19,
+      "question": "28 es ___ que 19",
+      "correctAnswer": "Mayor que (>)",
+      "options": ["Mayor que (>)", "Menor que (<)", "Igual a (=)"],
+      "difficulty": "normal",
+      "emoji": "⚖️"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "Compara los números espaciales:",
+      "leftNumber": 14,
+      "rightNumber": 32,
+      "question": "14 es ___ que 32",
+      "correctAnswer": "Menor que (<)",
+      "options": ["Mayor que (>)", "Menor que (<)", "Igual a (=)"],
+      "difficulty": "normal",
+      "emoji": "⚖️"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "¿Cuál número es el antecesor (el que va justo antes) de 25?",
+      "question": "___ , 25",
+      "correctAnswer": "24",
+      "options": ["24", "26", "23", "20"],
+      "difficulty": "normal",
+      "emoji": "⏮️"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "¿Cuál número es el sucesor (el que va justo después) de 39?",
+      "question": "39 , ___",
+      "correctAnswer": "40",
+      "options": ["40", "38", "41", "50"],
+      "difficulty": "normal",
+      "emoji": "⏭️"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Completa la secuencia de 5 en 5 hasta el 100:",
+      "sequence": ["65", "70", "75", "___", "85"],
+      "missingNumber": "80",
+      "correctAnswer": "80",
+      "options": ["80", "78", "82", "90"],
+      "difficulty": "hard",
+      "emoji": "🚂"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Completa la secuencia de 2 en 2:",
+      "sequence": ["82", "84", "___", "88", "90"],
+      "missingNumber": "86",
+      "correctAnswer": "86",
+      "options": ["86", "85", "87", "89"],
+      "difficulty": "hard",
+      "emoji": "🚂"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Completa el patrón de 10 en 10 hacia atrás:",
+      "sequence": ["100", "90", "80", "___", "60"],
+      "missingNumber": "70",
+      "correctAnswer": "70",
+      "options": ["70", "75", "65", "85"],
+      "difficulty": "hard",
+      "emoji": "🚀"
+    },
+    {
+      "type": "math-sequence",
+      "instruction": "Patrón con regla de sumar 3 (+3):",
+      "sequence": ["21", "24", "27", "___", "33"],
+      "missingNumber": "30",
+      "correctAnswer": "30",
+      "options": ["30", "29", "31", "28"],
+      "difficulty": "hard",
+      "emoji": "✨"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "Compara las cantidades:",
+      "leftNumber": 85,
+      "rightNumber": 89,
+      "question": "85 es ___ que 89",
+      "correctAnswer": "Menor que (<)",
+      "options": ["Mayor que (>)", "Menor que (<)", "Igual a (=)"],
+      "difficulty": "hard",
+      "emoji": "⚖️"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "¿Cuál es el antecesor y sucesor de 70?",
+      "question": "___ , 70 , ___",
+      "correctAnswer": "69 y 71",
+      "options": ["69 y 71", "60 y 80", "68 y 72", "70 y 72"],
+      "difficulty": "hard",
+      "emoji": "🎯"
+    },
+    {
+      "type": "math-compare",
+      "instruction": "¿Cuál de estos números es el MAYOR?",
+      "question": "Entre 58, 85, 79 y 91, el mayor es:",
+      "correctAnswer": "91",
+      "options": ["91", "85", "79", "58"],
+      "difficulty": "hard",
+      "emoji": "👑"
+    }
+  ]
+}

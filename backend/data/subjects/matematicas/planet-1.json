@@ -1,0 +1,215 @@
+{
+  "id": "planet-1",
+  "name": "Planeta de las Operaciones",
+  "subtitle": "Sumas, Restas y Cálculo Mental (2º Básico)",
+  "emoji": "➕",
+  "color": "#00b894",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-math-calc",
+  "stickerHard": "st-math-calc-hard",
+  "specialQuestions": [
+    {
+      "type": "math-calc",
+      "instruction": "Calcula el resultado de la suma espacial:",
+      "expression": "12 + 5",
+      "correctAnswer": "17",
+      "options": ["17", "16", "18", "15"],
+      "difficulty": "normal",
+      "emoji": "🚀"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula el resultado de la resta espacial:",
+      "expression": "18 - 6",
+      "correctAnswer": "12",
+      "options": ["12", "14", "10", "11"],
+      "difficulty": "normal",
+      "emoji": "🛸"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "¿Cuánto es el doble de 8?",
+      "expression": "8 + 8",
+      "correctAnswer": "16",
+      "options": ["16", "14", "18", "15"],
+      "difficulty": "normal",
+      "emoji": "✨"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "¿Cuánto es el doble de 15?",
+      "expression": "15 + 15",
+      "correctAnswer": "30",
+      "options": ["30", "25", "35", "28"],
+      "difficulty": "normal",
+      "emoji": "⭐"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula la suma de decenas:",
+      "expression": "20 + 30",
+      "correctAnswer": "50",
+      "options": ["50", "40", "60", "70"],
+      "difficulty": "normal",
+      "emoji": "🌌"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula la resta de decenas:",
+      "expression": "50 - 20",
+      "correctAnswer": "30",
+      "options": ["30", "20", "40", "25"],
+      "difficulty": "normal",
+      "emoji": "🪐"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula la adición con reagrupación (con reserva):",
+      "expression": "38 + 25",
+      "correctAnswer": "63",
+      "options": ["63", "53", "65", "62"],
+      "difficulty": "hard",
+      "emoji": "⚡"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula la adición con reserva:",
+      "expression": "47 + 36",
+      "correctAnswer": "83",
+      "options": ["83", "73", "84", "81"],
+      "difficulty": "hard",
+      "emoji": "⚡"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula la sustracción con canje (con reserva):",
+      "expression": "62 - 28",
+      "correctAnswer": "34",
+      "options": ["34", "44", "36", "38"],
+      "difficulty": "hard",
+      "emoji": "💥"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula la sustracción con canje:",
+      "expression": "75 - 39",
+      "correctAnswer": "36",
+      "options": ["36", "46", "34", "42"],
+      "difficulty": "hard",
+      "emoji": "💥"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Calcula el triple de 10:",
+      "expression": "10 + 10 + 10",
+      "correctAnswer": "30",
+      "options": ["30", "20", "40", "15"],
+      "difficulty": "normal",
+      "emoji": "🌟"
+    },
+    {
+      "type": "math-calc",
+      "instruction": "Suma de 3 números espaciales:",
+      "expression": "15 + 15 + 20",
+      "correctAnswer": "50",
+      "options": ["50", "45", "55", "60"],
+      "difficulty": "hard",
+      "emoji": "🌠"
+    },
+    {
+      "type": "math-missing",
+      "instruction": "Descubre el número incógnito que falta:",
+      "expression": "14 + ___ = 20",
+      "missingNumber": "6",
+      "correctAnswer": "6",
+      "options": ["6", "5", "7", "8"],
+      "difficulty": "normal",
+      "emoji": "❓"
+    },
+    {
+      "type": "math-missing",
+      "instruction": "Descubre el número incógnito que falta:",
+      "expression": "25 - ___ = 15",
+      "missingNumber": "10",
+      "correctAnswer": "10",
+      "options": ["10", "15", "5", "8"],
+      "difficulty": "normal",
+      "emoji": "❓"
+    },
+    {
+      "type": "math-missing",
+      "instruction": "Descubre el número que falta para llegar a 100:",
+      "expression": "65 + ___ = 100",
+      "missingNumber": "35",
+      "correctAnswer": "35",
+      "options": ["35", "45", "25", "30"],
+      "difficulty": "hard",
+      "emoji": "💎"
+    },
+    {
+      "type": "math-missing",
+      "instruction": "Descubre el número que falta:",
+      "expression": "___ + 42 = 80",
+      "missingNumber": "38",
+      "correctAnswer": "38",
+      "options": ["38", "48", "28", "36"],
+      "difficulty": "hard",
+      "emoji": "💎"
+    },
+    {
+      "type": "math-missing",
+      "instruction": "Descubre el número que falta:",
+      "expression": "90 - ___ = 35",
+      "missingNumber": "55",
+      "correctAnswer": "55",
+      "options": ["55", "65", "45", "50"],
+      "difficulty": "hard",
+      "emoji": "💎"
+    },
+    {
+      "type": "math-balance",
+      "instruction": "Equilibra la Balanza Cósmica (ambos lados deben valer lo mismo):",
+      "leftSide": "10 + 10",
+      "rightSide": "15 + ___",
+      "missingNumber": "5",
+      "correctAnswer": "5",
+      "options": ["5", "10", "8", "6"],
+      "difficulty": "normal",
+      "emoji": "⚖️"
+    },
+    {
+      "type": "math-balance",
+      "instruction": "Equilibra la Balanza Cósmica:",
+      "leftSide": "25 + 5",
+      "rightSide": "20 + ___",
+      "missingNumber": "10",
+      "correctAnswer": "10",
+      "options": ["10", "15", "5", "8"],
+      "difficulty": "normal",
+      "emoji": "⚖️"
+    },
+    {
+      "type": "math-balance",
+      "instruction": "Equilibra la Balanza Cósmica:",
+      "leftSide": "40 + 20",
+      "rightSide": "___ + 30",
+      "missingNumber": "30",
+      "correctAnswer": "30",
+      "options": ["30", "20", "40", "10"],
+      "difficulty": "hard",
+      "emoji": "⚖️"
+    },
+    {
+      "type": "math-balance",
+      "instruction": "Equilibra la Balanza Cósmica:",
+      "leftSide": "50 + 50",
+      "rightSide": "70 + ___",
+      "missingNumber": "30",
+      "correctAnswer": "30",
+      "options": ["30", "20", "40", "25"],
+      "difficulty": "hard",
+      "emoji": "⚖️"
+    }
+  ]
+}

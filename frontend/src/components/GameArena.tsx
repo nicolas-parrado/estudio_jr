@@ -21,6 +21,12 @@ import { CienciasClassifyGame } from "./games/CienciasClassifyGame";
 import { CienciasFillVowelsGame } from "./games/CienciasFillVowelsGame";
 import { CienciasWritingGame } from "./games/CienciasWritingGame";
 
+// Importar minijuegos de matemáticas
+import { MathCalcGame } from "./games/math/MathCalcGame";
+import { MathWordProblemGame } from "./games/math/MathWordProblemGame";
+import { MathPlaceValueGame } from "./games/math/MathPlaceValueGame";
+import { MathSequenceGame } from "./games/math/MathSequenceGame";
+
 interface GameArenaProps {
   questions: GameQuestion[];
   planet: Planet;
@@ -62,7 +68,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
     correct: [
       "¡Excelente trabajo, comandante!",
       "¡Rumbo perfecto! Estás brillando.",
-      "¡Guau! Tu pronunciación y vocabulario son estelares.",
+      "¡Guau! Tu cálculo y lógica son estelares.",
       "¡Directo al centro del planeta!",
       "¡Órbita asegurada!"
     ],
@@ -71,7 +77,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       "El espacio es difícil, ¡sigue intentándolo!",
       "Un pequeño desvío, ¡tú puedes corregirlo!",
       "Houston, ¡reiniciemos motores para el siguiente intento!",
-      "¡Recuerda esta palabra para la próxima!"
+      "¡Revisa los números con calma!"
     ]
   };
 
@@ -152,6 +158,14 @@ export const GameArena: React.FC<GameArenaProps> = ({
           feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} ${q.emoji}`;
         } else if (q.type === "science-writing") {
           feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} ${q.emoji}`;
+        } else if (q.type === "math-calc" || q.type === "math-missing" || q.type === "math-balance") {
+          feedbackText = `¡UPS! 🛸 El resultado correcto es: ${q.correctAnswer} 🧮`;
+        } else if (q.type === "math-word-problem") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.correctAnswer} ${q.emoji || "🚀"}`;
+        } else if (q.type === "math-place-value") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.correctAnswer} 🧱`;
+        } else if (q.type === "math-sequence" || q.type === "math-compare") {
+          feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.correctAnswer} 🔢`;
         } else if (q.type === "trivia") {
           feedbackText = `¡UPS! 🛸 La respuesta correcta es: ${q.word.toUpperCase()} (${q.translation}) ${q.emoji}`;
         } else if (q.type === "audio") {
@@ -201,6 +215,41 @@ export const GameArena: React.FC<GameArenaProps> = ({
     if (!q) return null;
 
     switch (q.type) {
+      case "math-calc":
+      case "math-missing":
+      case "math-balance":
+        return (
+          <MathCalcGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={handleCheckAnswer} 
+          />
+        );
+      case "math-word-problem":
+        return (
+          <MathWordProblemGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={handleCheckAnswer} 
+          />
+        );
+      case "math-place-value":
+        return (
+          <MathPlaceValueGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={handleCheckAnswer} 
+          />
+        );
+      case "math-sequence":
+      case "math-compare":
+        return (
+          <MathSequenceGame 
+            question={q as any} 
+            difficulty={difficulty} 
+            onAnswer={handleCheckAnswer} 
+          />
+        );
       case "science-trivia":
         return (
           <CienciasTriviaGame 
@@ -322,6 +371,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
         return <div>Tipo de juego desconocido</div>;
     }
   };
+
 
   const progressPercentage = questions.length > 0 ? (currentQuestionIndex / questions.length) * 100 : 0;
 

@@ -1,0 +1,110 @@
+{
+  "subjectId": "matematicas",
+  "subjectName": "Matemáticas",
+  "emoji": "🧮",
+  "themeColor": "#00b894",
+  "planets": [
+    {
+      "id": "planet-1",
+      "name": "Planeta de las Operaciones",
+      "subtitle": "Sumas, Restas y Cálculo Mental (2º Básico)",
+      "emoji": "➕",
+      "color": "#00b894",
+      "questionsCountNormal": 10,
+      "questionsCountHard": 15,
+      "stickerNormal": "st-math-calc",
+      "stickerHard": "st-math-calc-hard"
+    },
+    {
+      "id": "planet-2",
+      "name": "Planeta de los Problemas",
+      "subtitle": "Historias y Desafíos Espaciales (2º Básico)",
+      "emoji": "🚀",
+      "color": "#0984e3",
+      "questionsCountNormal": 8,
+      "questionsCountHard": 12,
+      "stickerNormal": "st-math-story",
+      "stickerHard": "st-math-story-hard"
+    },
+    {
+      "id": "planet-3",
+      "name": "Planeta del Valor Posicional",
+      "subtitle": "Decenas, Unidades y Bloques (2º Básico)",
+      "emoji": "🧱",
+      "color": "#fdcb6e",
+      "questionsCountNormal": 10,
+      "questionsCountHard": 15,
+      "stickerNormal": "st-math-blocks",
+      "stickerHard": "st-math-blocks-hard"
+    },
+    {
+      "id": "planet-4",
+      "name": "Planeta de Patrones y Secuencias",
+      "subtitle": "Conteo, Recta Numérica y Comparación (2º Básico)",
+      "emoji": "🔢",
+      "color": "#e84393",
+      "questionsCountNormal": 10,
+      "questionsCountHard": 15,
+      "stickerNormal": "st-math-patterns",
+      "stickerHard": "st-math-patterns-hard"
+    }
+  ],
+  "stickers": [
+    {
+      "id": "st-math-calc",
+      "name": "Calculador Cósmico",
+      "emoji": "🧮⭐",
+      "desc": "¡3 estrellas en el Planeta de las Operaciones (Normal)!",
+      "difficulty": "medium"
+    },
+    {
+      "id": "st-math-calc-hard",
+      "name": "Titán del Cálculo Mental",
+      "emoji": "⚡🧮",
+      "desc": "¡3 estrellas en el Planeta de las Operaciones (Hard)!",
+      "difficulty": "hard"
+    },
+    {
+      "id": "st-math-story",
+      "name": "Detective de Problemas",
+      "emoji": "🔍🚀",
+      "desc": "¡3 estrellas en el Planeta de los Problemas (Normal)!",
+      "difficulty": "medium"
+    },
+    {
+      "id": "st-math-story-hard",
+      "name": "Maestro de la Lógica Cósmica",
+      "emoji": "🧠🏆",
+      "desc": "¡3 estrellas en el Planeta de los Problemas (Hard)!",
+      "difficulty": "hard"
+    },
+    {
+      "id": "st-math-blocks",
+      "name": "Constructor de Decenas",
+      "emoji": "🧱✨",
+      "desc": "¡3 estrellas en el Planeta del Valor Posicional (Normal)!",
+      "difficulty": "medium"
+    },
+    {
+      "id": "st-math-blocks-hard",
+      "name": "Arquitecto del Sistema Decimal",
+      "emoji": "🏛️⭐",
+      "desc": "¡3 estrellas en el Planeta del Valor Posicional (Hard)!",
+      "difficulty": "hard"
+    },
+    {
+      "id": "st-math-patterns",
+      "name": "Navegante de Secuencias",
+      "emoji": "🎯🌠",
+      "desc": "¡3 estrellas en el Planeta de Patrones (Normal)!",
+      "difficulty": "medium"
+    },
+    {
+      "id": "st-math-patterns-hard",
+      "name": "Señor de los Patrones Infinitos",
+      "emoji": "🌌🔢",
+      "desc": "¡3 estrellas en el Planeta de Patrones (Hard)!",
+      "difficulty": "hard"
+    }
+  ]
+}

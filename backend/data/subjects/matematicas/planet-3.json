@@ -1,0 +1,168 @@
+{
+  "id": "planet-3",
+  "name": "Planeta del Valor Posicional",
+  "subtitle": "Decenas, Unidades y Bloques (2º Básico)",
+  "emoji": "🧱",
+  "color": "#fdcb6e",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-math-blocks",
+  "stickerHard": "st-math-blocks-hard",
+  "specialQuestions": [
+    {
+      "type": "math-place-value",
+      "instruction": "¿Cuántas Decenas (D) y Unidades (U) forman este número?",
+      "number": 24,
+      "tens": 2,
+      "units": 4,
+      "question": "¿Cómo se descompone el número 24?",
+      "correctAnswer": "2 D y 4 U",
+      "options": ["2 D y 4 U", "4 D y 2 U", "2 D y 0 U", "1 D y 4 U"],
+      "difficulty": "normal",
+      "emoji": "🧱"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Cuántas Decenas (D) y Unidades (U) forman este número?",
+      "number": 37,
+      "tens": 3,
+      "units": 7,
+      "question": "¿Cómo se descompone el número 37?",
+      "correctAnswer": "3 D y 7 U",
+      "options": ["3 D y 7 U", "7 D y 3 U", "3 D y 5 U", "4 D y 7 U"],
+      "difficulty": "normal",
+      "emoji": "🧱"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Qué número se forma con estos bloques multibase?",
+      "tens": 4,
+      "units": 5,
+      "question": "4 Decenas (barras de 10) y 5 Unidades (cubos de 1):",
+      "correctAnswer": "45",
+      "options": ["45", "54", "40", "50"],
+      "difficulty": "normal",
+      "emoji": "📦"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Qué número se forma con estos bloques multibase?",
+      "tens": 5,
+      "units": 0,
+      "question": "5 Decenas (barras de 10) y 0 Unidades:",
+      "correctAnswer": "50",
+      "options": ["50", "5", "55", "15"],
+      "difficulty": "normal",
+      "emoji": "📦"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "Descomposición aditiva:",
+      "number": 28,
+      "question": "¿Cuál es la descomposición aditiva de 28?",
+      "correctAnswer": "20 + 8",
+      "options": ["20 + 8", "10 + 8", "20 + 80", "2 + 8"],
+      "difficulty": "normal",
+      "emoji": "✨"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "Composición aditiva:",
+      "question": "¿Qué número resulta de sumar 30 + 6?",
+      "correctAnswer": "36",
+      "options": ["36", "63", "306", "39"],
+      "difficulty": "normal",
+      "emoji": "✨"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Cuál es el valor posicional del dígito destacado?",
+      "question": "En el número 58, ¿cuánto vale el dígito 5 (en la posición de las Decenas)?",
+      "correctAnswer": "50",
+      "options": ["50", "5", "500", "8"],
+      "difficulty": "normal",
+      "emoji": "🎯"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Cuál es el valor posicional del dígito destacado?",
+      "question": "En el número 73, ¿cuánto vale el dígito 3 (en la posición de las Unidades)?",
+      "correctAnswer": "3",
+      "options": ["3", "30", "70", "7"],
+      "difficulty": "normal",
+      "emoji": "🎯"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "Descomposición en Decenas y Unidades:",
+      "number": 68,
+      "tens": 6,
+      "units": 8,
+      "question": "¿Cómo se descompone el número 68?",
+      "correctAnswer": "6 D y 8 U",
+      "options": ["6 D y 8 U", "8 D y 6 U", "60 D y 8 U", "6 D y 80 U"],
+      "difficulty": "hard",
+      "emoji": "🧱"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "Descomposición en Decenas y Unidades:",
+      "number": 93,
+      "tens": 9,
+      "units": 3,
+      "question": "¿Cómo se descompone el número 93?",
+      "correctAnswer": "9 D y 3 U",
+      "options": ["9 D y 3 U", "3 D y 9 U", "9 D y 0 U", "8 D y 13 U"],
+      "difficulty": "hard",
+      "emoji": "🧱"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Qué número forman estos bloques multibase?",
+      "tens": 8,
+      "units": 6,
+      "question": "8 Decenas (barras de 10) y 6 Unidades:",
+      "correctAnswer": "86",
+      "options": ["86", "68", "80", "96"],
+      "difficulty": "hard",
+      "emoji": "📦"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "Descomposición aditiva:",
+      "number": 84,
+      "question": "¿Cuál es la descomposición aditiva de 84?",
+      "correctAnswer": "80 + 4",
+      "options": ["80 + 4", "8 + 4", "80 + 40", "70 + 14"],
+      "difficulty": "hard",
+      "emoji": "✨"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "Composición aditiva desafiante:",
+      "question": "¿Qué número se forma con 70 + 15?",
+      "correctAnswer": "85",
+      "options": ["85", "75", "95", "715"],
+      "difficulty": "hard",
+      "emoji": "⚡"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Cuántas unidades equivalen a 1 centena completa?",
+      "question": "1 Centena (1 C) o 10 Decenas equivale exactamente a:",
+      "correctAnswer": "100 Unidades",
+      "options": ["100 Unidades", "10 Unidades", "1000 Unidades", "50 Unidades"],
+      "difficulty": "hard",
+      "emoji": "🏛️"
+    },
+    {
+      "type": "math-place-value",
+      "instruction": "¿Cuál es el valor del dígito 9 en 94?",
+      "question": "En el número 94, el 9 está en las decenas. Su valor es:",
+      "correctAnswer": "90",
+      "options": ["90", "9", "900", "4"],
+      "difficulty": "hard",
+      "emoji": "🎯"
+    }
+  ]
+}
