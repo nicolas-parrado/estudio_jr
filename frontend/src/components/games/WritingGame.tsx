@@ -19,7 +19,7 @@ export const WritingGame: React.FC<WritingGameProps> = ({
 
   const normalizeText = (text: string): string => {
     if (!text) return "";
-    return text.toUpperCase().trim().replace(/\s+/g, " ");
+    return text.toUpperCase().trim().replace(/\s+/g, "");
   };
 
   useEffect(() => {
@@ -110,6 +110,23 @@ export const WritingGame: React.FC<WritingGameProps> = ({
             {letter}
           </button>
         ))}
+        {q.word.includes(" ") && (
+          <button
+            className="btn btn-secondary"
+            onClick={() => {
+              playSound("click");
+              setUserWritingInput(prev => prev + " ");
+            }}
+            style={{
+              fontSize: "1.1rem",
+              padding: "8px 15px",
+              borderRadius: "10px",
+              fontWeight: "bold"
+            }}
+          >
+            ␣ Espacio
+          </button>
+        )}
       </div>
 
       <div style={{ display: "flex", gap: "15px", justifyContent: "center", marginTop: "15px" }}>

@@ -70,20 +70,24 @@ func main() {
 	}
 }
 
-// loadSubjects carga archivos JSON de materias desde data/subjects/
+// loadSubjects carga archivos JSON de materias desde data/subjects/ y sus planetas modulares
 func loadSubjects() {
-	paths := []string{"./data/subjects/*.json", "backend/data/subjects/*.json", "../backend/data/subjects/*.json"}
-	var files []string
-	var err error
-
+	paths := []string{"./data/subjects", "backend/data/subjects", "../backend/data/subjects"}
+	var baseDir string
 	for _, p := range paths {
-		files, err = filepath.Glob(p)
-		if err == nil && len(files) > 0 {
+		if info, err := os.Stat(p); err == nil && info.IsDir() {
+			baseDir = p
 			break
 		}
 	}
 
-	if len(files) == 0 {
+	if baseDir == "" {
+		log.Println("ADVERTENCIA: No se encontró el directorio de materias.")
+		return
+	}
+
+	files, err := filepath.Glob(filepath.Join(baseDir, "*.json"))
+	if err != nil || len(files) == 0 {
 		log.Println("ADVERTENCIA: No se encontraron archivos JSON de materias.")
 		return
 	}
@@ -101,7 +105,54 @@ func loadSubjects() {
 			continue
 		}
 
+		// Revisar si existe carpeta con planetas modulares para esta materia (<baseDir>/<subjectID>/)
+		subjectFolder := filepath.Join(baseDir, sub.SubjectID)
+		for i, p := range sub.Planets {
+			planetFile := filepath.Join(subjectFolder, p.ID+".json")
+			if _, err := os.Stat(planetFile); err == nil {
+				planetData, err := ioutil.ReadFile(planetFile)
+				if err == nil {
+					var fullPlanet Planet
+					if err := json.Unmarshal(planetData, &fullPlanet); err == nil {
+						if len(fullPlanet.Vocabulary) > 0 {
+							sub.Planets[i].Vocabulary = fullPlanet.Vocabulary
+						}
+						if len(fullPlanet.SpecialQuestions) > 0 {
+							sub.Planets[i].SpecialQuestions = fullPlanet.SpecialQuestions
+						}
+						if fullPlanet.Name != "" {
+							sub.Planets[i].Name = fullPlanet.Name
+						}
+						if fullPlanet.Subtitle != "" {
+							sub.Planets[i].Subtitle = fullPlanet.Subtitle
+						}
+						if fullPlanet.Emoji != "" {
+							sub.Planets[i].Emoji = fullPlanet.Emoji
+						}
+						if fullPlanet.Color != "" {
+							sub.Planets[i].Color = fullPlanet.Color
+						}
+						if fullPlanet.QuestionsCountNormal > 0 {
+							sub.Planets[i].QuestionsCountNormal = fullPlanet.QuestionsCountNormal
+						}
+						if fullPlanet.QuestionsCountHard > 0 {
+							sub.Planets[i].QuestionsCountHard = fullPlanet.QuestionsCountHard
+						}
+						if fullPlanet.StickerNormal != "" {
+							sub.Planets[i].StickerNormal = fullPlanet.StickerNormal
+						}
+						if fullPlanet.StickerHard != "" {
+							sub.Planets[i].StickerHard = fullPlanet.StickerHard
+						}
+					} else {
+						log.Printf("Error al parsear JSON del planeta %s: %v", planetFile, err)
+					}
+				}
+			}
+		}
+
 		subjectsMap[sub.SubjectID] = sub
 		log.Printf("Materia cargada con éxito: %s (%s) con %d planetas", sub.SubjectName, sub.SubjectID, len(sub.Planets))
 	}
 }
+

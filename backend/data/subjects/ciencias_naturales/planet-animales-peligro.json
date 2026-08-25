@@ -1,0 +1,210 @@
+{
+  "id": "planet-animales-peligro",
+  "name": "Planeta Animales en Peligro",
+  "subtitle": "Unidad 2: 2º Básico",
+  "emoji": "🐼",
+  "color": "#2ecc71",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-panda",
+  "stickerHard": "st-panda-hard",
+  "vocabulary": [
+    {"word": "Huemul", "translation": "Ciervo nativo chileno que vive en el sur y está en peligro de extinción.", "emoji": "🦌", "category": "peligro"},
+    {"word": "Ballena azul", "translation": "El mamífero marino más grande de la Tierra, en peligro de extinción.", "emoji": "🐋", "category": "peligro"},
+    {"word": "Zorro de Darwin", "translation": "Zorro nativo de Chile en peligro crítico de extinción.", "emoji": "🦊", "category": "peligro"},
+    {"word": "Cóndor", "translation": "Ave nativa de la Cordillera de los Andes.", "emoji": "🦅", "category": "nativo"},
+    {"word": "Quirquincho", "translation": "Animal nativo pequeño con caparazón.", "emoji": "🦔", "category": "nativo"},
+    {"word": "Puma", "translation": "El felino más grande que habita en Chile.", "emoji": "🦁", "category": "nativo"},
+    {"word": "Tortuga Verde", "translation": "Reptil marino que viaja largas distancias.", "emoji": "🐢", "category": "nativo"},
+    {"word": "Hábitat", "translation": "El hogar de los animales, donde encuentran agua, luz y comida.", "emoji": "🏡", "category": "definicion"},
+    {"word": "Nacer", "translation": "Etapa inicial donde comienza la vida.", "emoji": "🐣", "category": "ciclo"},
+    {"word": "Crecer", "translation": "Etapa de desarrollo y aumento de tamaño.", "emoji": "📈", "category": "ciclo"},
+    {"word": "Reproducirse", "translation": "Etapa donde los seres vivos tienen crías.", "emoji": "👪", "category": "ciclo"},
+    {"word": "Morir", "translation": "Fin del ciclo de vida de un ser vivo.", "emoji": "🍂", "category": "ciclo"}
+  ],
+  "specialQuestions": [
+    {
+      "type": "science-sequence",
+      "animal": "Mariposa",
+      "emoji": "🦋",
+      "sequence": ["Huevo", "Oruga", "Pupa", "Mariposa adulta"],
+      "instruction": "Ordena el ciclo de vida de la mariposa:"
+    },
+    {
+      "type": "science-sequence",
+      "animal": "Rana",
+      "emoji": "🐸",
+      "sequence": ["Huevo", "Larva", "Renacuajo", "Rana adulta"],
+      "instruction": "Ordena el ciclo de vida de la rana (anfibio):"
+    },
+    {
+      "type": "science-sequence",
+      "animal": "Pez",
+      "emoji": "🐟",
+      "sequence": ["Huevo", "Embrión", "Alevín", "Pez adulto"],
+      "instruction": "Ordena el ciclo de vida de un pez:"
+    },
+    {
+      "type": "science-sequence",
+      "animal": "Zorzal",
+      "emoji": "🐦",
+      "sequence": ["Huevo en nido", "Polluelo", "Etapa juvenil", "Zorzal adulto"],
+      "instruction": "Ordena el ciclo de vida del zorzal (ave):"
+    },
+    {
+      "type": "science-sequence",
+      "animal": "Saltamontes",
+      "emoji": "🦗",
+      "sequence": ["Huevo", "Ninfa", "Saltamontes adulto"],
+      "instruction": "Ordena el ciclo de vida del saltamontes (insecto):"
+    },
+    {
+      "type": "science-sequence",
+      "animal": "Tortuga marina",
+      "emoji": "🐢",
+      "sequence": ["Huevo en la arena", "Cría va al mar", "Crecimiento en el mar", "Tortuga adulta"],
+      "instruction": "Ordena el ciclo de vida de la tortuga marina:"
+    },
+    {
+      "type": "science-sequence",
+      "animal": "Perro",
+      "emoji": "🐶",
+      "sequence": ["Desarrollo en vientre", "Cachorro", "Etapa juvenil", "Perro adulto"],
+      "instruction": "Ordena el ciclo de vida del perro (mamífero):"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Loro tricahue",
+      "emoji": "🦜",
+      "correctCategory": "Ave en peligro",
+      "options": ["Ave en peligro", "Mamífero en peligro", "Reptil en peligro", "Pez en peligro"],
+      "instruction": "¿A qué grupo de animales en peligro pertenece el Loro tricahue?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Tortuga cabezona",
+      "emoji": "🐢",
+      "correctCategory": "Reptil en peligro",
+      "options": ["Ave en peligro", "Mamífero en peligro", "Reptil en peligro", "Anfibio en peligro"],
+      "instruction": "¿A qué grupo de animales en peligro pertenece la Tortuga cabezona?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Sapo hermoso",
+      "emoji": "🐸",
+      "correctCategory": "Anfibio en peligro",
+      "options": ["Ave en peligro", "Mamífero en peligro", "Reptil en peligro", "Anfibio en peligro"],
+      "instruction": "¿A qué grupo pertenece el Sapo hermoso?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Huemul",
+      "emoji": "🦌",
+      "correctCategory": "Mamífero en peligro",
+      "options": ["Ave en peligro", "Mamífero en peligro", "Reptil en peligro", "Pez en peligro"],
+      "instruction": "¿A qué grupo pertenece el Huemul?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Piacota",
+      "emoji": "🐟",
+      "correctCategory": "Pez en peligro",
+      "options": ["Ave en peligro", "Mamífero en peligro", "Pez en peligro", "Anfibio en peligro"],
+      "instruction": "¿A qué grupo de animales pertenece la Piacota?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Incendio forestal",
+      "emoji": "🔥",
+      "correctCategory": "Amenaza para animales",
+      "options": ["Amenaza para animales", "Medida de protección", "Característica del hábitat"],
+      "instruction": "¿Qué representa un incendio forestal?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Reserva nacional",
+      "emoji": "🏞️",
+      "correctCategory": "Medida de protección",
+      "options": ["Amenaza para animales", "Medida de protección", "Daño al hábitat"],
+      "instruction": "¿Qué representa una Reserva nacional?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Caza ilegal",
+      "emoji": "🏹",
+      "correctCategory": "Amenaza para animales",
+      "options": ["Amenaza para animales", "Medida de protección", "Ciclo de vida"],
+      "instruction": "¿Qué representa la caza ilegal?"
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Qué representa el Cóndor para el pueblo originario Aymara?",
+      "emoji": "🦅",
+      "correctAnswer": "La fuerza y la inteligencia",
+      "options": ["La fuerza y la inteligencia", "La humildad", "La protección y guía", "La paciencia y perseverancia"]
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Qué representa el Quirquincho para el pueblo originario Quechua?",
+      "emoji": "🦔",
+      "correctAnswer": "La humildad",
+      "options": ["La fuerza y la inteligencia", "La humildad", "La protección y guía", "La paciencia y perseverancia"]
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Qué representa el Puma para el pueblo originario Mapuche?",
+      "emoji": "🦁",
+      "correctAnswer": "La protección y guía",
+      "options": ["La fuerza y la inteligencia", "La humildad", "La protección y guía", "La paciencia y perseverancia"]
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Qué representa la Tortuga Verde para el pueblo originario Rapa Nui?",
+      "emoji": "🐢",
+      "correctAnswer": "La paciencia y la perseverancia",
+      "options": ["La fuerza y la inteligencia", "La humildad", "La protección y guía", "La paciencia y la perseverancia"]
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Qué elementos le proporciona el Hábitat a los animales para vivir?",
+      "emoji": "🏡",
+      "correctAnswer": "Luz, Aire, Alimento y Agua",
+      "options": ["Luz, Aire, Alimento y Agua", "Juguetes y ropa", "Solo fuego y calor", "Electricidad y internet"]
+    },
+    {
+      "type": "science-tf",
+      "question": "El peligro de extinción significa que hay muy pocos animales de esa especie y podrían desaparecer.",
+      "emoji": "🐼",
+      "correctAnswer": "verdadero",
+      "explanation": "El peligro de extinción significa que quedan pocos individuos y están en riesgo."
+    },
+    {
+      "type": "science-tf",
+      "question": "La contaminación y la venta de animales silvestres como mascotas ayuda a proteger la fauna.",
+      "emoji": "🗑️",
+      "correctAnswer": "falso",
+      "explanation": "La contaminación y la venta como mascotas son graves amenazas."
+    },
+    {
+      "type": "science-tf",
+      "question": "El hábitat es el hogar natural de los animales, donde encuentran refugio.",
+      "emoji": "🌳",
+      "correctAnswer": "verdadero",
+      "explanation": "El hábitat es el lugar idóneo donde viven los animales."
+    },
+    {
+      "type": "science-tf",
+      "question": "Las crías de perro nacen de huevos puestos en un nido.",
+      "emoji": "🐶",
+      "correctAnswer": "falso",
+      "explanation": "Los perros son mamíferos y se desarrollan en el vientre materno."
+    },
+    {
+      "type": "science-tf",
+      "question": "Las mariposas nacen de un huevo, se convierten en orugas, luego en pupa y finalmente en mariposa.",
+      "emoji": "🦋",
+      "correctAnswer": "verdadero",
+      "explanation": "Ese es el ciclo completo de la metamorfosis de la mariposa."
+    }
+  ]
+}

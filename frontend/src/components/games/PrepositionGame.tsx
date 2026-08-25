@@ -16,11 +16,13 @@ export const PrepositionGame: React.FC<PrepositionGameProps> = ({
 
   useEffect(() => {
     // Pronunciar la frase espacial en inglés al cargar
-    speakEnglish(q.phrase.replace("___", q.preposition));
-  }, [q.phrase, q.preposition]);
+    const correct = q.preposition || q.correctAnswer || "";
+    speakEnglish(q.phrase.replace("___", correct));
+  }, [q.phrase, q.preposition, q.correctAnswer]);
 
   const handleOptionClick = (opt: string) => {
-    const isCorrect = opt === q.preposition;
+    const correct = q.preposition || q.correctAnswer || "";
+    const isCorrect = opt === correct;
     if (isCorrect) {
       playSound("click");
     } else {
@@ -31,7 +33,7 @@ export const PrepositionGame: React.FC<PrepositionGameProps> = ({
 
   return (
     <>
-      <div className="question-subtitle">Completa la frase espacial con la preposición correcta</div>
+      <div className="question-subtitle">{q.instruction || "Completa la oración en inglés con la opción correcta"}</div>
       <div className="prep-visual-box">{q.visual}</div>
       <div className="prep-phrase-display">
         {q.phrase.replace("___", "?")}

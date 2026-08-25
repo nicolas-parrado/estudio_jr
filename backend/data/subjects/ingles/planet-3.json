@@ -1,0 +1,109 @@
+{
+  "id": "planet-3",
+  "name": "Planeta de la Escuela",
+  "subtitle": "School Supplies (1º Básico)",
+  "emoji": "🎒",
+  "color": "#0984e3",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-star",
+  "stickerHard": "st-star-hard",
+  "vocabulary": [
+    {
+      "word": "pencil",
+      "translation": "lápiz",
+      "emoji": "✏️",
+      "category": "school"
+    },
+    {
+      "word": "pen",
+      "translation": "lápiz pasta",
+      "emoji": "🖊️",
+      "category": "school"
+    },
+    {
+      "word": "eraser",
+      "translation": "goma de borrar",
+      "emoji": "🧼",
+      "category": "school"
+    },
+    {
+      "word": "ruler",
+      "translation": "regla",
+      "emoji": "📏",
+      "category": "school"
+    },
+    {
+      "word": "book",
+      "translation": "libro",
+      "emoji": "📖",
+      "category": "school"
+    },
+    {
+      "word": "notebook",
+      "translation": "cuaderno",
+      "emoji": "📓",
+      "category": "school"
+    },
+    {
+      "word": "backpack",
+      "translation": "mochila",
+      "emoji": "🎒",
+      "category": "school"
+    },
+    {
+      "word": "pencil case",
+      "translation": "estuche",
+      "emoji": "👝",
+      "category": "school"
+    },
+    {
+      "word": "sharpener",
+      "translation": "sacapuntas",
+      "emoji": "✏️",
+      "category": "school"
+    },
+    {
+      "word": "scissors",
+      "translation": "tijeras",
+      "emoji": "✂️",
+      "category": "school"
+    },
+    {
+      "word": "glue",
+      "translation": "pegamento",
+      "emoji": "🧪",
+      "category": "school"
+    },
+    {
+      "word": "desk",
+      "translation": "escritorio",
+      "emoji": "🟫",
+      "category": "school"
+    },
+    {
+      "word": "chair",
+      "translation": "silla",
+      "emoji": "🪑",
+      "category": "school"
+    },
+    {
+      "word": "board",
+      "translation": "pizarra",
+      "emoji": "📋",
+      "category": "school"
+    },
+    {
+      "word": "paper",
+      "translation": "papel",
+      "emoji": "📄",
+      "category": "school"
+    },
+    {
+      "word": "crayon",
+      "translation": "lápiz de cera",
+      "emoji": "🖍️",
+      "category": "school"
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "id": "planet-6",
+  "name": "Planeta Celebración y Familia",
+  "subtitle": "Birthday, Family & Prepositions (2º Básico - U3)",
+  "emoji": "🎂",
+  "color": "#ff7675",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-crown",
+  "stickerHard": "st-crown-hard",
+  "vocabulary": [
+    {
+      "word": "balloon",
+      "translation": "globo",
+      "emoji": "🎈",
+      "category": "birthday"
+    },
+    {
+      "word": "cake",
+      "translation": "torta",
+      "emoji": "🎂",
+      "category": "birthday"
+    },
+    {
+      "word": "candle",
+      "translation": "vela",
+      "emoji": "🕯️",
+      "category": "birthday"
+    },
+    {
+      "word": "gift",
+      "translation": "regalo",
+      "emoji": "🎁",
+      "category": "birthday"
+    },
+    {
+      "word": "chest",
+      "translation": "baúl",
+      "emoji": "📦",
+      "category": "birthday"
+    },
+    {
+      "word": "popcorn",
+      "translation": "cabritas",
+      "emoji": "🍿",
+      "category": "birthday"
+    },
+    {
+      "word": "sandwich",
+      "translation": "sándwich",
+      "emoji": "🥪",
+      "category": "birthday"
+    },
+    {
+      "word": "table",
+      "translation": "mesa",
+      "emoji": "🟫",
+      "category": "birthday"
+    },
+    {
+      "word": "birthday",
+      "translation": "cumpleaños",
+      "emoji": "🎉",
+      "category": "birthday"
+    },
+    {
+      "word": "invitation",
+      "translation": "invitación",
+      "emoji": "✉️",
+      "category": "birthday"
+    },
+    {
+      "word": "juice",
+      "translation": "jugo",
+      "emoji": "🧃",
+      "category": "birthday"
+    },
+    {
+      "word": "night",
+      "translation": "noche",
+      "emoji": "🌃",
+      "category": "birthday"
+    },
+    {
+      "word": "grandma",
+      "translation": "abuela",
+      "emoji": "👵",
+      "category": "family"
+    },
+    {
+      "word": "grandpa",
+      "translation": "abuelo",
+      "emoji": "👴",
+      "category": "family"
+    },
+    {
+      "word": "dad",
+      "translation": "papá",
+      "emoji": "👨",
+      "category": "family"
+    },
+    {
+      "word": "mom",
+      "translation": "mamá",
+      "emoji": "👩‍🦱",
+      "category": "family"
+    },
+    {
+      "word": "aunt",
+      "translation": "tía",
+      "emoji": "👩",
+      "category": "family"
+    },
+    {
+      "word": "uncle",
+      "translation": "tío",
+      "emoji": "👨‍🦰",
+      "category": "family"
+    },
+    {
+      "word": "brother",
+      "translation": "hermano",
+      "emoji": "👦",
+      "category": "family"
+    },
+    {
+      "word": "sister",
+      "translation": "hermana",
+      "emoji": "👧",
+      "category": "family"
+    },
+    {
+      "word": "cousin",
+      "translation": "primo / prima",
+      "emoji": "🧑",
+      "category": "family"
+    },
+    {
+      "word": "nephew",
+      "translation": "sobrino",
+      "emoji": "👦",
+      "category": "family"
+    },
+    {
+      "word": "niece",
+      "translation": "sobrina",
+      "emoji": "👧",
+      "category": "family"
+    },
+    {
+      "word": "parents",
+      "translation": "padres",
+      "emoji": "👪",
+      "category": "family"
+    },
+    {
+      "word": "family",
+      "translation": "familia",
+      "emoji": "👨‍👩‍👧‍👦",
+      "category": "family"
+    }
+  ],
+  "specialQuestions": [
+    {
+      "type": "preposition",
+      "phrase": "The alien is ___ the box.",
+      "preposition": "in",
+      "translation": "El alien está dentro de la caja.",
+      "options": [
+        "in",
+        "on",
+        "under"
+      ],
+      "visual": "📦👽 (dentro)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The rocket is ___ the planet.",
+      "preposition": "on",
+      "translation": "El cohete está sobre el planeta.",
+      "options": [
+        "in",
+        "on",
+        "under"
+      ],
+      "visual": "🚀🪐 (sobre)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The gift is ___ the table.",
+      "preposition": "under",
+      "translation": "El regalo está debajo de la mesa.",
+      "options": [
+        "in",
+        "on",
+        "under"
+      ],
+      "visual": "🟫🎁 (debajo)"
+    }
+  ]
+}

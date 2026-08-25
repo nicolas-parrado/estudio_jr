@@ -1,0 +1,133 @@
+{
+  "id": "planet-4",
+  "name": "Planeta Meteorológico",
+  "subtitle": "Weather & Greetings (2º Básico - U1)",
+  "emoji": "⚡",
+  "color": "#00cec9",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-ufo",
+  "stickerHard": "st-ufo-hard",
+  "vocabulary": [
+    {
+      "word": "cloudy",
+      "translation": "nublado",
+      "emoji": "☁️",
+      "category": "weather"
+    },
+    {
+      "word": "fall",
+      "translation": "otoño",
+      "emoji": "🍂",
+      "category": "weather"
+    },
+    {
+      "word": "hot",
+      "translation": "caluroso",
+      "emoji": "🥵",
+      "category": "weather"
+    },
+    {
+      "word": "spring",
+      "translation": "primavera",
+      "emoji": "🌸",
+      "category": "weather"
+    },
+    {
+      "word": "summer",
+      "translation": "verano",
+      "emoji": "☀️",
+      "category": "weather"
+    },
+    {
+      "word": "winter",
+      "translation": "invierno",
+      "emoji": "❄️",
+      "category": "weather"
+    },
+    {
+      "word": "sunny",
+      "translation": "soleado",
+      "emoji": "🌞",
+      "category": "weather"
+    },
+    {
+      "word": "cold",
+      "translation": "frío",
+      "emoji": "🥶",
+      "category": "weather"
+    },
+    {
+      "word": "windy",
+      "translation": "ventoso",
+      "emoji": "💨",
+      "category": "weather"
+    },
+    {
+      "word": "rainy",
+      "translation": "lluvioso",
+      "emoji": "🌧️",
+      "category": "weather"
+    },
+    {
+      "word": "snowy",
+      "translation": "nevado",
+      "emoji": "🌨️",
+      "category": "weather"
+    },
+    {
+      "word": "stormy",
+      "translation": "tormentoso",
+      "emoji": "⛈️",
+      "category": "weather"
+    },
+    {
+      "word": "rainbow",
+      "translation": "arcoíris",
+      "emoji": "🌈",
+      "category": "weather"
+    },
+    {
+      "word": "umbrella",
+      "translation": "paraguas",
+      "emoji": "☔",
+      "category": "weather"
+    },
+    {
+      "word": "good morning",
+      "translation": "buenos días",
+      "emoji": "🌅",
+      "category": "greetings"
+    },
+    {
+      "word": "good afternoon",
+      "translation": "buenas tardes",
+      "emoji": "☀️",
+      "category": "greetings"
+    },
+    {
+      "word": "good evening",
+      "translation": "buenas noches (al llegar)",
+      "emoji": "🌆",
+      "category": "greetings"
+    },
+    {
+      "word": "good night",
+      "translation": "buenas noches (al dormir)",
+      "emoji": "🌌",
+      "category": "greetings"
+    },
+    {
+      "word": "hello",
+      "translation": "hola",
+      "emoji": "👋",
+      "category": "greetings"
+    },
+    {
+      "word": "goodbye",
+      "translation": "adiós",
+      "emoji": "🙋",
+      "category": "greetings"
+    }
+  ]
+}

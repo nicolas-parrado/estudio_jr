@@ -1,0 +1,157 @@
+{
+  "id": "planet-2",
+  "name": "Planeta Salvaje y Juguetes",
+  "subtitle": "Animals & Toys (1º Básico)",
+  "emoji": "🦁",
+  "color": "#fdcb6e",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-alien",
+  "stickerHard": "st-alien-hard",
+  "vocabulary": [
+    {
+      "word": "dog",
+      "translation": "perro",
+      "emoji": "🐶",
+      "category": "animals"
+    },
+    {
+      "word": "cat",
+      "translation": "gato",
+      "emoji": "🐱",
+      "category": "animals"
+    },
+    {
+      "word": "bird",
+      "translation": "pájaro",
+      "emoji": "🐦",
+      "category": "animals"
+    },
+    {
+      "word": "fish",
+      "translation": "pez",
+      "emoji": "🐟",
+      "category": "animals"
+    },
+    {
+      "word": "rabbit",
+      "translation": "conejo",
+      "emoji": "🐰",
+      "category": "animals"
+    },
+    {
+      "word": "mouse",
+      "translation": "ratón",
+      "emoji": "🐭",
+      "category": "animals"
+    },
+    {
+      "word": "lion",
+      "translation": "león",
+      "emoji": "🦁",
+      "category": "animals"
+    },
+    {
+      "word": "elephant",
+      "translation": "elefante",
+      "emoji": "🐘",
+      "category": "animals"
+    },
+    {
+      "word": "monkey",
+      "translation": "mono",
+      "emoji": "🐵",
+      "category": "animals"
+    },
+    {
+      "word": "tiger",
+      "translation": "tigre",
+      "emoji": "🐯",
+      "category": "animals"
+    },
+    {
+      "word": "giraffe",
+      "translation": "jirafa",
+      "emoji": "🦒",
+      "category": "animals"
+    },
+    {
+      "word": "bear",
+      "translation": "oso",
+      "emoji": "🐻",
+      "category": "animals"
+    },
+    {
+      "word": "cow",
+      "translation": "vaca",
+      "emoji": "🐮",
+      "category": "animals"
+    },
+    {
+      "word": "pig",
+      "translation": "cerdo",
+      "emoji": "🐷",
+      "category": "animals"
+    },
+    {
+      "word": "ball",
+      "translation": "pelota",
+      "emoji": "⚽",
+      "category": "toys"
+    },
+    {
+      "word": "doll",
+      "translation": "muñeca",
+      "emoji": "🪆",
+      "category": "toys"
+    },
+    {
+      "word": "car",
+      "translation": "auto",
+      "emoji": "🏎️",
+      "category": "toys"
+    },
+    {
+      "word": "train",
+      "translation": "tren",
+      "emoji": "🚂",
+      "category": "toys"
+    },
+    {
+      "word": "blocks",
+      "translation": "bloques",
+      "emoji": "🧱",
+      "category": "toys"
+    },
+    {
+      "word": "teddy bear",
+      "translation": "oso de peluche",
+      "emoji": "🧸",
+      "category": "toys"
+    },
+    {
+      "word": "kite",
+      "translation": "volantín",
+      "emoji": "🪁",
+      "category": "toys"
+    },
+    {
+      "word": "puzzle",
+      "translation": "rompecabezas",
+      "emoji": "🧩",
+      "category": "toys"
+    },
+    {
+      "word": "bike",
+      "translation": "bicicleta",
+      "emoji": "🚲",
+      "category": "toys"
+    },
+    {
+      "word": "skate",
+      "translation": "patín",
+      "emoji": "🛼",
+      "category": "toys"
+    }
+  ]
+}

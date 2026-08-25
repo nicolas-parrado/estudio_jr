@@ -13,32 +13,7 @@
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
       "stickerNormal": "st-rocket",
-      "stickerHard": "st-rocket-hard",
-      "vocabulary": [
-        {"word": "red", "translation": "rojo", "emoji": "🔴", "category": "colors"},
-        {"word": "blue", "translation": "azul", "emoji": "🔵", "category": "colors"},
-        {"word": "green", "translation": "verde", "emoji": "🟢", "category": "colors"},
-        {"word": "yellow", "translation": "amarillo", "emoji": "🟡", "category": "colors"},
-        {"word": "orange", "translation": "naranja", "emoji": "🟠", "category": "colors"},
-        {"word": "purple", "translation": "morado", "emoji": "🟣", "category": "colors"},
-        {"word": "pink", "translation": "rosado", "emoji": "💗", "category": "colors"},
-        {"word": "brown", "translation": "marrón", "emoji": "🟤", "category": "colors"},
-        {"word": "black", "translation": "negro", "emoji": "⚫", "category": "colors"},
-        {"word": "white", "translation": "blanco", "emoji": "⚪", "category": "colors"},
-        {"word": "kitchen", "translation": "cocina", "emoji": "🍳", "category": "house"},
-        {"word": "bedroom", "translation": "dormitorio", "emoji": "🛏️", "category": "house"},
-        {"word": "bathroom", "translation": "baño", "emoji": "🚿", "category": "house"},
-        {"word": "living room", "translation": "sala de estar", "emoji": "🛋️", "category": "house"},
-        {"word": "garden", "translation": "jardín", "emoji": "🏡", "category": "house"},
-        {"word": "garage", "translation": "garaje", "emoji": "🚗", "category": "house"},
-        {"word": "dining room", "translation": "comedor", "emoji": "🍽️", "category": "house"},
-        {"word": "roof", "translation": "techo", "emoji": "🏠", "category": "house"},
-        {"word": "window", "translation": "ventana", "emoji": "🪟", "category": "house"},
-        {"word": "door", "translation": "puerta", "emoji": "🚪", "category": "house"},
-        {"word": "floor", "translation": "piso", "emoji": "🧱", "category": "house"},
-        {"word": "wall", "translation": "pared", "emoji": "🧱", "category": "house"},
-        {"word": "grey", "translation": "gris", "emoji": "⚫", "category": "colors"}
-      ]
+      "stickerHard": "st-rocket-hard"
     },
     {
       "id": "planet-2",
@@ -49,33 +24,7 @@
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
       "stickerNormal": "st-alien",
-      "stickerHard": "st-alien-hard",
-      "vocabulary": [
-        {"word": "dog", "translation": "perro", "emoji": "🐶", "category": "animals"},
-        {"word": "cat", "translation": "gato", "emoji": "🐱", "category": "animals"},
-        {"word": "bird", "translation": "pájaro", "emoji": "🐦", "category": "animals"},
-        {"word": "fish", "translation": "pez", "emoji": "🐟", "category": "animals"},
-        {"word": "rabbit", "translation": "conejo", "emoji": "🐰", "category": "animals"},
-        {"word": "mouse", "translation": "ratón", "emoji": "🐭", "category": "animals"},
-        {"word": "lion", "translation": "león", "emoji": "🦁", "category": "animals"},
-        {"word": "elephant", "translation": "elefante", "emoji": "🐘", "category": "animals"},
-        {"word": "monkey", "translation": "mono", "emoji": "🐵", "category": "animals"},
-        {"word": "tiger", "translation": "tigre", "emoji": "🐯", "category": "animals"},
-        {"word": "ball", "translation": "pelota", "emoji": "⚽", "category": "toys"},
-        {"word": "doll", "translation": "muñeca", "emoji": "🪆", "category": "toys"},
-        {"word": "car", "translation": "auto", "emoji": "🏎️", "category": "toys"},
-        {"word": "train", "translation": "tren", "emoji": "🚂", "category": "toys"},
-        {"word": "blocks", "translation": "bloques", "emoji": "🧱", "category": "toys"},
-        {"word": "teddy bear", "translation": "oso de peluche", "emoji": "🧸", "category": "toys"},
-        {"word": "kite", "translation": "volantín", "emoji": "🪁", "category": "toys"},
-        {"word": "puzzle", "translation": "rompecabezas", "emoji": "🧩", "category": "toys"},
-        {"word": "giraffe", "translation": "jirafa", "emoji": "🦒", "category": "animals"},
-        {"word": "bear", "translation": "oso", "emoji": "🐻", "category": "animals"},
-        {"word": "cow", "translation": "vaca", "emoji": "🐮", "category": "animals"},
-        {"word": "pig", "translation": "cerdo", "emoji": "🐷", "category": "animals"},
-        {"word": "bike", "translation": "bicicleta", "emoji": "🚲", "category": "toys"},
-        {"word": "skate", "translation": "patín", "emoji": "🛼", "category": "toys"}
-      ]
+      "stickerHard": "st-alien-hard"
     },
     {
       "id": "planet-3",
@@ -86,25 +35,7 @@
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
       "stickerNormal": "st-star",
-      "stickerHard": "st-star-hard",
-      "vocabulary": [
-        {"word": "pencil", "translation": "lápiz", "emoji": "✏️", "category": "school"},
-        {"word": "pen", "translation": "lápiz pasta", "emoji": "🖊️", "category": "school"},
-        {"word": "eraser", "translation": "goma de borrar", "emoji": "🧼", "category": "school"},
-        {"word": "ruler", "translation": "regla", "emoji": "📏", "category": "school"},
-        {"word": "book", "translation": "libro", "emoji": "📖", "category": "school"},
-        {"word": "notebook", "translation": "cuaderno", "emoji": "📓", "category": "school"},
-        {"word": "schoolbag", "translation": "mochila", "emoji": "🎒", "category": "school"},
-        {"word": "pencil case", "translation": "estuche", "emoji": "👝", "category": "school"},
-        {"word": "sharpener", "translation": "sacapuntas", "emoji": "✏️", "category": "school"},
-        {"word": "scissors", "translation": "tijeras", "emoji": "✂️", "category": "school"},
-        {"word": "glue", "translation": "pegamento", "emoji": "🧪", "category": "school"},
-        {"word": "desk", "translation": "escritorio", "emoji": "🟫", "category": "school"},
-        {"word": "chair", "translation": "silla", "emoji": "🪑", "category": "school"},
-        {"word": "board", "translation": "pizarra", "emoji": "📋", "category": "school"},
-        {"word": "paper", "translation": "papel", "emoji": "📄", "category": "school"},
-        {"word": "crayon", "translation": "lápiz de cera", "emoji": "🖍️", "category": "school"}
-      ]
+      "stickerHard": "st-star-hard"
     },
     {
       "id": "planet-4",
@@ -115,29 +46,7 @@
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
       "stickerNormal": "st-ufo",
-      "stickerHard": "st-ufo-hard",
-      "vocabulary": [
-        {"word": "cloudy", "translation": "nublado", "emoji": "☁️", "category": "weather"},
-        {"word": "fall", "translation": "otoño", "emoji": "🍂", "category": "weather"},
-        {"word": "hot", "translation": "caluroso", "emoji": "🥵", "category": "weather"},
-        {"word": "spring", "translation": "primavera", "emoji": "🌸", "category": "weather"},
-        {"word": "summer", "translation": "verano", "emoji": "☀️", "category": "weather"},
-        {"word": "winter", "translation": "invierno", "emoji": "❄️", "category": "weather"},
-        {"word": "sunny", "translation": "soleado", "emoji": "🌞", "category": "weather"},
-        {"word": "cold", "translation": "frío", "emoji": "🥶", "category": "weather"},
-        {"word": "windy", "translation": "ventoso", "emoji": "💨", "category": "weather"},
-        {"word": "rainy", "translation": "lluvioso", "emoji": "🌧️", "category": "weather"},
-        {"word": "good morning", "translation": "buenos días", "emoji": "🌅", "category": "greetings"},
-        {"word": "good afternoon", "translation": "buenas tardes", "emoji": "☀️", "category": "greetings"},
-        {"word": "good evening", "translation": "buenas noches (al llegar)", "emoji": "🌆", "category": "greetings"},
-        {"word": "good night", "translation": "buenas noches (al dormir)", "emoji": "🌌", "category": "greetings"},
-        {"word": "snowy", "translation": "nevado", "emoji": "🌨️", "category": "weather"},
-        {"word": "stormy", "translation": "tormentoso", "emoji": "⛈️", "category": "weather"},
-        {"word": "rainbow", "translation": "arcoíris", "emoji": "🌈", "category": "weather"},
-        {"word": "umbrella", "translation": "paraguas", "emoji": "☔", "category": "weather"},
-        {"word": "hello", "translation": "hola", "emoji": "👋", "category": "greetings"},
-        {"word": "goodbye", "translation": "adiós", "emoji": "🙋", "category": "greetings"}
-      ]
+      "stickerHard": "st-ufo-hard"
     },
     {
       "id": "planet-5",
@@ -148,44 +57,7 @@
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
       "stickerNormal": "st-astronaut",
-      "stickerHard": "st-astronaut-hard",
-      "vocabulary": [
-        {"word": "one", "translation": "uno", "emoji": "1️⃣", "category": "numbers"},
-        {"word": "two", "translation": "dos", "emoji": "2️⃣", "category": "numbers"},
-        {"word": "three", "translation": "tres", "emoji": "3️⃣", "category": "numbers"},
-        {"word": "four", "translation": "cuatro", "emoji": "4️⃣", "category": "numbers"},
-        {"word": "five", "translation": "cinco", "emoji": "5️⃣", "category": "numbers"},
-        {"word": "six", "translation": "seis", "emoji": "6️⃣", "category": "numbers"},
-        {"word": "seven", "translation": "siete", "emoji": "7️⃣", "category": "numbers"},
-        {"word": "eight", "translation": "ocho", "emoji": "8️⃣", "category": "numbers"},
-        {"word": "nine", "translation": "nueve", "emoji": "9️⃣", "category": "numbers"},
-        {"word": "ten", "translation": "diez", "emoji": "🔟", "category": "numbers"},
-        {"word": "eleven", "translation": "once", "emoji": "🔢", "category": "numbers"},
-        {"word": "twelve", "translation": "doce", "emoji": "🔢", "category": "numbers"},
-        {"word": "thirteen", "translation": "trece", "emoji": "🔢", "category": "numbers"},
-        {"word": "fourteen", "translation": "catorce", "emoji": "🔢", "category": "numbers"},
-        {"word": "fifteen", "translation": "quince", "emoji": "🔢", "category": "numbers"},
-        {"word": "sixteen", "translation": "dieciséis", "emoji": "🔢", "category": "numbers"},
-        {"word": "seventeen", "translation": "diecisiete", "emoji": "🔢", "category": "numbers"},
-        {"word": "eighteen", "translation": "dieciocho", "emoji": "🔢", "category": "numbers"},
-        {"word": "nineteen", "translation": "diecinueve", "emoji": "🔢", "category": "numbers"},
-        {"word": "twenty", "translation": "veinte", "emoji": "🔢", "category": "numbers"},
-        {"word": "ant", "translation": "hormiga", "emoji": "🐜", "category": "insects"},
-        {"word": "bee", "translation": "abeja", "emoji": "🐝", "category": "insects"},
-        {"word": "firefly", "translation": "luciérnaga", "emoji": "💡", "category": "insects"},
-        {"word": "ladybug", "translation": "chinita", "emoji": "🐞", "category": "insects"},
-        {"word": "grasshopper", "translation": "saltamontes", "emoji": "🦗", "category": "insects"},
-        {"word": "caterpillar", "translation": "oruga", "emoji": "🐛", "category": "insects"},
-        {"word": "spider", "translation": "araña", "emoji": "🕷️", "category": "insects"},
-        {"word": "butterfly", "translation": "mariposa", "emoji": "🦋", "category": "insects"},
-        {"word": "mosquito", "translation": "mosquito", "emoji": "🦟", "category": "insects"},
-        {"word": "fly", "translation": "mosca", "emoji": "🪰", "category": "insects"},
-        {"word": "worm", "translation": "gusano", "emoji": "🪱", "category": "insects"},
-        {"word": "dragonfly", "translation": "libélula", "emoji": "🦗", "category": "insects"},
-        {"word": "thirty", "translation": "treinta", "emoji": "3️⃣0️⃣", "category": "numbers"},
-        {"word": "forty", "translation": "cuarenta", "emoji": "4️⃣0️⃣", "category": "numbers"},
-        {"word": "fifty", "translation": "cincuenta", "emoji": "5️⃣0️⃣", "category": "numbers"}
-      ]
+      "stickerHard": "st-astronaut-hard"
     },
     {
       "id": "planet-6",
@@ -196,61 +68,29 @@
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
       "stickerNormal": "st-crown",
-      "stickerHard": "st-crown-hard",
-      "vocabulary": [
-        {"word": "balloon", "translation": "globo", "emoji": "🎈", "category": "birthday"},
-        {"word": "cake", "translation": "torta", "emoji": "🎂", "category": "birthday"},
-        {"word": "candle", "translation": "vela", "emoji": "🕯️", "category": "birthday"},
-        {"word": "gift", "translation": "regalo", "emoji": "🎁", "category": "birthday"},
-        {"word": "chest", "translation": "baúl", "emoji": "📦", "category": "birthday"},
-        {"word": "present", "translation": "obsequio", "emoji": "🎁", "category": "birthday"},
-        {"word": "popcorn", "translation": "cabritas", "emoji": "🍿", "category": "birthday"},
-        {"word": "sandwich", "translation": "sándwich", "emoji": "🥪", "category": "birthday"},
-        {"word": "table", "translation": "mesa", "emoji": "🟫", "category": "birthday"},
-        {"word": "grandma", "translation": "abuela", "emoji": "👵", "category": "family"},
-        {"word": "birthday", "translation": "cumpleaños", "emoji": "🎉", "category": "birthday"},
-        {"word": "dad", "translation": "papá", "emoji": "👨", "category": "family"},
-        {"word": "aunt", "translation": "tía", "emoji": "👩", "category": "family"},
-        {"word": "brother", "translation": "hermano", "emoji": "👦", "category": "family"},
-        {"word": "sister", "translation": "hermana", "emoji": "👧", "category": "family"},
-        {"word": "uncle", "translation": "tío", "emoji": "👨‍🦰", "category": "family"},
-        {"word": "night", "translation": "noche", "emoji": "🌃", "category": "birthday"},
-        {"word": "mom", "translation": "mamá", "emoji": "👩‍🦱", "category": "family"},
-        {"word": "cousin", "translation": "primo / prima", "emoji": "🧑", "category": "family"},
-        {"word": "grandpa", "translation": "abuelo", "emoji": "👴", "category": "family"},
-        {"word": "nephew", "translation": "sobrino", "emoji": "👦", "category": "family"},
-        {"word": "niece", "translation": "sobrina", "emoji": "👧", "category": "family"},
-        {"word": "parents", "translation": "padres", "emoji": "👪", "category": "family"},
-        {"word": "family", "translation": "familia", "emoji": "👨‍👩‍👧‍👦", "category": "family"},
-        {"word": "invitation", "translation": "invitación", "emoji": "✉️", "category": "birthday"},
-        {"word": "juice", "translation": "jugo", "emoji": "🧃", "category": "birthday"}
-      ],
-      "specialQuestions": [
-        {
-          "type": "preposition",
-          "phrase": "The alien is ___ the box.",
-          "preposition": "in",
-          "translation": "El alien está dentro de la caja.",
-          "options": ["in", "on", "under"],
-          "visual": "📦👽 (dentro)"
-        },
-        {
-          "type": "preposition",
-          "phrase": "The rocket is ___ the planet.",
-          "preposition": "on",
-          "translation": "El cohete está sobre el planeta.",
-          "options": ["in", "on", "under"],
-          "visual": "🚀🪐 (sobre)"
-        },
-        {
-          "type": "preposition",
-          "phrase": "The gift is ___ the table.",
-          "preposition": "under",
-          "translation": "El regalo está debajo de la mesa.",
-          "options": ["in", "on", "under"],
-          "visual": "🟫🎁 (debajo)"
-        }
-      ]
+      "stickerHard": "st-crown-hard"
+    },
+    {
+      "id": "planet-7",
+      "name": "Planeta Vocaciones y Rasgos",
+      "subtitle": "Professions & Descriptions (2º Básico - U4)",
+      "emoji": "🧑‍🏫",
+      "color": "#e17055",
+      "questionsCountNormal": 10,
+      "questionsCountHard": 15,
+      "stickerNormal": "st-professions",
+      "stickerHard": "st-professions-hard"
+    },
+    {
+      "id": "planet-8",
+      "name": "Planeta Safari Salvaje",
+      "subtitle": "Animals, Features & Comparisons (2º Básico - U5)",
+      "emoji": "🦁",
+      "color": "#20bf6b",
+      "questionsCountNormal": 12,
+      "questionsCountHard": 18,
+      "stickerNormal": "st-safari",
+      "stickerHard": "st-safari-hard"
     }
   ],
   "stickers": [
@@ -297,6 +137,20 @@
       "difficulty": "medium"
     },
     {
+      "id": "st-professions",
+      "name": "Medalla Vocaciones",
+      "emoji": "🧑‍🏫✨",
+      "desc": "¡3 estrellas en el Planeta 7 (Normal)!",
+      "difficulty": "medium"
+    },
+    {
+      "id": "st-safari",
+      "name": "Medalla Safari Salvaje",
+      "emoji": "🦁🌿",
+      "desc": "¡3 estrellas en el Planeta 8 (Normal)!",
+      "difficulty": "medium"
+    },
+    {
       "id": "st-rocket-hard",
       "name": "Hiper-Cohete de Antimateria",
       "emoji": "🌌",
@@ -336,6 +190,20 @@
       "name": "Monarca del Vacío",
       "emoji": "🏆",
       "desc": "¡3 estrellas en el Planeta 6 (Hard)!",
+      "difficulty": "hard"
+    },
+    {
+      "id": "st-professions-hard",
+      "name": "Maestro de las Vocaciones",
+      "emoji": "👑🧑‍🏫",
+      "desc": "¡3 estrellas en el Planeta 7 (Hard)!",
+      "difficulty": "hard"
+    },
+    {
+      "id": "st-safari-hard",
+      "name": "Rey de la Sabana Galáctica",
+      "emoji": "👑🦁",
+      "desc": "¡3 estrellas en el Planeta 8 (Hard)!",
       "difficulty": "hard"
     },
     {

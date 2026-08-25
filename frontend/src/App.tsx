@@ -315,25 +315,25 @@ export default function App() {
     if (difficulty === "hard") {
       gameTypes.push("writing");
     }
-    if (planet.id === "planet-1") {
+    if (planet.id === "planet-1" || planet.id === "planet-7" || planet.id === "planet-8") {
       gameTypes.push("drag-drop");
     }
 
     selectedVocab.forEach((item, idx) => {
       let type = gameTypes[Math.floor(Math.random() * gameTypes.length)];
-      if (planet.specialQuestions && planet.specialQuestions.length > 0 && Math.random() < 0.25) {
+      if (planet.specialQuestions && planet.specialQuestions.length > 0 && Math.random() < 0.3) {
         type = "preposition";
       }
 
-      if (type === "preposition" && planet.specialQuestions) {
+      if (type === "preposition" && planet.specialQuestions && planet.specialQuestions.length > 0) {
         const sq = planet.specialQuestions[Math.floor(Math.random() * planet.specialQuestions.length)];
         list.push({
           id: `q-prep-${idx}`,
           type: "preposition",
           phrase: sq.phrase,
-          preposition: sq.preposition,
+          preposition: sq.preposition || (sq as any).correctAnswer || "",
           translation: sq.translation,
-          options: sq.options.sort(() => Math.random() - 0.5),
+          options: sq.options ? [...sq.options].sort(() => Math.random() - 0.5) : [],
           visual: sq.visual
         });
       } else if (type === "trivia") {
@@ -406,8 +406,8 @@ export default function App() {
       }
     });
 
-    // Añadir Memorice al final en dificultades altas del planeta 6
-    if (planet.id === "planet-6") {
+    // Añadir Memorice al final en dificultades del planeta 6, 7 y 8
+    if (planet.id === "planet-6" || planet.id === "planet-7" || planet.id === "planet-8") {
       const selectedList = vocab.slice(0, 4);
       const cards: any[] = [];
       selectedList.forEach(it => {

@@ -1,0 +1,151 @@
+{
+  "id": "planet-1",
+  "name": "Planeta Arcoíris y Hogar",
+  "subtitle": "Colors & House (1º Básico)",
+  "emoji": "🌈",
+  "color": "#e84393",
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "stickerNormal": "st-rocket",
+  "stickerHard": "st-rocket-hard",
+  "vocabulary": [
+    {
+      "word": "red",
+      "translation": "rojo",
+      "emoji": "🔴",
+      "category": "colors"
+    },
+    {
+      "word": "blue",
+      "translation": "azul",
+      "emoji": "🔵",
+      "category": "colors"
+    },
+    {
+      "word": "green",
+      "translation": "verde",
+      "emoji": "🟢",
+      "category": "colors"
+    },
+    {
+      "word": "yellow",
+      "translation": "amarillo",
+      "emoji": "🟡",
+      "category": "colors"
+    },
+    {
+      "word": "orange",
+      "translation": "naranja",
+      "emoji": "🟠",
+      "category": "colors"
+    },
+    {
+      "word": "purple",
+      "translation": "morado",
+      "emoji": "🟣",
+      "category": "colors"
+    },
+    {
+      "word": "pink",
+      "translation": "rosado",
+      "emoji": "💗",
+      "category": "colors"
+    },
+    {
+      "word": "brown",
+      "translation": "marrón",
+      "emoji": "🟤",
+      "category": "colors"
+    },
+    {
+      "word": "black",
+      "translation": "negro",
+      "emoji": "⚫",
+      "category": "colors"
+    },
+    {
+      "word": "white",
+      "translation": "blanco",
+      "emoji": "⚪",
+      "category": "colors"
+    },
+    {
+      "word": "grey",
+      "translation": "gris",
+      "emoji": "⚫",
+      "category": "colors"
+    },
+    {
+      "word": "kitchen",
+      "translation": "cocina",
+      "emoji": "🍳",
+      "category": "house"
+    },
+    {
+      "word": "bedroom",
+      "translation": "dormitorio",
+      "emoji": "🛏️",
+      "category": "house"
+    },
+    {
+      "word": "bathroom",
+      "translation": "baño",
+      "emoji": "🚿",
+      "category": "house"
+    },
+    {
+      "word": "living room",
+      "translation": "sala de estar",
+      "emoji": "🛋️",
+      "category": "house"
+    },
+    {
+      "word": "garden",
+      "translation": "jardín",
+      "emoji": "🏡",
+      "category": "house"
+    },
+    {
+      "word": "garage",
+      "translation": "garaje",
+      "emoji": "🚗",
+      "category": "house"
+    },
+    {
+      "word": "dining room",
+      "translation": "comedor",
+      "emoji": "🍽️",
+      "category": "house"
+    },
+    {
+      "word": "roof",
+      "translation": "techo",
+      "emoji": "🏠",
+      "category": "house"
+    },
+    {
+      "word": "window",
+      "translation": "ventana",
+      "emoji": "🪟",
+      "category": "house"
+    },
+    {
+      "word": "door",
+      "translation": "puerta",
+      "emoji": "🚪",
+      "category": "house"
+    },
+    {
+      "word": "floor",
+      "translation": "piso",
+      "emoji": "🧱",
+      "category": "house"
+    },
+    {
+      "word": "wall",
+      "translation": "pared",
+      "emoji": "🧱",
+      "category": "house"
+    }
+  ]
+}
