@@ -2,12 +2,12 @@ import React from "react";
 import { PlayersProgress } from "../types";
 
 interface LeaderboardViewProps {
-  playersProgress: PlayersProgress;
+  progressBySubject: Record<string, PlayersProgress>;
   onResetData: () => void;
 }
 
 export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
-  playersProgress,
+  progressBySubject,
   onResetData
 }) => {
   return (
@@ -23,12 +23,22 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
         <div>
           {(["Sofia", "Luciano"] as const)
             .map(p => {
-              const starsCount = Object.values(playersProgress[p]?.stars || {}).reduce((a, b) => a + b, 0);
+              let totalStars = 0;
+              const stickerSet = new Set<string>();
+
+              Object.values(progressBySubject).forEach(subProgress => {
+                const playerState = subProgress[p];
+                if (playerState) {
+                  totalStars += Object.values(playerState.stars || {}).reduce((a, b) => a + b, 0);
+                  (playerState.stickers || []).forEach(s => stickerSet.add(s));
+                }
+              });
+
               return {
                 name: p,
                 avatar: p === "Sofia" ? "👧" : "👦",
-                stars: starsCount,
-                stickersCount: playersProgress[p]?.stickers.length || 0
+                stars: totalStars,
+                stickersCount: stickerSet.size
               };
             })
             .sort((a, b) => b.stars - a.stars)
@@ -63,3 +73,4 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
     </section>
   );
 };
+

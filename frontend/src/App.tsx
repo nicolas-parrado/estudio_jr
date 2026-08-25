@@ -542,6 +542,16 @@ export default function App() {
     }
   };
 
+  const getTotalPlayerStars = (playerName: "Sofia" | "Luciano" | null): number => {
+    if (!playerName) return 0;
+    let total = 0;
+    Object.values(progressBySubject).forEach(subProgress => {
+      const starsMap = subProgress[playerName]?.stars || {};
+      total += Object.values(starsMap).reduce((a, b) => a + b, 0);
+    });
+    return total;
+  };
+
   const playerStats = currentPlayer ? playersProgress[currentPlayer] : null;
 
   return (
@@ -550,7 +560,7 @@ export default function App() {
 
       <main>
         {/* Cabecera / Navbar */}
-        {currentPlayer && activeView !== "welcome" && !loading && !error && playerStats && (
+        {currentPlayer && activeView !== "welcome" && !loading && !error && (
           <header>
             <div className="logo" onClick={() => handleNavigate("subjects")} style={{ cursor: "pointer" }}>
               <span>🚀</span> Space Academy
@@ -559,7 +569,7 @@ export default function App() {
               <button className="btn btn-secondary">
                 <span>{currentPlayer === "Sofia" ? "👧" : "👦"}</span> {currentPlayer}
                 <span style={{ color: "var(--color-warning)", marginLeft: "5px" }}>
-                  ⭐ {Object.values(playerStats.stars || {}).reduce((a, b) => a + b, 0)}
+                  ⭐ {getTotalPlayerStars(currentPlayer)}
                 </span>
               </button>
               <button className="btn btn-secondary" onClick={() => handleNavigate("subjects")}>
@@ -619,7 +629,7 @@ export default function App() {
           <>
             {activeView === "welcome" && (
               <WelcomeView 
-                playersProgress={playersProgress} 
+                progressBySubject={progressBySubject} 
                 onLogin={handleLogin} 
               />
             )}
@@ -657,7 +667,7 @@ export default function App() {
 
             {activeView === "leaderboard" && (
               <LeaderboardView 
-                playersProgress={playersProgress} 
+                progressBySubject={progressBySubject} 
                 onResetData={handleResetData} 
               />
             )}

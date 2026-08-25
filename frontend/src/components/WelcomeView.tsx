@@ -2,11 +2,20 @@ import React from "react";
 import { PlayersProgress } from "../types";
 
 interface WelcomeViewProps {
-  playersProgress: PlayersProgress;
+  progressBySubject: Record<string, PlayersProgress>;
   onLogin: (playerName: "Sofia" | "Luciano") => void;
 }
 
-export const WelcomeView: React.FC<WelcomeViewProps> = ({ playersProgress, onLogin }) => {
+export const WelcomeView: React.FC<WelcomeViewProps> = ({ progressBySubject, onLogin }) => {
+  const getPlayerTotalStars = (p: "Sofia" | "Luciano") => {
+    let total = 0;
+    Object.values(progressBySubject).forEach(subProgress => {
+      const starsMap = subProgress[p]?.stars || {};
+      total += Object.values(starsMap).reduce((a, b) => a + b, 0);
+    });
+    return total;
+  };
+
   return (
     <section className="view active" id="welcome-view">
       <div className="welcome-box">
@@ -19,7 +28,7 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ playersProgress, onLog
         
         <div className="profile-select">
           {(["Sofia", "Luciano"] as const).map(p => {
-            const starsCount = Object.values(playersProgress[p]?.stars || {}).reduce((a, b) => a + b, 0);
+            const starsCount = getPlayerTotalStars(p);
             return (
               <div 
                 key={p} 
@@ -39,3 +48,4 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ playersProgress, onLog
     </section>
   );
 };
+
