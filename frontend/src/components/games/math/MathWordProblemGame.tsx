@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { MathWordProblemQuestion } from "../../../types";
+import { MathWordProblemQuestion, Difficulty } from "../../../types";
 import { playSound } from "../../../utils/audio";
 import { speakSpanish } from "../../../utils/speech";
 import { MathKeypad } from "./MathKeypad";
 
 interface MathWordProblemGameProps {
   question: MathWordProblemQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

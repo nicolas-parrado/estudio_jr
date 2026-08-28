@@ -52,7 +52,7 @@ export default function App() {
   };
 
   // Estado del juego activo
-  const [difficulty, setDifficulty] = useState<"normal" | "hard">("normal");
+  const [difficulty, setDifficulty] = useState<"normal" | "hard" | "insane">("normal");
   const [currentPlanet, setCurrentPlanet] = useState<Planet | null>(null);
   const [questions, setQuestions] = useState<GameQuestion[]>([]);
 
@@ -207,7 +207,11 @@ export default function App() {
 
   const generateRandomQuestions = (planet: Planet): GameQuestion[] => {
     // Cantidad de preguntas dinámicas desde el JSON
-    const targetLength = difficulty === "hard" ? (planet.questionsCountHard || 15) : (planet.questionsCountNormal || 10);
+    const targetLength = difficulty === "insane" 
+      ? (planet.questionsCountInsane || 20) 
+      : difficulty === "hard" 
+        ? (planet.questionsCountHard || 15) 
+        : (planet.questionsCountNormal || 10);
 
     // Lógica para Matemáticas
     if (currentSubject?.id === "matematicas") {
@@ -217,6 +221,9 @@ export default function App() {
       // Filtrar por dificultad si está especificada
       let pool = specQuestions.filter((sq: any) => {
         if (!sq.difficulty) return true;
+        if (difficulty === "insane") {
+          return sq.difficulty === "insane" || sq.difficulty === "hard";
+        }
         if (difficulty === "hard") {
           return sq.difficulty === "hard";
         }
@@ -310,7 +317,7 @@ export default function App() {
         const item = vocab[vocabIdx % vocab.length];
         vocabIdx++;
 
-        const type = difficulty === "hard" ? "science-writing" : "science-vowels";
+        const type = (difficulty === "hard" || difficulty === "insane") ? "science-writing" : "science-vowels";
 
         if (type === "science-vowels") {
           const vowels = ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú"];
@@ -340,21 +347,48 @@ export default function App() {
       return scienceQuestions.sort(() => Math.random() - 0.5).slice(0, targetLength);
     }
     
-    // Si el vocabulario tiene menos elementos de los requeridos, los repetimos para llenar la ronda (Inglés)
+    // Selección y filtrado progresivo de vocabulario para Inglés según dificultad
+    let candidateVocab = [...vocab];
+    if (difficulty === "normal") {
+      const normalOnly = vocab.filter(v => !v.difficulty || v.difficulty === "normal");
+      if (normalOnly.length >= targetLength) {
+        candidateVocab = normalOnly;
+      }
+    } else if (difficulty === "hard") {
+      const hardOnly = vocab.filter(v => v.difficulty === "hard");
+      const normalOnly = vocab.filter(v => !v.difficulty || v.difficulty === "normal");
+      // Priorizar palabras Hard mezcladas con Normal
+      candidateVocab = [...hardOnly.sort(() => Math.random() - 0.5), ...normalOnly.sort(() => Math.random() - 0.5)];
+    } else if (difficulty === "insane") {
+      const insaneOnly = vocab.filter(v => v.difficulty === "insane");
+      const hardOnly = vocab.filter(v => v.difficulty === "hard");
+      const normalOnly = vocab.filter(v => !v.difficulty || v.difficulty === "normal");
+      // Priorizar palabras Insane y Hard
+      candidateVocab = [
+        ...insaneOnly.sort(() => Math.random() - 0.5),
+        ...hardOnly.sort(() => Math.random() - 0.5),
+        ...normalOnly.sort(() => Math.random() - 0.5)
+      ];
+    }
+
     const list: GameQuestion[] = [];
-    let pool = [...vocab];
+    let pool = [...candidateVocab];
     while (pool.length < targetLength) {
-      pool = [...pool, ...vocab.sort(() => Math.random() - 0.5)];
+      pool = [...pool, ...candidateVocab.sort(() => Math.random() - 0.5)];
     }
     const selectedVocab = pool.slice(0, targetLength);
 
     // Tipos de juego disponibles
-    const gameTypes = ["trivia", "audio", "true-false", "fill-vowels"];
+    let gameTypes = ["trivia", "audio", "true-false", "fill-vowels"];
     if (difficulty === "hard") {
-      gameTypes.push("writing");
-    }
-    if (planet.id === "planet-1" || planet.id === "planet-7" || planet.id === "planet-8") {
-      gameTypes.push("drag-drop");
+      gameTypes = ["trivia", "audio", "true-false", "fill-vowels", "writing", "drag-drop"];
+    } else if (difficulty === "insane") {
+      // En modo Insane se prioriza escritura estricta y desafíos sin pistas
+      gameTypes = ["writing", "writing", "fill-vowels", "drag-drop", "audio"];
+    } else {
+      if (planet.id === "planet-1" || planet.id === "planet-7" || planet.id === "planet-8") {
+        gameTypes.push("drag-drop");
+      }
     }
 
     selectedVocab.forEach((item, idx) => {
@@ -482,6 +516,12 @@ export default function App() {
     const oldStickers = playersProgress[currentPlayer]?.stickers || [];
     const newlyUnlockedStickers: { emoji: string; name: string }[] = [];
 
+    const targetPlanetID = difficulty === "insane" 
+      ? `${currentPlanet.id}-insane` 
+      : difficulty === "hard" 
+        ? `${currentPlanet.id}-hard` 
+        : currentPlanet.id;
+
     try {
       const res = await fetch(`${API_URL}/api/progress`, {
         method: "POST",
@@ -489,7 +529,7 @@ export default function App() {
         body: JSON.stringify({
           playerName: currentPlayer,
           subjectId: currentSubject?.id || "ingles",
-          planetId: difficulty === "hard" ? `${currentPlanet.id}-hard` : currentPlanet.id,
+          planetId: targetPlanetID,
           stars: earnedStars,
           maxStreak,
           audioStreak,

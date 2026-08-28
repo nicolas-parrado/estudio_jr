@@ -1,10 +1,10 @@
 import React from "react";
-import { MathPlaceValueQuestion } from "../../../types";
+import { MathPlaceValueQuestion, Difficulty } from "../../../types";
 import { playSound } from "../../../utils/audio";
 
 interface MathPlaceValueGameProps {
   question: MathPlaceValueQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { GameQuestion } from "../../types";
+import { WritingQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface WritingGameProps {
-  question: GameQuestion;
-  difficulty: "normal" | "hard";
+  question: WritingQuestion;
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 
@@ -19,13 +19,13 @@ export const WritingGame: React.FC<WritingGameProps> = ({
 
   const normalizeText = (text: string): string => {
     if (!text) return "";
-    return text.toUpperCase().trim().replace(/\s+/g, "");
+    return text.toUpperCase().trim().replace(/[^A-Z0-9]/g, "");
   };
 
   useEffect(() => {
     setUserWritingInput("");
     // Generar letras mezcladas de ayuda para este minijuego
-    const letters = q.word.toLowerCase().replace(/\s+/g, "").split("");
+    const letters = q.word.toLowerCase().replace(/[^a-z0-9]/g, "").split("");
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
     // Agregamos 3 letras aleatorias
     for (let i = 0; i < 3; i++) {

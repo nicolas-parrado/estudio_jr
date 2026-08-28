@@ -6,21 +6,33 @@
   "color": "#2ecc71",
   "questionsCountNormal": 10,
   "questionsCountHard": 15,
+  "questionsCountInsane": 20,
   "stickerNormal": "st-panda",
   "stickerHard": "st-panda-hard",
+  "stickerInsane": "st-panda-insane",
   "vocabulary": [
-    {"word": "Huemul", "translation": "Ciervo nativo chileno que vive en el sur y está en peligro de extinción.", "emoji": "🦌", "category": "peligro"},
+    {"word": "Huemul", "translation": "Ciervo nativo chileno del sur en peligro de extinción.", "emoji": "🦌", "category": "peligro"},
     {"word": "Ballena azul", "translation": "El mamífero marino más grande de la Tierra, en peligro de extinción.", "emoji": "🐋", "category": "peligro"},
     {"word": "Zorro de Darwin", "translation": "Zorro nativo de Chile en peligro crítico de extinción.", "emoji": "🦊", "category": "peligro"},
-    {"word": "Cóndor", "translation": "Ave nativa de la Cordillera de los Andes.", "emoji": "🦅", "category": "nativo"},
-    {"word": "Quirquincho", "translation": "Animal nativo pequeño con caparazón.", "emoji": "🦔", "category": "nativo"},
-    {"word": "Puma", "translation": "El felino más grande que habita en Chile.", "emoji": "🦁", "category": "nativo"},
-    {"word": "Tortuga Verde", "translation": "Reptil marino que viaja largas distancias.", "emoji": "🐢", "category": "nativo"},
-    {"word": "Hábitat", "translation": "El hogar de los animales, donde encuentran agua, luz y comida.", "emoji": "🏡", "category": "definicion"},
-    {"word": "Nacer", "translation": "Etapa inicial donde comienza la vida.", "emoji": "🐣", "category": "ciclo"},
-    {"word": "Crecer", "translation": "Etapa de desarrollo y aumento de tamaño.", "emoji": "📈", "category": "ciclo"},
-    {"word": "Reproducirse", "translation": "Etapa donde los seres vivos tienen crías.", "emoji": "👪", "category": "ciclo"},
-    {"word": "Morir", "translation": "Fin del ciclo de vida de un ser vivo.", "emoji": "🍂", "category": "ciclo"}
+    {"word": "Pudú", "translation": "Uno de los ciervos más pequeños del mundo, nativo de los bosques del sur de Chile.", "emoji": "🦌", "category": "peligro"},
+    {"word": "Ranita de Darwin", "translation": "Pequeño anfibio nativo chileno donde el macho cuida los renacuajos en su boca.", "emoji": "🐸", "category": "peligro"},
+    {"word": "Monito del monte", "translation": "Marsupial nativo chileno que hiberna en los bosques templados.", "emoji": "🐭", "category": "peligro"},
+    {"word": "Pingüino de Humboldt", "translation": "Ave marina no voladora que habita en las costas chilenas.", "emoji": "🐧", "category": "peligro"},
+    {"word": "Chinchilla chilena", "translation": "Pequeño roedor nativo de pelaje muy suave en peligro por la caza.", "emoji": "🦔", "category": "peligro"},
+    {"word": "Picaflor de Juan Fernández", "translation": "Ave endémica chilena del archipiélago en peligro crítico.", "emoji": "🦜", "category": "peligro"},
+    {"word": "Gato andino", "translation": "Uno de los felinos más amenazados de América que habita en la cordillera.", "emoji": "🐱", "category": "peligro"},
+    {"word": "Cóndor", "translation": "Ave nativa imponente de la Cordillera de los Andes.", "emoji": "🦅", "category": "nativo"},
+    {"word": "Quirquincho", "translation": "Animal nativo pequeño con caparazón del norte grande.", "emoji": "🦔", "category": "nativo"},
+    {"word": "Puma", "translation": "El felino más grande que habita a lo largo de Chile.", "emoji": "🦁", "category": "nativo"},
+    {"word": "Tortuga Verde", "translation": "Reptil marino que viaja por los océanos y desova en playas.", "emoji": "🐢", "category": "nativo"},
+    {"word": "Flamenco chileno", "translation": "Ave de plumaje rosado que habita en salares y lagunas del norte y sur.", "emoji": "🦩", "category": "nativo"},
+    {"word": "Hábitat", "translation": "El hogar natural de los seres vivos, donde encuentran refugio, luz, agua y comida.", "emoji": "🏡", "category": "definicion"},
+    {"word": "Nacer", "translation": "Etapa inicial donde comienza la vida de un ser vivo.", "emoji": "🐣", "category": "ciclo"},
+    {"word": "Crecer", "translation": "Etapa de desarrollo y aumento de tamaño en el ciclo de vida.", "emoji": "📈", "category": "ciclo"},
+    {"word": "Reproducirse", "translation": "Etapa donde los seres vivos tienen descendencia o crías.", "emoji": "👪", "category": "ciclo"},
+    {"word": "Morir", "translation": "Fin del ciclo natural de vida de un organismo.", "emoji": "🍂", "category": "ciclo"},
+    {"word": "Extinción", "translation": "Desaparición total y definitiva de una especie del planeta.", "emoji": "⚠️", "category": "definicion"},
+    {"word": "Conservación", "translation": "Cuidado y protección de la naturaleza y los seres vivos.", "emoji": "🛡️", "category": "definicion"}
   ],
   "specialQuestions": [
     {
@@ -28,7 +40,7 @@
       "animal": "Mariposa",
       "emoji": "🦋",
       "sequence": ["Huevo", "Oruga", "Pupa", "Mariposa adulta"],
-      "instruction": "Ordena el ciclo de vida de la mariposa:"
+      "instruction": "Ordena el ciclo de vida de la mariposa (metamorfosis):"
     },
     {
       "type": "science-sequence",
@@ -73,6 +85,13 @@
       "instruction": "Ordena el ciclo de vida del perro (mamífero):"
     },
     {
+      "type": "science-sequence",
+      "animal": "Pingüino",
+      "emoji": "🐧",
+      "sequence": ["Huevo incubado", "Pichón con plumón", "Pingüino juvenil", "Pingüino adulto"],
+      "instruction": "Ordena el ciclo de vida del pingüino:"
+    },
+    {
       "type": "science-classify",
       "concept": "Loro tricahue",
       "emoji": "🦜",
@@ -98,19 +117,27 @@
     },
     {
       "type": "science-classify",
-      "concept": "Huemul",
+      "concept": "Pudú",
       "emoji": "🦌",
       "correctCategory": "Mamífero en peligro",
-      "options": ["Ave en peligro", "Mamífero en peligro", "Reptil en peligro", "Pez en peligro"],
-      "instruction": "¿A qué grupo pertenece el Huemul?"
+      "options": ["Mamífero en peligro", "Ave en peligro", "Reptil en peligro", "Anfibio en peligro"],
+      "instruction": "¿A qué grupo pertenece el Pudú chileno?"
     },
     {
       "type": "science-classify",
-      "concept": "Piacota",
-      "emoji": "🐟",
-      "correctCategory": "Pez en peligro",
-      "options": ["Ave en peligro", "Mamífero en peligro", "Pez en peligro", "Anfibio en peligro"],
-      "instruction": "¿A qué grupo de animales pertenece la Piacota?"
+      "concept": "Ranita de Darwin",
+      "emoji": "🐸",
+      "correctCategory": "Anfibio en peligro",
+      "options": ["Anfibio en peligro", "Reptil en peligro", "Insecto en peligro", "Mamífero en peligro"],
+      "instruction": "¿A qué grupo pertenece la Ranita de Darwin?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Tala de bosque nativo",
+      "emoji": "🪓",
+      "correctCategory": "Amenaza para animales",
+      "options": ["Amenaza para animales", "Medida de protección", "Ciclo de vida"],
+      "instruction": "¿Qué representa la tala indiscriminada de árboles?"
     },
     {
       "type": "science-classify",
@@ -122,19 +149,27 @@
     },
     {
       "type": "science-classify",
-      "concept": "Reserva nacional",
+      "concept": "Parque o Reserva Nacional",
       "emoji": "🏞️",
       "correctCategory": "Medida de protección",
       "options": ["Amenaza para animales", "Medida de protección", "Daño al hábitat"],
-      "instruction": "¿Qué representa una Reserva nacional?"
+      "instruction": "¿Qué representa la creación de un Parque Nacional?"
     },
     {
       "type": "science-classify",
-      "concept": "Caza ilegal",
+      "concept": "Caza y pesca ilegal",
       "emoji": "🏹",
       "correctCategory": "Amenaza para animales",
       "options": ["Amenaza para animales", "Medida de protección", "Ciclo de vida"],
-      "instruction": "¿Qué representa la caza ilegal?"
+      "instruction": "¿Qué representa la caza y pesca ilegal?"
+    },
+    {
+      "type": "science-classify",
+      "concept": "Reciclaje y limpieza de playas",
+      "emoji": "♻️",
+      "correctCategory": "Medida de protección",
+      "options": ["Medida de protección", "Amenaza para animales", "Daño al hábitat"],
+      "instruction": "¿Qué representa la limpieza de playas y el reciclaje?"
     },
     {
       "type": "science-trivia",
@@ -166,10 +201,24 @@
     },
     {
       "type": "science-trivia",
-      "question": "¿Qué elementos le proporciona el Hábitat a los animales para vivir?",
+      "question": "¿Qué elementos esenciales le proporciona el Hábitat a los animales para vivir?",
       "emoji": "🏡",
-      "correctAnswer": "Luz, Aire, Alimento y Agua",
-      "options": ["Luz, Aire, Alimento y Agua", "Juguetes y ropa", "Solo fuego y calor", "Electricidad y internet"]
+      "correctAnswer": "Luz, Aire, Alimento, Refugio y Agua",
+      "options": ["Luz, Aire, Alimento, Refugio y Agua", "Juguetes y ropa", "Solo fuego y calor", "Electricidad e internet"]
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Por qué el Huemul está en peligro de extinción en Chile?",
+      "emoji": "🦌",
+      "correctAnswer": "Pérdida de su bosque, caza y ataque de perros",
+      "options": ["Pérdida de su bosque, caza y ataque de perros", "Por nadar en el mar", "Porque tiene muchas crías", "Por comer pasto"]
+    },
+    {
+      "type": "science-trivia",
+      "question": "¿Dónde habita principalmente la Ranita de Darwin?",
+      "emoji": "🐸",
+      "correctAnswer": "En la hojarasca húmeda de los bosques del sur",
+      "options": ["En la hojarasca húmeda de los bosques del sur", "En la arena seca del desierto", "En las copas de palmeras", "En el fondo del mar"]
     },
     {
       "type": "science-tf",
@@ -187,7 +236,7 @@
     },
     {
       "type": "science-tf",
-      "question": "El hábitat es el hogar natural de los animales, donde encuentran refugio.",
+      "question": "El hábitat es el hogar natural de los animales, donde encuentran refugio y alimento.",
       "emoji": "🌳",
       "correctAnswer": "verdadero",
       "explanation": "El hábitat es el lugar idóneo donde viven los animales."
@@ -205,6 +254,20 @@
       "emoji": "🦋",
       "correctAnswer": "verdadero",
       "explanation": "Ese es el ciclo completo de la metamorfosis de la mariposa."
+    },
+    {
+      "type": "science-tf",
+      "question": "Cuidar los bosques y no botar basura en la naturaleza ayuda a evitar la extinción de animales nativos.",
+      "emoji": "🌲",
+      "correctAnswer": "verdadero",
+      "explanation": "Proteger los ecosistemas salva a las especies en riesgo."
+    },
+    {
+      "type": "science-tf",
+      "question": "La ballena azul pone huevos gigantes en la playa para reproducirse.",
+      "emoji": "🐋",
+      "correctAnswer": "falso",
+      "explanation": "La ballena azul es un mamífero marino; sus crías nacen vivas en el agua."
     }
   ]
 }

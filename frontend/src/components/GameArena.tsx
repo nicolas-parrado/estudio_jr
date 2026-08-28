@@ -30,7 +30,7 @@ import { MathSequenceGame } from "./games/math/MathSequenceGame";
 interface GameArenaProps {
   questions: GameQuestion[];
   planet: Planet;
-  difficulty: "normal" | "hard";
+  difficulty: "normal" | "hard" | "insane";
   subjectId: string;
   onFinish: (
     correctCount: number,

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { MathCalcQuestion, MathMissingQuestion, MathBalanceQuestion } from "../../../types";
+import { MathCalcQuestion, MathMissingQuestion, MathBalanceQuestion, Difficulty } from "../../../types";
 import { playSound } from "../../../utils/audio";
 import { MathKeypad } from "./MathKeypad";
 
 interface MathCalcGameProps {
   question: MathCalcQuestion | MathMissingQuestion | MathBalanceQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

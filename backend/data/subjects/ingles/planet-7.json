@@ -6,328 +6,47 @@
   "color": "#e17055",
   "questionsCountNormal": 10,
   "questionsCountHard": 15,
+  "questionsCountInsane": 20,
   "stickerNormal": "st-professions",
   "stickerHard": "st-professions-hard",
+  "stickerInsane": "st-professions-insane",
   "vocabulary": [
-    {
-      "word": "librarian",
-      "translation": "bibliotecario / bibliotecaria",
-      "emoji": "📚",
-      "category": "professions"
-    },
-    {
-      "word": "principal",
-      "translation": "director / directora",
-      "emoji": "🏫",
-      "category": "professions"
-    },
-    {
-      "word": "secretary",
-      "translation": "secretario / secretaria",
-      "emoji": "💼",
-      "category": "professions"
-    },
-    {
-      "word": "cook",
-      "translation": "cocinero / cocinera",
-      "emoji": "👨‍🍳",
-      "category": "professions"
-    },
-    {
-      "word": "janitor",
-      "translation": "conserje / auxiliar de aseo",
-      "emoji": "🧹",
-      "category": "professions"
-    },
-    {
-      "word": "teacher",
-      "translation": "profesor / profesora",
-      "emoji": "🧑‍🏫",
-      "category": "professions"
-    },
-    {
-      "word": "nurse",
-      "translation": "enfermero / enfermera",
-      "emoji": "🩺",
-      "category": "professions"
-    },
-    {
-      "word": "bus driver",
-      "translation": "chofer de furgón escolar",
-      "emoji": "🚌",
-      "category": "professions"
-    },
-    {
-      "word": "student",
-      "translation": "estudiante / alumno",
-      "emoji": "🎒",
-      "category": "professions"
-    },
-    {
-      "word": "coach",
-      "translation": "entrenador deportivo",
-      "emoji": "⚽",
-      "category": "professions"
-    },
-    {
-      "word": "counselor",
-      "translation": "orientador / psicólogo escolar",
-      "emoji": "💬",
-      "category": "professions"
-    },
-    {
-      "word": "doctor",
-      "translation": "médico / doctor",
-      "emoji": "👨‍⚕️",
-      "category": "professions"
-    },
-    {
-      "word": "firefighter",
-      "translation": "bombero / bombera",
-      "emoji": "🚒",
-      "category": "professions"
-    },
-    {
-      "word": "police officer",
-      "translation": "policía / carabinero",
-      "emoji": "👮",
-      "category": "professions"
-    },
-    {
-      "word": "brown eyes",
-      "translation": "ojos marrones / cafés",
-      "emoji": "👁️",
-      "category": "appearance"
-    },
-    {
-      "word": "blue eyes",
-      "translation": "ojos azules",
-      "emoji": "👀",
-      "category": "appearance"
-    },
-    {
-      "word": "green eyes",
-      "translation": "ojos verdes",
-      "emoji": "👀",
-      "category": "appearance"
-    },
-    {
-      "word": "dark eyes",
-      "translation": "ojos oscuros / negros",
-      "emoji": "👁️",
-      "category": "appearance"
-    },
-    {
-      "word": "curly hair",
-      "translation": "pelo rizado / crespo",
-      "emoji": "🦱",
-      "category": "appearance"
-    },
-    {
-      "word": "straight hair",
-      "translation": "pelo liso",
-      "emoji": "🧑",
-      "category": "appearance"
-    },
-    {
-      "word": "wavy hair",
-      "translation": "pelo ondulado",
-      "emoji": "🌊",
-      "category": "appearance"
-    },
-    {
-      "word": "blonde hair",
-      "translation": "pelo rubio",
-      "emoji": "👱",
-      "category": "appearance"
-    },
-    {
-      "word": "red hair",
-      "translation": "pelo pelirrojo / colorín",
-      "emoji": "🧑‍🦰",
-      "category": "appearance"
-    },
-    {
-      "word": "brown hair",
-      "translation": "pelo castaño / marrón",
-      "emoji": "🧑‍🦱",
-      "category": "appearance"
-    },
-    {
-      "word": "gray hair",
-      "translation": "pelo canoso / gris",
-      "emoji": "🧓",
-      "category": "appearance"
-    },
-    {
-      "word": "black hair",
-      "translation": "pelo negro",
-      "emoji": "🧑",
-      "category": "appearance"
-    },
-    {
-      "word": "short hair",
-      "translation": "pelo corto",
-      "emoji": "✂️",
-      "category": "appearance"
-    },
-    {
-      "word": "long hair",
-      "translation": "pelo largo",
-      "emoji": "💇",
-      "category": "appearance"
-    },
-    {
-      "word": "glasses",
-      "translation": "lentes / anteojos",
-      "emoji": "👓",
-      "category": "appearance"
-    },
-    {
-      "word": "beard",
-      "translation": "barba",
-      "emoji": "🧔",
-      "category": "appearance"
-    },
-    {
-      "word": "moustache",
-      "translation": "bigote",
-      "emoji": "👨",
-      "category": "appearance"
-    },
-    {
-      "word": "freckles",
-      "translation": "pecas",
-      "emoji": "✨",
-      "category": "appearance"
-    },
-    {
-      "word": "smile",
-      "translation": "sonrisa",
-      "emoji": "😊",
-      "category": "appearance"
-    }
-  ],
-  "specialQuestions": [
-    {
-      "type": "preposition",
-      "phrase": "The librarian works with ___.",
-      "preposition": "books",
-      "translation": "La bibliotecaria trabaja con libros.",
-      "options": [
-        "books",
-        "cars",
-        "planes"
-      ],
-      "visual": "📚 🧑‍🏫"
-    },
-    {
-      "type": "preposition",
-      "phrase": "The cook works in the ___.",
-      "preposition": "kitchen",
-      "translation": "El cocinero trabaja en la cocina.",
-      "options": [
-        "kitchen",
-        "library",
-        "garden"
-      ],
-      "visual": "👨‍🍳 🍳"
-    },
-    {
-      "type": "preposition",
-      "phrase": "The principal is the leader of the ___.",
-      "preposition": "school",
-      "translation": "El director es el líder de la escuela.",
-      "options": [
-        "school",
-        "hospital",
-        "bank"
-      ],
-      "visual": "🏫 👩‍💼"
-    },
-    {
-      "type": "preposition",
-      "phrase": "The teacher has ___ hair.",
-      "preposition": "curly",
-      "translation": "La profesora tiene pelo rizado.",
-      "options": [
-        "curly",
-        "blue",
-        "fur"
-      ],
-      "visual": "🧑‍🏫 🦱"
-    },
-    {
-      "type": "preposition",
-      "phrase": "He wears ___ to see better.",
-      "preposition": "glasses",
-      "translation": "Él usa anteojos para ver mejor.",
-      "options": [
-        "glasses",
-        "stripes",
-        "feathers"
-      ],
-      "visual": "👓 👀"
-    },
-    {
-      "type": "preposition",
-      "phrase": "She has beautiful blue ___.",
-      "preposition": "eyes",
-      "translation": "Ella tiene hermosos ojos azules.",
-      "options": [
-        "eyes",
-        "paws",
-        "horns"
-      ],
-      "visual": "👀 👩"
-    },
-    {
-      "type": "preposition",
-      "phrase": "The janitor cleans with a ___.",
-      "preposition": "broom",
-      "translation": "El auxiliar limpia con una escoba.",
-      "options": [
-        "broom",
-        "pencil",
-        "spoon"
-      ],
-      "visual": "🧹 🧼"
-    },
-    {
-      "type": "preposition",
-      "phrase": "The nurse helps when you are ___.",
-      "preposition": "sick",
-      "translation": "La enfermera ayuda cuando estás enfermo.",
-      "options": [
-        "sick",
-        "flying",
-        "dancing"
-      ],
-      "visual": "🩺 🏥"
-    },
-    {
-      "type": "preposition",
-      "phrase": "The bus driver drives the school ___.",
-      "preposition": "bus",
-      "translation": "El chofer maneja el bus escolar.",
-      "options": [
-        "bus",
-        "boat",
-        "rocket"
-      ],
-      "visual": "🚌 🎒"
-    },
-    {
-      "type": "preposition",
-      "phrase": "He has a brown ___ on his face.",
-      "preposition": "beard",
-      "translation": "Él tiene una barba café en su cara.",
-      "options": [
-        "beard",
-        "feathers",
-        "tail"
-      ],
-      "visual": "🧔 🟤"
-    }
+    {"word": "teacher", "translation": "profesor / profesora", "emoji": "🧑‍🏫", "category": "professions", "difficulty": "normal"},
+    {"word": "student", "translation": "estudiante / alumno", "emoji": "🎒", "category": "professions", "difficulty": "normal"},
+    {"word": "doctor", "translation": "médico / doctor", "emoji": "👨‍⚕️", "category": "professions", "difficulty": "normal"},
+    {"word": "nurse", "translation": "enfermero / enfermera", "emoji": "🩺", "category": "professions", "difficulty": "normal"},
+    {"word": "firefighter", "translation": "bombero / bombera", "emoji": "🚒", "category": "professions", "difficulty": "normal"},
+    {"word": "police officer", "translation": "policía / carabinero", "emoji": "👮", "category": "professions", "difficulty": "normal"},
+    {"word": "blue eyes", "translation": "ojos azules", "emoji": "👀", "category": "appearance", "difficulty": "normal"},
+    {"word": "brown eyes", "translation": "ojos cafés / marrones", "emoji": "👁️", "category": "appearance", "difficulty": "normal"},
+    {"word": "short hair", "translation": "pelo corto", "emoji": "✂️", "category": "appearance", "difficulty": "normal"},
+    {"word": "long hair", "translation": "pelo largo", "emoji": "💇", "category": "appearance", "difficulty": "normal"},
+    {"word": "glasses", "translation": "lentes / anteojos", "emoji": "👓", "category": "appearance", "difficulty": "normal"},
+    {"word": "librarian", "translation": "bibliotecario / bibliotecaria", "emoji": "📚", "category": "professions", "difficulty": "hard"},
+    {"word": "principal", "translation": "director / rector escolar", "emoji": "🏫", "category": "professions", "difficulty": "hard"},
+    {"word": "secretary", "translation": "secretario / secretaria", "emoji": "💼", "category": "professions", "difficulty": "hard"},
+    {"word": "cook", "translation": "cocinero / cocinera", "emoji": "👨‍🍳", "category": "professions", "difficulty": "hard"},
+    {"word": "janitor", "translation": "auxiliar de aseo / conserje", "emoji": "🧹", "category": "professions", "difficulty": "hard"},
+    {"word": "coach", "translation": "entrenador deportivo", "emoji": "⚽", "category": "professions", "difficulty": "hard"},
+    {"word": "green eyes", "translation": "ojos verdes", "emoji": "👀", "category": "appearance", "difficulty": "hard"},
+    {"word": "curly hair", "translation": "pelo crespo / rizado", "emoji": "🦱", "category": "appearance", "difficulty": "hard"},
+    {"word": "straight hair", "translation": "pelo liso", "emoji": "🧑", "category": "appearance", "difficulty": "hard"},
+    {"word": "blonde hair", "translation": "pelo rubio", "emoji": "👱", "category": "appearance", "difficulty": "hard"},
+    {"word": "black hair", "translation": "pelo negro", "emoji": "🧑", "category": "appearance", "difficulty": "hard"},
+    {"word": "brown hair", "translation": "pelo castaño / café", "emoji": "🧑‍🦱", "category": "appearance", "difficulty": "hard"},
+    {"word": "counselor", "translation": "orientador / psicólogo escolar", "emoji": "💬", "category": "professions", "difficulty": "insane"},
+    {"word": "bus driver", "translation": "chofer de furgón escolar", "emoji": "🚌", "category": "professions", "difficulty": "insane"},
+    {"word": "pilot", "translation": "piloto", "emoji": "✈️", "category": "professions", "difficulty": "insane"},
+    {"word": "scientist", "translation": "científico / científica", "emoji": "🔬", "category": "professions", "difficulty": "insane"},
+    {"word": "dark eyes", "translation": "ojos oscuros / negros", "emoji": "👁️", "category": "appearance", "difficulty": "insane"},
+    {"word": "wavy hair", "translation": "pelo ondulado", "emoji": "🌊", "category": "appearance", "difficulty": "insane"},
+    {"word": "red hair", "translation": "pelo colorín / pelirrojo", "emoji": "🧑‍🦰", "category": "appearance", "difficulty": "insane"},
+    {"word": "gray hair", "translation": "pelo canoso / gris", "emoji": "🧓", "category": "appearance", "difficulty": "insane"},
+    {"word": "beard", "translation": "barba", "emoji": "🧔", "category": "appearance", "difficulty": "insane"},
+    {"word": "moustache", "translation": "bigote", "emoji": "👨", "category": "appearance", "difficulty": "insane"},
+    {"word": "tall", "translation": "alto / alta", "emoji": "🦒", "category": "traits", "difficulty": "insane"},
+    {"word": "short", "translation": "bajo / baja de estatura", "emoji": "🐧", "category": "traits", "difficulty": "insane"},
+    {"word": "young", "translation": "joven", "emoji": "🧒", "category": "traits", "difficulty": "insane"},
+    {"word": "old", "translation": "anciano / mayor", "emoji": "🧓", "category": "traits", "difficulty": "insane"}
   ]
 }

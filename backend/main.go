@@ -138,11 +138,17 @@ func loadSubjects() {
 						if fullPlanet.QuestionsCountHard > 0 {
 							sub.Planets[i].QuestionsCountHard = fullPlanet.QuestionsCountHard
 						}
+						if fullPlanet.QuestionsCountInsane > 0 {
+							sub.Planets[i].QuestionsCountInsane = fullPlanet.QuestionsCountInsane
+						}
 						if fullPlanet.StickerNormal != "" {
 							sub.Planets[i].StickerNormal = fullPlanet.StickerNormal
 						}
 						if fullPlanet.StickerHard != "" {
 							sub.Planets[i].StickerHard = fullPlanet.StickerHard
+						}
+						if fullPlanet.StickerInsane != "" {
+							sub.Planets[i].StickerInsane = fullPlanet.StickerInsane
 						}
 					} else {
 						log.Printf("Error al parsear JSON del planeta %s: %v", planetFile, err)

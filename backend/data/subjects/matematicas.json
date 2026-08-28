@@ -12,8 +12,10 @@
       "color": "#00b894",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-math-calc",
-      "stickerHard": "st-math-calc-hard"
+      "stickerHard": "st-math-calc-hard",
+      "stickerInsane": "st-math-calc-insane"
     },
     {
       "id": "planet-2",
@@ -23,8 +25,10 @@
       "color": "#0984e3",
       "questionsCountNormal": 8,
       "questionsCountHard": 12,
+      "questionsCountInsane": 18,
       "stickerNormal": "st-math-story",
-      "stickerHard": "st-math-story-hard"
+      "stickerHard": "st-math-story-hard",
+      "stickerInsane": "st-math-story-insane"
     },
     {
       "id": "planet-3",
@@ -34,8 +38,10 @@
       "color": "#fdcb6e",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-math-blocks",
-      "stickerHard": "st-math-blocks-hard"
+      "stickerHard": "st-math-blocks-hard",
+      "stickerInsane": "st-math-blocks-insane"
     },
     {
       "id": "planet-4",
@@ -45,8 +51,10 @@
       "color": "#e84393",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-math-patterns",
-      "stickerHard": "st-math-patterns-hard"
+      "stickerHard": "st-math-patterns-hard",
+      "stickerInsane": "st-math-patterns-insane"
     }
   ],
   "stickers": [
@@ -65,6 +73,13 @@
       "difficulty": "hard"
     },
     {
+      "id": "st-math-calc-insane",
+      "name": "Oráculo Cuántico de Números",
+      "emoji": "🔮⚛️🧮",
+      "desc": "¡3 estrellas en el Planeta de las Operaciones (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
       "id": "st-math-story",
       "name": "Detective de Problemas",
       "emoji": "🔍🚀",
@@ -77,6 +92,13 @@
       "emoji": "🧠🏆",
       "desc": "¡3 estrellas en el Planeta de los Problemas (Hard)!",
       "difficulty": "hard"
+    },
+    {
+      "id": "st-math-story-insane",
+      "name": "Gran Estratega del Universo",
+      "emoji": "👑🪐🧠",
+      "desc": "¡3 estrellas en el Planeta de los Problemas (Insane)!",
+      "difficulty": "legendary"
     },
     {
       "id": "st-math-blocks",
@@ -93,6 +115,13 @@
       "difficulty": "hard"
     },
     {
+      "id": "st-math-blocks-insane",
+      "name": "Demiurgo de la Estructura Decimal",
+      "emoji": "🌌🏛️✨",
+      "desc": "¡3 estrellas en el Planeta del Valor Posicional (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
       "id": "st-math-patterns",
       "name": "Navegante de Secuencias",
       "emoji": "🎯🌠",
@@ -105,6 +134,13 @@
       "emoji": "🌌🔢",
       "desc": "¡3 estrellas en el Planeta de Patrones (Hard)!",
       "difficulty": "hard"
+    },
+    {
+      "id": "st-math-patterns-insane",
+      "name": "Guardián de las Constelaciones Numéricas",
+      "emoji": "⚡🌟♾️",
+      "desc": "¡3 estrellas en el Planeta de Patrones (Insane)!",
+      "difficulty": "legendary"
     }
   ]
 }

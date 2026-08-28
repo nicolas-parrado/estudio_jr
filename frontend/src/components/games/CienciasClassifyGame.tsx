@@ -1,10 +1,10 @@
 import React from "react";
-import { ScienceClassifyQuestion } from "../../types";
+import { ScienceClassifyQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface CienciasClassifyGameProps {
   question: ScienceClassifyQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean, selectedOption: string) => void;
 }
 

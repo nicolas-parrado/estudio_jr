@@ -3,6 +3,7 @@ export interface VocabularyItem {
   translation: string;
   emoji: string;
   category: string;
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface SpecialQuestion {
@@ -22,8 +23,10 @@ export interface Planet {
   color: string;
   questionsCountNormal: number;
   questionsCountHard: number;
+  questionsCountInsane?: number;
   stickerNormal?: string;
   stickerHard?: string;
+  stickerInsane?: string;
   vocabulary?: VocabularyItem[];
   specialQuestions?: SpecialQuestion[];
 }
@@ -52,6 +55,8 @@ export interface PlayerState {
 }
 
 export type PlayersProgress = Record<string, PlayerState>;
+
+export type Difficulty = "normal" | "hard" | "insane";
 
 // Tipos para preguntas locales del frontend estructuradas
 export type QuestionType = "trivia" | "audio" | "drag-drop" | "memorice" | "preposition" | "true-false" | "fill-vowels" | "writing";
@@ -188,7 +193,7 @@ export interface MathCalcQuestion {
   options?: string[];
   instruction?: string;
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface MathMissingQuestion {
@@ -200,7 +205,7 @@ export interface MathMissingQuestion {
   options?: string[];
   instruction?: string;
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface MathBalanceQuestion {
@@ -213,7 +218,7 @@ export interface MathBalanceQuestion {
   options?: string[];
   instruction?: string;
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface MathWordProblemQuestion {
@@ -227,7 +232,7 @@ export interface MathWordProblemQuestion {
   correctAnswer: string;
   options?: string[];
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface MathPlaceValueQuestion {
@@ -241,7 +246,7 @@ export interface MathPlaceValueQuestion {
   options: string[];
   instruction?: string;
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface MathSequenceQuestion {
@@ -253,7 +258,7 @@ export interface MathSequenceQuestion {
   options?: string[];
   instruction?: string;
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export interface MathCompareQuestion {
@@ -266,7 +271,7 @@ export interface MathCompareQuestion {
   options: string[];
   instruction?: string;
   emoji?: string;
-  difficulty?: "normal" | "hard";
+  difficulty?: "normal" | "hard" | "insane";
 }
 
 export type GameQuestion = 

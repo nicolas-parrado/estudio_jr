@@ -12,8 +12,10 @@
       "color": "#2ecc71",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-panda",
-      "stickerHard": "st-panda-hard"
+      "stickerHard": "st-panda-hard",
+      "stickerInsane": "st-panda-insane"
     }
   ],
   "stickers": [
@@ -30,6 +32,13 @@
       "emoji": "🌲🐼",
       "desc": "¡3 estrellas en el Planeta Animales en Peligro (Hard)!",
       "difficulty": "hard"
+    },
+    {
+      "id": "st-panda-insane",
+      "name": "Protector Supremo de la Biosfera",
+      "emoji": "🌿👑🌎",
+      "desc": "¡3 estrellas en el Planeta Animales en Peligro (Insane)!",
+      "difficulty": "legendary"
     }
   ]
 }

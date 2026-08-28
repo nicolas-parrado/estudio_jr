@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { MemoriceQuestion, MemoryCard } from "../../types";
+import { MemoriceQuestion, MemoryCard, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface MemoriceGameProps {
   question: MemoriceQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
   onWrongMatch: () => void;
 }

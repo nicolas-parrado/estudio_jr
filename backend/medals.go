@@ -39,6 +39,10 @@ func checkCompletionMedals(playerName string, subjectID string, maxStreak int, p
 			hasAllHard2s := true
 			hasAllHard3s := true
 
+			hasAllInsane1s := true
+			hasAllInsane2s := true
+			hasAllInsane3s := true
+
 			for _, p := range subject.Planets {
 				sNormal := playerState.Stars[p.ID]
 				if sNormal < 1 {
@@ -60,6 +64,17 @@ func checkCompletionMedals(playerName string, subjectID string, maxStreak int, p
 				}
 				if sHard < 3 {
 					hasAllHard3s = false
+				}
+
+				sInsane := playerState.Stars[p.ID+"-insane"]
+				if sInsane < 1 {
+					hasAllInsane1s = false
+				}
+				if sInsane < 2 {
+					hasAllInsane2s = false
+				}
+				if sInsane < 3 {
+					hasAllInsane3s = false
 				}
 			}
 
@@ -83,7 +98,19 @@ func checkCompletionMedals(playerName string, subjectID string, maxStreak int, p
 				database.SaveSticker(playerName, subjectID, "st-hard-complete-3s")
 			}
 
-			if hasAllNormal3s && hasAllHard3s {
+			if hasAllInsane1s {
+				database.SaveSticker(playerName, subjectID, "st-insane-complete")
+			}
+			if hasAllInsane2s {
+				database.SaveSticker(playerName, subjectID, "st-insane-complete-2s")
+			}
+			if hasAllInsane3s {
+				database.SaveSticker(playerName, subjectID, "st-insane-complete-3s")
+			}
+
+			if hasAllNormal3s && hasAllHard3s && hasAllInsane3s {
+				database.SaveSticker(playerName, subjectID, "st-multiverse-master")
+			} else if hasAllNormal3s && hasAllHard3s {
 				database.SaveSticker(playerName, subjectID, "st-cosmo-god")
 			}
 

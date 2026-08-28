@@ -1,11 +1,12 @@
 package main
 
-// VocabularyItem representa una palabra con traducción, emoji y categoría.
+// VocabularyItem representa una palabra con traducción, emoji, categoría y dificultad.
 type VocabularyItem struct {
 	Word        string `json:"word"`
 	Translation string `json:"translation"`
 	Emoji       string `json:"emoji"`
 	Category    string `json:"category"`
+	Difficulty  string `json:"difficulty,omitempty"`
 }
 
 // SpecialQuestion representa una pregunta de lógica (como preposiciones, ciencias o matemáticas)
@@ -52,8 +53,10 @@ type Planet struct {
 	Color                string            `json:"color"`
 	QuestionsCountNormal int               `json:"questionsCountNormal"`
 	QuestionsCountHard   int               `json:"questionsCountHard"`
+	QuestionsCountInsane int               `json:"questionsCountInsane"`
 	StickerNormal        string            `json:"stickerNormal"`
 	StickerHard          string            `json:"stickerHard"`
+	StickerInsane        string            `json:"stickerInsane"`
 	Vocabulary           []VocabularyItem  `json:"vocabulary"`
 	SpecialQuestions     []SpecialQuestion `json:"specialQuestions,omitempty"`
 }

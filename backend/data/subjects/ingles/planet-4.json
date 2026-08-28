@@ -6,128 +6,46 @@
   "color": "#00cec9",
   "questionsCountNormal": 10,
   "questionsCountHard": 15,
+  "questionsCountInsane": 20,
   "stickerNormal": "st-ufo",
   "stickerHard": "st-ufo-hard",
+  "stickerInsane": "st-ufo-insane",
   "vocabulary": [
-    {
-      "word": "cloudy",
-      "translation": "nublado",
-      "emoji": "☁️",
-      "category": "weather"
-    },
-    {
-      "word": "fall",
-      "translation": "otoño",
-      "emoji": "🍂",
-      "category": "weather"
-    },
-    {
-      "word": "hot",
-      "translation": "caluroso",
-      "emoji": "🥵",
-      "category": "weather"
-    },
-    {
-      "word": "spring",
-      "translation": "primavera",
-      "emoji": "🌸",
-      "category": "weather"
-    },
-    {
-      "word": "summer",
-      "translation": "verano",
-      "emoji": "☀️",
-      "category": "weather"
-    },
-    {
-      "word": "winter",
-      "translation": "invierno",
-      "emoji": "❄️",
-      "category": "weather"
-    },
-    {
-      "word": "sunny",
-      "translation": "soleado",
-      "emoji": "🌞",
-      "category": "weather"
-    },
-    {
-      "word": "cold",
-      "translation": "frío",
-      "emoji": "🥶",
-      "category": "weather"
-    },
-    {
-      "word": "windy",
-      "translation": "ventoso",
-      "emoji": "💨",
-      "category": "weather"
-    },
-    {
-      "word": "rainy",
-      "translation": "lluvioso",
-      "emoji": "🌧️",
-      "category": "weather"
-    },
-    {
-      "word": "snowy",
-      "translation": "nevado",
-      "emoji": "🌨️",
-      "category": "weather"
-    },
-    {
-      "word": "stormy",
-      "translation": "tormentoso",
-      "emoji": "⛈️",
-      "category": "weather"
-    },
-    {
-      "word": "rainbow",
-      "translation": "arcoíris",
-      "emoji": "🌈",
-      "category": "weather"
-    },
-    {
-      "word": "umbrella",
-      "translation": "paraguas",
-      "emoji": "☔",
-      "category": "weather"
-    },
-    {
-      "word": "good morning",
-      "translation": "buenos días",
-      "emoji": "🌅",
-      "category": "greetings"
-    },
-    {
-      "word": "good afternoon",
-      "translation": "buenas tardes",
-      "emoji": "☀️",
-      "category": "greetings"
-    },
-    {
-      "word": "good evening",
-      "translation": "buenas noches (al llegar)",
-      "emoji": "🌆",
-      "category": "greetings"
-    },
-    {
-      "word": "good night",
-      "translation": "buenas noches (al dormir)",
-      "emoji": "🌌",
-      "category": "greetings"
-    },
-    {
-      "word": "hello",
-      "translation": "hola",
-      "emoji": "👋",
-      "category": "greetings"
-    },
-    {
-      "word": "goodbye",
-      "translation": "adiós",
-      "emoji": "🙋",
-      "category": "greetings"
-    }
+    {"word": "sunny", "translation": "soleado", "emoji": "☀️", "category": "weather", "difficulty": "normal"},
+    {"word": "rainy", "translation": "lluvioso", "emoji": "🌧️", "category": "weather", "difficulty": "normal"},
+    {"word": "cloudy", "translation": "nublado", "emoji": "☁️", "category": "weather", "difficulty": "normal"},
+    {"word": "windy", "translation": "ventoso / con viento", "emoji": "💨", "category": "weather", "difficulty": "normal"},
+    {"word": "hot", "translation": "caluroso / caliente", "emoji": "🥵", "category": "weather", "difficulty": "normal"},
+    {"word": "cold", "translation": "frío", "emoji": "🥶", "category": "weather", "difficulty": "normal"},
+    {"word": "hello", "translation": "hola", "emoji": "👋", "category": "greetings", "difficulty": "normal"},
+    {"word": "goodbye", "translation": "adiós / chao", "emoji": "🙋", "category": "greetings", "difficulty": "normal"},
+    {"word": "thank you", "translation": "gracias", "emoji": "🙏", "category": "courtesy", "difficulty": "normal"},
+    {"word": "please", "translation": "por favor", "emoji": "🥺", "category": "courtesy", "difficulty": "normal"},
+    {"word": "happy", "translation": "feliz / contento", "emoji": "😄", "category": "feelings", "difficulty": "normal"},
+    {"word": "sad", "translation": "triste", "emoji": "😢", "category": "feelings", "difficulty": "normal"},
+    {"word": "snowy", "translation": "nevado / con nieve", "emoji": "❄️", "category": "weather", "difficulty": "hard"},
+    {"word": "stormy", "translation": "tormentoso", "emoji": "⛈️", "category": "weather", "difficulty": "hard"},
+    {"word": "warm", "translation": "templado / cálido", "emoji": "🌤️", "category": "weather", "difficulty": "hard"},
+    {"word": "cool", "translation": "fresco", "emoji": "🌬️", "category": "weather", "difficulty": "hard"},
+    {"word": "spring", "translation": "primavera", "emoji": "🌸", "category": "seasons", "difficulty": "hard"},
+    {"word": "summer", "translation": "verano", "emoji": "🏖️", "category": "seasons", "difficulty": "hard"},
+    {"word": "autumn", "translation": "otoño", "emoji": "🍂", "category": "seasons", "difficulty": "hard"},
+    {"word": "winter", "translation": "invierno", "emoji": "☃️", "category": "seasons", "difficulty": "hard"},
+    {"word": "good morning", "translation": "buenos días", "emoji": "🌅", "category": "greetings", "difficulty": "hard"},
+    {"word": "good night", "translation": "buenas noches", "emoji": "🌙", "category": "greetings", "difficulty": "hard"},
+    {"word": "how are you", "translation": "cómo estás", "emoji": "🤝", "category": "greetings", "difficulty": "hard"},
+    {"word": "fine", "translation": "bien / genial", "emoji": "😊", "category": "feelings", "difficulty": "hard"},
+    {"word": "tired", "translation": "cansado", "emoji": "🥱", "category": "feelings", "difficulty": "hard"},
+    {"word": "foggy", "translation": "con niebla / neblinoso", "emoji": "🌫️", "category": "weather", "difficulty": "insane"},
+    {"word": "rainbow", "translation": "arcoíris", "emoji": "🌈", "category": "weather", "difficulty": "insane"},
+    {"word": "lightning", "translation": "relámpago", "emoji": "⚡", "category": "weather", "difficulty": "insane"},
+    {"word": "thunder", "translation": "trueno", "emoji": "🌩️", "category": "weather", "difficulty": "insane"},
+    {"word": "good afternoon", "translation": "buenas tardes", "emoji": "🌇", "category": "greetings", "difficulty": "insane"},
+    {"word": "see you later", "translation": "hasta luego / nos vemos", "emoji": "👋", "category": "greetings", "difficulty": "insane"},
+    {"word": "you are welcome", "translation": "de nada", "emoji": "🤗", "category": "courtesy", "difficulty": "insane"},
+    {"word": "umbrella", "translation": "paraguas", "emoji": "☂️", "category": "weather", "difficulty": "insane"},
+    {"word": "sun", "translation": "sol", "emoji": "☀️", "category": "weather", "difficulty": "insane"},
+    {"word": "cloud", "translation": "nube", "emoji": "☁️", "category": "weather", "difficulty": "insane"},
+    {"word": "rain", "translation": "lluvia", "emoji": "💧", "category": "weather", "difficulty": "insane"}
   ]
 }

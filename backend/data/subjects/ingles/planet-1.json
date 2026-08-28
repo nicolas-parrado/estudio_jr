@@ -6,146 +6,50 @@
   "color": "#e84393",
   "questionsCountNormal": 10,
   "questionsCountHard": 15,
+  "questionsCountInsane": 20,
   "stickerNormal": "st-rocket",
   "stickerHard": "st-rocket-hard",
+  "stickerInsane": "st-rocket-insane",
   "vocabulary": [
-    {
-      "word": "red",
-      "translation": "rojo",
-      "emoji": "🔴",
-      "category": "colors"
-    },
-    {
-      "word": "blue",
-      "translation": "azul",
-      "emoji": "🔵",
-      "category": "colors"
-    },
-    {
-      "word": "green",
-      "translation": "verde",
-      "emoji": "🟢",
-      "category": "colors"
-    },
-    {
-      "word": "yellow",
-      "translation": "amarillo",
-      "emoji": "🟡",
-      "category": "colors"
-    },
-    {
-      "word": "orange",
-      "translation": "naranja",
-      "emoji": "🟠",
-      "category": "colors"
-    },
-    {
-      "word": "purple",
-      "translation": "morado",
-      "emoji": "🟣",
-      "category": "colors"
-    },
-    {
-      "word": "pink",
-      "translation": "rosado",
-      "emoji": "💗",
-      "category": "colors"
-    },
-    {
-      "word": "brown",
-      "translation": "marrón",
-      "emoji": "🟤",
-      "category": "colors"
-    },
-    {
-      "word": "black",
-      "translation": "negro",
-      "emoji": "⚫",
-      "category": "colors"
-    },
-    {
-      "word": "white",
-      "translation": "blanco",
-      "emoji": "⚪",
-      "category": "colors"
-    },
-    {
-      "word": "grey",
-      "translation": "gris",
-      "emoji": "⚫",
-      "category": "colors"
-    },
-    {
-      "word": "kitchen",
-      "translation": "cocina",
-      "emoji": "🍳",
-      "category": "house"
-    },
-    {
-      "word": "bedroom",
-      "translation": "dormitorio",
-      "emoji": "🛏️",
-      "category": "house"
-    },
-    {
-      "word": "bathroom",
-      "translation": "baño",
-      "emoji": "🚿",
-      "category": "house"
-    },
-    {
-      "word": "living room",
-      "translation": "sala de estar",
-      "emoji": "🛋️",
-      "category": "house"
-    },
-    {
-      "word": "garden",
-      "translation": "jardín",
-      "emoji": "🏡",
-      "category": "house"
-    },
-    {
-      "word": "garage",
-      "translation": "garaje",
-      "emoji": "🚗",
-      "category": "house"
-    },
-    {
-      "word": "dining room",
-      "translation": "comedor",
-      "emoji": "🍽️",
-      "category": "house"
-    },
-    {
-      "word": "roof",
-      "translation": "techo",
-      "emoji": "🏠",
-      "category": "house"
-    },
-    {
-      "word": "window",
-      "translation": "ventana",
-      "emoji": "🪟",
-      "category": "house"
-    },
-    {
-      "word": "door",
-      "translation": "puerta",
-      "emoji": "🚪",
-      "category": "house"
-    },
-    {
-      "word": "floor",
-      "translation": "piso",
-      "emoji": "🧱",
-      "category": "house"
-    },
-    {
-      "word": "wall",
-      "translation": "pared",
-      "emoji": "🧱",
-      "category": "house"
-    }
+    {"word": "red", "translation": "rojo", "emoji": "🔴", "category": "colors", "difficulty": "normal"},
+    {"word": "blue", "translation": "azul", "emoji": "🔵", "category": "colors", "difficulty": "normal"},
+    {"word": "green", "translation": "verde", "emoji": "🟢", "category": "colors", "difficulty": "normal"},
+    {"word": "yellow", "translation": "amarillo", "emoji": "🟡", "category": "colors", "difficulty": "normal"},
+    {"word": "orange", "translation": "naranja", "emoji": "🟠", "category": "colors", "difficulty": "normal"},
+    {"word": "purple", "translation": "morado", "emoji": "🟣", "category": "colors", "difficulty": "normal"},
+    {"word": "pink", "translation": "rosado", "emoji": "💗", "category": "colors", "difficulty": "normal"},
+    {"word": "brown", "translation": "marrón / café", "emoji": "🟤", "category": "colors", "difficulty": "normal"},
+    {"word": "black", "translation": "negro", "emoji": "⚫", "category": "colors", "difficulty": "normal"},
+    {"word": "white", "translation": "blanco", "emoji": "⚪", "category": "colors", "difficulty": "normal"},
+    {"word": "door", "translation": "puerta", "emoji": "🚪", "category": "house", "difficulty": "normal"},
+    {"word": "window", "translation": "ventana", "emoji": "🪟", "category": "house", "difficulty": "normal"},
+    {"word": "bed", "translation": "cama", "emoji": "🛏️", "category": "furniture", "difficulty": "normal"},
+    {"word": "table", "translation": "mesa", "emoji": "🪵", "category": "furniture", "difficulty": "normal"},
+    {"word": "chair", "translation": "silla", "emoji": "🪑", "category": "furniture", "difficulty": "normal"},
+    {"word": "kitchen", "translation": "cocina", "emoji": "🍳", "category": "house", "difficulty": "normal"},
+    {"word": "bedroom", "translation": "dormitorio / pieza", "emoji": "🛏️", "category": "house", "difficulty": "normal"},
+    {"word": "bathroom", "translation": "baño", "emoji": "🚿", "category": "house", "difficulty": "normal"},
+    {"word": "grey", "translation": "gris", "emoji": "🔘", "category": "colors", "difficulty": "hard"},
+    {"word": "golden", "translation": "dorado", "emoji": "🥇", "category": "colors", "difficulty": "hard"},
+    {"word": "silver", "translation": "plateado / plata", "emoji": "🥈", "category": "colors", "difficulty": "hard"},
+    {"word": "violet", "translation": "violeta", "emoji": "🔮", "category": "colors", "difficulty": "hard"},
+    {"word": "living room", "translation": "living / sala de estar", "emoji": "🛋️", "category": "house", "difficulty": "hard"},
+    {"word": "dining room", "translation": "comedor", "emoji": "🍽️", "category": "house", "difficulty": "hard"},
+    {"word": "roof", "translation": "techo", "emoji": "🏠", "category": "house", "difficulty": "hard"},
+    {"word": "floor", "translation": "piso", "emoji": "🧱", "category": "house", "difficulty": "hard"},
+    {"word": "wall", "translation": "pared / muro", "emoji": "🧱", "category": "house", "difficulty": "hard"},
+    {"word": "lamp", "translation": "lámpara", "emoji": "💡", "category": "furniture", "difficulty": "hard"},
+    {"word": "sofa", "translation": "sofá / sillón", "emoji": "🛋️", "category": "furniture", "difficulty": "hard"},
+    {"word": "garden", "translation": "jardín", "emoji": "🏡", "category": "house", "difficulty": "hard"},
+    {"word": "garage", "translation": "garaje / estacionamiento", "emoji": "🚗", "category": "house", "difficulty": "hard"},
+    {"word": "light blue", "translation": "celeste / azul claro", "emoji": "🩵", "category": "colors", "difficulty": "insane"},
+    {"word": "dark green", "translation": "verde oscuro", "emoji": "🌲", "category": "colors", "difficulty": "insane"},
+    {"word": "stairs", "translation": "escaleras", "emoji": "🪜", "category": "house", "difficulty": "insane"},
+    {"word": "balcony", "translation": "balcón", "emoji": "🌇", "category": "house", "difficulty": "insane"},
+    {"word": "chimney", "translation": "chimenea", "emoji": "🪵", "category": "house", "difficulty": "insane"},
+    {"word": "mirror", "translation": "espejo", "emoji": "🪞", "category": "furniture", "difficulty": "insane"},
+    {"word": "fridge", "translation": "refrigerador", "emoji": "🧊", "category": "furniture", "difficulty": "insane"},
+    {"word": "armchair", "translation": "sillón individual", "emoji": "🪑", "category": "furniture", "difficulty": "insane"},
+    {"word": "wardrobe", "translation": "clóset / ropero", "emoji": "🚪", "category": "furniture", "difficulty": "insane"}
   ]
 }

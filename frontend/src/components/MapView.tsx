@@ -6,8 +6,8 @@ interface MapViewProps {
   currentSubject: Subject;
   planets: Planet[];
   playerStats: PlayerState;
-  difficulty: "normal" | "hard";
-  setDifficulty: (diff: "normal" | "hard") => void;
+  difficulty: "normal" | "hard" | "insane";
+  setDifficulty: (diff: "normal" | "hard" | "insane") => void;
   onPlanetSelect: (planet: Planet) => void;
   onBackToSubjects: () => void;
 }
@@ -64,42 +64,77 @@ export const MapView: React.FC<MapViewProps> = ({
           </div>
         </div>
 
-        {/* Selector de Dificultad Galáctica */}
-        <div className="difficulty-toggle-container" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ fontSize: "0.9rem", color: difficulty === "normal" ? "var(--color-cyan)" : "var(--text-muted)", fontWeight: "bold" }}>🌌 Modo Normal</span>
-          <label className="difficulty-switch" style={{ position: "relative", display: "inline-block", width: "60px", height: "34px" }}>
-            <input 
-              type="checkbox" 
-              checked={difficulty === "hard"}
-              onChange={(e) => {
-                playSound("click");
-                setDifficulty(e.target.checked ? "hard" : "normal");
-              }}
-              style={{ opacity: 0, width: 0, height: 0 }}
-            />
-            <span className="difficulty-slider" style={{
-              position: "absolute", cursor: "pointer", top: 0, left: 0, right: 0, bottom: 0,
-              backgroundColor: "rgba(255,255,255,0.1)",
-              border: "2px solid var(--glass-border)",
-              transition: "0.4s", borderRadius: "34px",
-              boxShadow: difficulty === "hard" ? "0 0 15px rgba(255, 118, 117, 0.4)" : ""
-            }}>
-              <span style={{
-                position: "absolute", content: '""', height: "24px", width: "24px", left: "3px", bottom: "3px",
-                backgroundColor: difficulty === "hard" ? "#ff7675" : "var(--color-cyan)",
-                transition: "0.4s", borderRadius: "50%",
-                transform: difficulty === "hard" ? "translateX(26px)" : "none",
-                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem"
-              }}>
-                {difficulty === "hard" ? "🔥" : "✨"}
-              </span>
-            </span>
-          </label>
-          <span style={{ fontSize: "0.9rem", color: difficulty === "hard" ? "#ff7675" : "var(--text-muted)", fontWeight: "bold" }}>🔥 Modo Hard</span>
+        {/* Selector de Dificultad Galáctica (Control Segmentado) */}
+        <div className="difficulty-segmented-control" style={{
+          display: "flex",
+          background: "rgba(255, 255, 255, 0.05)",
+          padding: "4px",
+          borderRadius: "30px",
+          border: "1px solid var(--glass-border)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+          gap: "4px"
+        }}>
+          <button
+            type="button"
+            className={`btn-diff-pill ${difficulty === "normal" ? "active" : ""}`}
+            onClick={() => { playSound("click"); setDifficulty("normal"); }}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "20px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "0.85rem",
+              fontWeight: "bold",
+              transition: "all 0.3s ease",
+              background: difficulty === "normal" ? "linear-gradient(135deg, #00cec9, #0984e3)" : "transparent",
+              color: difficulty === "normal" ? "#fff" : "var(--text-muted)",
+              boxShadow: difficulty === "normal" ? "0 0 12px rgba(0, 206, 201, 0.5)" : "none"
+            }}
+          >
+            🌌 Normal
+          </button>
+          <button
+            type="button"
+            className={`btn-diff-pill ${difficulty === "hard" ? "active" : ""}`}
+            onClick={() => { playSound("click"); setDifficulty("hard"); }}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "20px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "0.85rem",
+              fontWeight: "bold",
+              transition: "all 0.3s ease",
+              background: difficulty === "hard" ? "linear-gradient(135deg, #ff7675, #d63031)" : "transparent",
+              color: difficulty === "hard" ? "#fff" : "var(--text-muted)",
+              boxShadow: difficulty === "hard" ? "0 0 12px rgba(255, 118, 117, 0.5)" : "none"
+            }}
+          >
+            🔥 Hard
+          </button>
+          <button
+            type="button"
+            className={`btn-diff-pill ${difficulty === "insane" ? "active" : ""}`}
+            onClick={() => { playSound("click"); setDifficulty("insane"); }}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "20px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "0.85rem",
+              fontWeight: "bold",
+              transition: "all 0.3s ease",
+              background: difficulty === "insane" ? "linear-gradient(135deg, #a29bfe, #6c5ce7)" : "transparent",
+              color: difficulty === "insane" ? "#fff" : "var(--text-muted)",
+              boxShadow: difficulty === "insane" ? "0 0 15px rgba(108, 92, 231, 0.7)" : "none"
+            }}
+          >
+            ⚡ Insane
+          </button>
         </div>
       </div>
       
-      <div className={`map-container ${difficulty === "hard" ? "hard-nebula" : ""}`} id="map-container">
+      <div className={`map-container ${difficulty === "hard" ? "hard-nebula" : difficulty === "insane" ? "insane-nebula" : ""}`} id="map-container">
         <div className="nebula"></div>
         <div 
           className="player-rocket" 
@@ -111,48 +146,63 @@ export const MapView: React.FC<MapViewProps> = ({
         
         <div className="planets-grid">
           {planets.map(planet => {
-            // Bloqueo: En Hard requiere al menos 2 estrellas en el Normal de ese mismo planeta
-            const isLocked = difficulty === "hard" 
-              ? (playerStats.stars[planet.id] || 0) < 2 
-              : !playerStats.unlockedPlanets.includes(planet.id);
+            // Lógica de Bloqueo
+            let isLocked = false;
+            let lockMsg = "";
+
+            if (difficulty === "normal") {
+              isLocked = !playerStats.unlockedPlanets.includes(planet.id);
+              lockMsg = "🔒 Bloqueado";
+            } else if (difficulty === "hard") {
+              isLocked = (playerStats.stars[planet.id] || 0) < 2;
+              lockMsg = "🔒 Requiere 2⭐ en Normal";
+            } else if (difficulty === "insane") {
+              isLocked = (playerStats.stars[`${planet.id}-hard`] || 0) < 2;
+              lockMsg = "🔒 Requiere 2⭐ en Hard";
+            }
 
             // Estrellas obtenidas según el modo seleccionado
-            const targetID = difficulty === "hard" ? `${planet.id}-hard` : planet.id;
+            const targetID = difficulty === "insane" ? `${planet.id}-insane` : difficulty === "hard" ? `${planet.id}-hard` : planet.id;
             const stars = playerStats.stars[targetID] || 0;
             const starsStr = "⭐".repeat(stars) + "☆".repeat(3 - stars);
 
-            // Estrellas de ambas dificultades para brillo
+            // Estrellas de todas las dificultades para brillo cósmico
             const starsNormal = playerStats.stars[planet.id] || 0;
             const starsHard = playerStats.stars[`${planet.id}-hard`] || 0;
+            const starsInsane = playerStats.stars[`${planet.id}-insane`] || 0;
 
             // Definir brillo premium del planeta según logros
             let glowClass = "";
-            if (starsHard === 3) {
+            if (starsInsane === 3) {
               glowClass = "planet-glow-cosmic";
-            } else if (starsHard > 0) {
+            } else if (starsInsane > 0 || starsHard === 3) {
               glowClass = "planet-glow-silver";
-            } else if (starsNormal > 0) {
+            } else if (starsHard > 0 || starsNormal > 0) {
               glowClass = "planet-glow-bronze";
             }
+
+            const currentDiffColor = difficulty === "insane" ? "#a29bfe" : difficulty === "hard" ? "#ff7675" : planet.color;
 
             return (
               <div 
                 key={planet.id}
-                className={`planet-node ${isLocked ? "locked" : ""} ${difficulty === "hard" && !isLocked ? "hard-aura" : ""} ${glowClass}`}
-                style={{ ["--planet-color" as any]: difficulty === "hard" ? "#ff7675" : planet.color }}
+                className={`planet-node ${isLocked ? "locked" : ""} ${difficulty === "hard" && !isLocked ? "hard-aura" : ""} ${difficulty === "insane" && !isLocked ? "insane-aura" : ""} ${glowClass}`}
+                style={{ ["--planet-color" as any]: currentDiffColor }}
                 onClick={(e) => !isLocked && handlePlanetClick(e, planet)}
               >
-                <span className="planet-sphere" style={{ filter: `drop-shadow(0 0 10px ${difficulty === "hard" ? "#ff7675" : planet.color})` }}>
+                <span className="planet-sphere" style={{ filter: `drop-shadow(0 0 10px ${currentDiffColor})` }}>
                   {isLocked ? "🪐" : planet.emoji}
                 </span>
-                <div className="planet-name">{planet.name} {difficulty === "hard" && "🔥"}</div>
+                <div className="planet-name">
+                  {planet.name} {difficulty === "hard" && "🔥"} {difficulty === "insane" && "⚡"}
+                </div>
                 <div className="planet-subtitle">{planet.subtitle}</div>
                 <div className="planet-stars-earned">
                   {!isLocked && starsStr}
                 </div>
                 {isLocked && (
-                  <div className="lock-icon" style={{ color: difficulty === "hard" ? "#ff7675" : "" }}>
-                    {difficulty === "hard" ? "🔒 Requiere 2⭐ en Normal" : "🔒 Bloqueado"}
+                  <div className="lock-icon" style={{ color: difficulty === "insane" ? "#a29bfe" : difficulty === "hard" ? "#ff7675" : "" }}>
+                    {lockMsg}
                   </div>
                 )}
               </div>

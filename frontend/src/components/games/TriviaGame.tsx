@@ -1,10 +1,10 @@
 import React from "react";
-import { GameQuestion } from "../../types";
+import { StandardQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface TriviaGameProps {
-  question: GameQuestion;
-  difficulty: "normal" | "hard";
+  question: StandardQuestion;
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean, selectedOption: string) => void;
 }
 

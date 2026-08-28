@@ -6,218 +6,55 @@
   "color": "#6c5ce7",
   "questionsCountNormal": 10,
   "questionsCountHard": 15,
+  "questionsCountInsane": 20,
   "stickerNormal": "st-astronaut",
   "stickerHard": "st-astronaut-hard",
+  "stickerInsane": "st-astronaut-insane",
   "vocabulary": [
-    {
-      "word": "one",
-      "translation": "uno",
-      "emoji": "1️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "two",
-      "translation": "dos",
-      "emoji": "2️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "three",
-      "translation": "tres",
-      "emoji": "3️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "four",
-      "translation": "cuatro",
-      "emoji": "4️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "five",
-      "translation": "cinco",
-      "emoji": "5️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "six",
-      "translation": "seis",
-      "emoji": "6️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "seven",
-      "translation": "siete",
-      "emoji": "7️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "eight",
-      "translation": "ocho",
-      "emoji": "8️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "nine",
-      "translation": "nueve",
-      "emoji": "9️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "ten",
-      "translation": "diez",
-      "emoji": "🔟",
-      "category": "numbers"
-    },
-    {
-      "word": "eleven",
-      "translation": "once",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "twelve",
-      "translation": "doce",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "thirteen",
-      "translation": "trece",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "fourteen",
-      "translation": "catorce",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "fifteen",
-      "translation": "quince",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "sixteen",
-      "translation": "dieciséis",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "seventeen",
-      "translation": "diecisiete",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "eighteen",
-      "translation": "dieciocho",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "nineteen",
-      "translation": "diecinueve",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "twenty",
-      "translation": "veinte",
-      "emoji": "🔢",
-      "category": "numbers"
-    },
-    {
-      "word": "thirty",
-      "translation": "treinta",
-      "emoji": "3️⃣0️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "forty",
-      "translation": "cuarenta",
-      "emoji": "4️⃣0️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "fifty",
-      "translation": "cincuenta",
-      "emoji": "5️⃣0️⃣",
-      "category": "numbers"
-    },
-    {
-      "word": "ant",
-      "translation": "hormiga",
-      "emoji": "🐜",
-      "category": "insects"
-    },
-    {
-      "word": "bee",
-      "translation": "abeja",
-      "emoji": "🐝",
-      "category": "insects"
-    },
-    {
-      "word": "firefly",
-      "translation": "luciérnaga",
-      "emoji": "💡",
-      "category": "insects"
-    },
-    {
-      "word": "ladybug",
-      "translation": "chinita",
-      "emoji": "🐞",
-      "category": "insects"
-    },
-    {
-      "word": "grasshopper",
-      "translation": "saltamontes",
-      "emoji": "🦗",
-      "category": "insects"
-    },
-    {
-      "word": "caterpillar",
-      "translation": "oruga",
-      "emoji": "🐛",
-      "category": "insects"
-    },
-    {
-      "word": "spider",
-      "translation": "araña",
-      "emoji": "🕷️",
-      "category": "insects"
-    },
-    {
-      "word": "butterfly",
-      "translation": "mariposa",
-      "emoji": "🦋",
-      "category": "insects"
-    },
-    {
-      "word": "mosquito",
-      "translation": "mosquito",
-      "emoji": "🦟",
-      "category": "insects"
-    },
-    {
-      "word": "fly",
-      "translation": "mosca",
-      "emoji": "🪰",
-      "category": "insects"
-    },
-    {
-      "word": "worm",
-      "translation": "gusano",
-      "emoji": "🪱",
-      "category": "insects"
-    },
-    {
-      "word": "dragonfly",
-      "translation": "libélula",
-      "emoji": "🦗",
-      "category": "insects"
-    }
+    {"word": "one", "translation": "uno (1)", "emoji": "1️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "two", "translation": "dos (2)", "emoji": "2️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "three", "translation": "tres (3)", "emoji": "3️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "four", "translation": "cuatro (4)", "emoji": "4️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "five", "translation": "cinco (5)", "emoji": "5️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "six", "translation": "seis (6)", "emoji": "6️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "seven", "translation": "siete (7)", "emoji": "7️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "eight", "translation": "ocho (8)", "emoji": "8️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "nine", "translation": "nueve (9)", "emoji": "9️⃣", "category": "numbers", "difficulty": "normal"},
+    {"word": "ten", "translation": "diez (10)", "emoji": "🔟", "category": "numbers", "difficulty": "normal"},
+    {"word": "ant", "translation": "hormiga", "emoji": "🐜", "category": "insects", "difficulty": "normal"},
+    {"word": "bee", "translation": "abeja", "emoji": "🐝", "category": "insects", "difficulty": "normal"},
+    {"word": "butterfly", "translation": "mariposa", "emoji": "🦋", "category": "insects", "difficulty": "normal"},
+    {"word": "spider", "translation": "araña", "emoji": "🕷️", "category": "insects", "difficulty": "normal"},
+    {"word": "fly", "translation": "mosca", "emoji": "🪰", "category": "insects", "difficulty": "normal"},
+    {"word": "eleven", "translation": "once (11)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "twelve", "translation": "doce (12)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "thirteen", "translation": "trece (13)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "fourteen", "translation": "catorce (14)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "fifteen", "translation": "quince (15)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "sixteen", "translation": "dieciséis (16)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "seventeen", "translation": "diecisiete (17)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "eighteen", "translation": "dieciocho (18)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "nineteen", "translation": "diecinueve (19)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "twenty", "translation": "veinte (20)", "emoji": "🔢", "category": "numbers", "difficulty": "hard"},
+    {"word": "ladybug", "translation": "chinita / mariquita", "emoji": "🐞", "category": "insects", "difficulty": "hard"},
+    {"word": "grasshopper", "translation": "saltamontes", "emoji": "🦗", "category": "insects", "difficulty": "hard"},
+    {"word": "caterpillar", "translation": "oruga", "emoji": "🐛", "category": "insects", "difficulty": "hard"},
+    {"word": "mosquito", "translation": "zancudo / mosquito", "emoji": "🦟", "category": "insects", "difficulty": "hard"},
+    {"word": "beetle", "translation": "escarabajo", "emoji": "🪲", "category": "insects", "difficulty": "hard"},
+    {"word": "thirty", "translation": "treinta (30)", "emoji": "🔢", "category": "numbers", "difficulty": "insane"},
+    {"word": "forty", "translation": "cuarenta (40)", "emoji": "🔢", "category": "numbers", "difficulty": "insane"},
+    {"word": "fifty", "translation": "cincuenta (50)", "emoji": "🔢", "category": "numbers", "difficulty": "insane"},
+    {"word": "one hundred", "translation": "cien (100)", "emoji": "💯", "category": "numbers", "difficulty": "insane"},
+    {"word": "worm", "translation": "gusano / lombriz", "emoji": "🪱", "category": "insects", "difficulty": "insane"},
+    {"word": "snail", "translation": "caracol", "emoji": "🐌", "category": "insects", "difficulty": "insane"},
+    {"word": "dragonfly", "translation": "libélula", "emoji": "🛸", "category": "insects", "difficulty": "insane"},
+    {"word": "firefly", "translation": "luciérnaga", "emoji": "✨", "category": "insects", "difficulty": "insane"},
+    {"word": "hive", "translation": "colmena", "emoji": "🍯", "category": "insects", "difficulty": "insane"},
+    {"word": "anthill", "translation": "hormiguero", "emoji": "⛰️", "category": "insects", "difficulty": "insane"},
+    {"word": "wings", "translation": "alas", "emoji": "🪽", "category": "insects", "difficulty": "insane"},
+    {"word": "legs", "translation": "patas", "emoji": "🦵", "category": "insects", "difficulty": "insane"},
+    {"word": "antennae", "translation": "antenas", "emoji": "📡", "category": "insects", "difficulty": "insane"},
+    {"word": "web", "translation": "telaraña", "emoji": "🕸️", "category": "insects", "difficulty": "insane"},
+    {"word": "pollen", "translation": "polen", "emoji": "🌼", "category": "insects", "difficulty": "insane"}
   ]
 }

@@ -6,159 +6,46 @@
   "color": "#ff7675",
   "questionsCountNormal": 10,
   "questionsCountHard": 15,
+  "questionsCountInsane": 20,
   "stickerNormal": "st-crown",
   "stickerHard": "st-crown-hard",
+  "stickerInsane": "st-crown-insane",
   "vocabulary": [
-    {
-      "word": "balloon",
-      "translation": "globo",
-      "emoji": "🎈",
-      "category": "birthday"
-    },
-    {
-      "word": "cake",
-      "translation": "torta",
-      "emoji": "🎂",
-      "category": "birthday"
-    },
-    {
-      "word": "candle",
-      "translation": "vela",
-      "emoji": "🕯️",
-      "category": "birthday"
-    },
-    {
-      "word": "gift",
-      "translation": "regalo",
-      "emoji": "🎁",
-      "category": "birthday"
-    },
-    {
-      "word": "chest",
-      "translation": "baúl",
-      "emoji": "📦",
-      "category": "birthday"
-    },
-    {
-      "word": "popcorn",
-      "translation": "cabritas",
-      "emoji": "🍿",
-      "category": "birthday"
-    },
-    {
-      "word": "sandwich",
-      "translation": "sándwich",
-      "emoji": "🥪",
-      "category": "birthday"
-    },
-    {
-      "word": "table",
-      "translation": "mesa",
-      "emoji": "🟫",
-      "category": "birthday"
-    },
-    {
-      "word": "birthday",
-      "translation": "cumpleaños",
-      "emoji": "🎉",
-      "category": "birthday"
-    },
-    {
-      "word": "invitation",
-      "translation": "invitación",
-      "emoji": "✉️",
-      "category": "birthday"
-    },
-    {
-      "word": "juice",
-      "translation": "jugo",
-      "emoji": "🧃",
-      "category": "birthday"
-    },
-    {
-      "word": "night",
-      "translation": "noche",
-      "emoji": "🌃",
-      "category": "birthday"
-    },
-    {
-      "word": "grandma",
-      "translation": "abuela",
-      "emoji": "👵",
-      "category": "family"
-    },
-    {
-      "word": "grandpa",
-      "translation": "abuelo",
-      "emoji": "👴",
-      "category": "family"
-    },
-    {
-      "word": "dad",
-      "translation": "papá",
-      "emoji": "👨",
-      "category": "family"
-    },
-    {
-      "word": "mom",
-      "translation": "mamá",
-      "emoji": "👩‍🦱",
-      "category": "family"
-    },
-    {
-      "word": "aunt",
-      "translation": "tía",
-      "emoji": "👩",
-      "category": "family"
-    },
-    {
-      "word": "uncle",
-      "translation": "tío",
-      "emoji": "👨‍🦰",
-      "category": "family"
-    },
-    {
-      "word": "brother",
-      "translation": "hermano",
-      "emoji": "👦",
-      "category": "family"
-    },
-    {
-      "word": "sister",
-      "translation": "hermana",
-      "emoji": "👧",
-      "category": "family"
-    },
-    {
-      "word": "cousin",
-      "translation": "primo / prima",
-      "emoji": "🧑",
-      "category": "family"
-    },
-    {
-      "word": "nephew",
-      "translation": "sobrino",
-      "emoji": "👦",
-      "category": "family"
-    },
-    {
-      "word": "niece",
-      "translation": "sobrina",
-      "emoji": "👧",
-      "category": "family"
-    },
-    {
-      "word": "parents",
-      "translation": "padres",
-      "emoji": "👪",
-      "category": "family"
-    },
-    {
-      "word": "family",
-      "translation": "familia",
-      "emoji": "👨‍👩‍👧‍👦",
-      "category": "family"
-    }
+    {"word": "balloon", "translation": "globo", "emoji": "🎈", "category": "birthday", "difficulty": "normal"},
+    {"word": "cake", "translation": "torta / pastel", "emoji": "🎂", "category": "birthday", "difficulty": "normal"},
+    {"word": "gift", "translation": "regalo", "emoji": "🎁", "category": "birthday", "difficulty": "normal"},
+    {"word": "birthday", "translation": "cumpleaños", "emoji": "🎉", "category": "birthday", "difficulty": "normal"},
+    {"word": "dad", "translation": "papá", "emoji": "👨", "category": "family", "difficulty": "normal"},
+    {"word": "mom", "translation": "mamá", "emoji": "👩‍🦱", "category": "family", "difficulty": "normal"},
+    {"word": "brother", "translation": "hermano", "emoji": "👦", "category": "family", "difficulty": "normal"},
+    {"word": "sister", "translation": "hermana", "emoji": "👧", "category": "family", "difficulty": "normal"},
+    {"word": "baby", "translation": "bebé", "emoji": "👶", "category": "family", "difficulty": "normal"},
+    {"word": "family", "translation": "familia", "emoji": "👨‍👩‍👧‍👦", "category": "family", "difficulty": "normal"},
+    {"word": "candle", "translation": "vela", "emoji": "🕯️", "category": "birthday", "difficulty": "hard"},
+    {"word": "present", "translation": "presente / regalo", "emoji": "🎁", "category": "birthday", "difficulty": "hard"},
+    {"word": "popcorn", "translation": "cabritas / palomitas", "emoji": "🍿", "category": "birthday", "difficulty": "hard"},
+    {"word": "sandwich", "translation": "sándwich", "emoji": "🥪", "category": "birthday", "difficulty": "hard"},
+    {"word": "table", "translation": "mesa", "emoji": "🪵", "category": "birthday", "difficulty": "hard"},
+    {"word": "grandma", "translation": "abuela", "emoji": "👵", "category": "family", "difficulty": "hard"},
+    {"word": "grandpa", "translation": "abuelo", "emoji": "👴", "category": "family", "difficulty": "hard"},
+    {"word": "aunt", "translation": "tía", "emoji": "👩", "category": "family", "difficulty": "hard"},
+    {"word": "uncle", "translation": "tío", "emoji": "👨‍🦰", "category": "family", "difficulty": "hard"},
+    {"word": "cousin", "translation": "primo / prima", "emoji": "🧑", "category": "family", "difficulty": "hard"},
+    {"word": "chest", "translation": "baúl", "emoji": "📦", "category": "birthday", "difficulty": "insane"},
+    {"word": "invitation", "translation": "invitación", "emoji": "✉️", "category": "birthday", "difficulty": "insane"},
+    {"word": "juice", "translation": "jugo", "emoji": "🧃", "category": "birthday", "difficulty": "insane"},
+    {"word": "sweets", "translation": "dulces / caramelos", "emoji": "🍬", "category": "birthday", "difficulty": "insane"},
+    {"word": "cookies", "translation": "galletas", "emoji": "🍪", "category": "birthday", "difficulty": "insane"},
+    {"word": "party hat", "translation": "gorro de fiesta", "emoji": "🥳", "category": "birthday", "difficulty": "insane"},
+    {"word": "music", "translation": "música", "emoji": "🎵", "category": "birthday", "difficulty": "insane"},
+    {"word": "games", "translation": "juegos", "emoji": "🎲", "category": "birthday", "difficulty": "insane"},
+    {"word": "father", "translation": "padre (formal)", "emoji": "👨", "category": "family", "difficulty": "insane"},
+    {"word": "mother", "translation": "madre (formal)", "emoji": "👩‍🦱", "category": "family", "difficulty": "insane"},
+    {"word": "grandfather", "translation": "abuelo (formal)", "emoji": "👴", "category": "family", "difficulty": "insane"},
+    {"word": "grandmother", "translation": "abuela (formal)", "emoji": "👵", "category": "family", "difficulty": "insane"},
+    {"word": "nephew", "translation": "sobrino", "emoji": "👦", "category": "family", "difficulty": "insane"},
+    {"word": "niece", "translation": "sobrina", "emoji": "👧", "category": "family", "difficulty": "insane"},
+    {"word": "parents", "translation": "padres / papás", "emoji": "👪", "category": "family", "difficulty": "insane"}
   ],
   "specialQuestions": [
     {
@@ -166,11 +53,7 @@
       "phrase": "The alien is ___ the box.",
       "preposition": "in",
       "translation": "El alien está dentro de la caja.",
-      "options": [
-        "in",
-        "on",
-        "under"
-      ],
+      "options": ["in", "on", "under", "behind"],
       "visual": "📦👽 (dentro)"
     },
     {
@@ -178,11 +61,7 @@
       "phrase": "The rocket is ___ the planet.",
       "preposition": "on",
       "translation": "El cohete está sobre el planeta.",
-      "options": [
-        "in",
-        "on",
-        "under"
-      ],
+      "options": ["in", "on", "under", "in front of"],
       "visual": "🚀🪐 (sobre)"
     },
     {
@@ -190,12 +69,48 @@
       "phrase": "The gift is ___ the table.",
       "preposition": "under",
       "translation": "El regalo está debajo de la mesa.",
-      "options": [
-        "in",
-        "on",
-        "under"
-      ],
-      "visual": "🟫🎁 (debajo)"
+      "options": ["in", "on", "under", "next to"],
+      "visual": "🪵🎁 (debajo)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The cake is ___ the table.",
+      "preposition": "on",
+      "translation": "La torta está sobre la mesa.",
+      "options": ["on", "under", "in", "behind"],
+      "visual": "🎂🪵 (sobre la mesa)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The candle is ___ the cake.",
+      "preposition": "on",
+      "translation": "La vela está sobre la torta.",
+      "options": ["on", "in", "under", "behind"],
+      "visual": "🕯️🎂 (sobre la torta)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The astronaut is ___ the rocket.",
+      "preposition": "in",
+      "translation": "El astronauta está dentro del cohete.",
+      "options": ["in", "on", "under", "next to"],
+      "visual": "🧑‍🚀🚀 (adentro del cohete)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The star is ___ the box.",
+      "preposition": "in",
+      "translation": "La estrella está dentro de la caja.",
+      "options": ["in", "under", "behind", "on"],
+      "visual": "⭐📦 (adentro)"
+    },
+    {
+      "type": "preposition",
+      "phrase": "The robot is ___ the chair.",
+      "preposition": "under",
+      "translation": "El robot está debajo de la silla.",
+      "options": ["under", "on", "in", "in front of"],
+      "visual": "🤖🪑 (debajo de la silla)"
     }
   ]
 }

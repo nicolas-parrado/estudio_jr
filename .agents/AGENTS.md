@@ -1,50 +1,93 @@
 # Guía de Desarrollo para Inteligencia Artificial (IA)
 
-Este archivo sirve como índice y guía de arquitectura rápida para que agentes de IA puedan comprender, extender y depurar este repositorio sin tener que leer todo el código de antemano.
+Este archivo sirve como índice, estándar de diseño y guía de arquitectura para que agentes de IA puedan comprender, extender y depurar este repositorio sin tener que leer todo el código de antemano.
 
 ---
 
 ## 🌌 Contexto del Proyecto
 
-**Space Academy** es una aplicación SPA educativa para niños (Sofía y Luciano) diseñada para aprender asignaturas (inicialmente inglés) jugando misiones espaciales.
-* **Backend**: Go + Gin + SQLite (para guardar el progreso) + JSON estáticos (para la configuración de ramos).
-* **Frontend**: React + TypeScript + Vite.
+**Space Academy** es una aplicación SPA educativa para niños (Sofía y Luciano) diseñada para aprender asignaturas (Inglés, Matemáticas, Ciencias Naturales) jugando misiones espaciales interactivas.
+* **Backend**: Go + Gin + SQLite (para guardar progreso y stickers) + JSON estáticos modulares (para asignaturas y planetas).
+* **Frontend**: React + TypeScript + Vite (Vanilla CSS estilizado con temática cósmica/espacial).
 
 ---
 
 ## 🗂️ Índice Rápido del Código
 
 ### 🔌 Backend (Go) - Directorio `/backend`
-* **`main.go`**: Inicialización de SQLite, Router Gin, CORS y cargador dinámico de materias.
-* **`types.go`**: Contratos de datos (Structs) para base de datos y respuestas JSON.
-* **`handlers.go`**: Endpoints de la REST API (progreso, reinicio, materias, planetas y stickers).
-* **`medals.go`**: Lógica de cálculo matemático para desbloquear stickers automáticos al final de una misión.
-* **`data/subjects/`**: JSONs de configuración de asignaturas (ej: `ingles.json`). **La base de datos del contenido (vocabulario, planetas, stickers) está aquí.**
+* **`main.go`**: Inicialización de SQLite, Router Gin, CORS y cargador dinámico de materias (`loadSubjects()`).
+* **`types.go`**: Contratos de datos (Structs) para base de datos y respuestas JSON (`Planet`, `Subject`, `Sticker`, `SpecialQuestion`).
+* **`handlers.go`**: Endpoints de la REST API (progreso, reinicio, materias, planetas y stickers). Maneja sufijos `-hard` e `-insane`.
+* **`medals.go`**: Lógica de cálculo matemático para desbloquear stickers automáticos al final de una misión (rachas, misiones perfectas y completitud Normal, Hard e Insane).
+* **`data/subjects/`**: JSONs de configuración de asignaturas (ej: `ingles.json`, `matematicas.json`, `ciencias_naturales.json`) y carpetas modulares por planeta (`ingles/planet-1.json`, etc.). **Todo el contenido educativo reside aquí.**
 
 ### ⚛️ Frontend (React + TS) - Directorio `/frontend/src`
-* **`App.tsx`**: Enrutador principal de vistas globales y modal de fin de misión.
-* **`types.ts`**: Interfaces de TypeScript que modelan el frontend y los tipos de preguntas estructuradas.
+* **`App.tsx`**: Enrutador principal de vistas globales, generador de preguntas aleatorias (`generateRandomQuestions`) y finalización de misión (`finishPlanetMission`).
+* **`types.ts`**: Interfaces de TypeScript que modelan el frontend, dificultades (`"normal" | "hard" | "insane"`) y los tipos de preguntas estructuradas.
 * **`utils/audio.ts`**: Sintetizador de efectos de sonido Web Audio API (`playSound`).
-* **`utils/speech.ts`**: Sintetizador de voz por hardware de inglés (`speakEnglish`).
+* **`utils/speech.ts`**: Sintetizador de voz por hardware (`speakEnglish`, `speakSpanish`).
 * **`components/`**: Vistas modulares de la interfaz:
-  * `WelcomeView.tsx`: Login de pilotos.
+  * `WelcomeView.tsx`: Login de pilotos (Sofía / Luciano).
   * `SubjectsView.tsx`: Centro de Mando (selección de materia).
-  * `MapView.tsx`: Mapa de planetas, toggle de dificultad, y cohete animado localmente.
-  * `AlbumView.tsx`: Álbum de stickers coleccionables.
+  * `MapView.tsx`: Mapa estelar interactivo, selector segmentado de 3 dificultades (🌌 Normal, 🔥 Hard, ⚡ Insane) y cohete animado.
+  * `AlbumView.tsx`: Álbum de stickers y medallas coleccionables.
   * `LeaderboardView.tsx`: Racha de honor galáctica y botón de reseteo parental.
   * `GameArena.tsx`: Orquestador de la ronda de juego y feedback overlays.
 * **`components/games/`**: Minijuegos encapsulados de forma independiente:
-  * `TriviaGame.tsx`, `AudioGame.tsx`, `TrueFalseGame.tsx`, `FillVowelsGame.tsx`, `WritingGame.tsx`, `DragDropGame.tsx`, `PrepositionGame.tsx`, `MemoriceGame.tsx`.
+  * **Inglés**: `TriviaGame.tsx`, `AudioGame.tsx`, `TrueFalseGame.tsx`, `FillVowelsGame.tsx`, `WritingGame.tsx`, `DragDropGame.tsx`, `PrepositionGame.tsx`, `MemoriceGame.tsx`.
+  * **Ciencias**: `CienciasTriviaGame.tsx`, `CienciasTrueFalseGame.tsx`, `CienciasSequenceGame.tsx`, `CienciasClassifyGame.tsx`, `CienciasFillVowelsGame.tsx`, `CienciasWritingGame.tsx`.
+  * **Matemáticas**: `MathCalcGame.tsx`, `MathWordProblemGame.tsx`, `MathPlaceValueGame.tsx`, `MathSequenceGame.tsx`.
+
+---
+
+## 🪐 Estándar Obligatorio para la Creación de Nuevos Planetas
+
+Cada vez que se añada un nuevo planeta a cualquier asignatura, **SE DEBEN CUMPLIR OBLIGATORIAMENTE** los siguientes requisitos mínimos:
+
+### 1. Tamaño Mínimo del Banco de Preguntas / Vocabulario
+* **Mínimo 30 a 45 ítems únicos** por planeta (vocabulario con traducción, emoji y categoría, o preguntas estructuradas en `specialQuestions`).
+* Esto garantiza que los alumnos puedan repetir pruebas múltiples veces con combinaciones de preguntas frescas sin repeticiones inmediatas.
+
+### 2. Contrato de Dificultades y Cantidad de Preguntas por Ronda
+Todo planeta debe definir explícitamente en su JSON los 3 niveles:
+```json
+{
+  "questionsCountNormal": 10,
+  "questionsCountHard": 15,
+  "questionsCountInsane": 20
+}
+```
+* **🌌 Modo Normal (10 preguntas)**: Nivel introductorio / reconocimiento (Trivia con opciones, Audio, Verdadero/Falso, Emojis de apoyo).
+* **🔥 Modo Hard (15 preguntas)**: Nivel intermedio (Completar vocales, Drag & Drop, Escritura asistida, desafíos sin pistas visuales directas).
+* **⚡ Modo Insane (20 preguntas)**: Nivel experto (Prioridad estricta a escritura/traducción directa, operaciones inversas, problemas combinados, mayor velocidad y nula tolerancia a errores).
+
+### 3. Reglas de Desbloqueo y Progresión
+* **Normal**: Desbloqueo secuencial (requiere al menos 1⭐ en el planeta inmediatamente anterior de esa materia). El primer planeta siempre está desbloqueado.
+* **Hard**: Requiere que el alumno tenga al menos **2 estrellas en el modo Normal** de ese mismo planeta (`stars[planet.id] >= 2`).
+* **Insane**: Requiere que el alumno tenga al menos **2 estrellas en el modo Hard** de ese mismo planeta (`stars[planet.id + "-hard"] >= 2`).
+
+### 4. Stickers y Recompensas por Planeta
+Todo planeta debe definir 3 identificadores de stickers en su JSON:
+```json
+{
+  "stickerNormal": "st-<nombre-planeta>",
+  "stickerHard": "st-<nombre-planeta>-hard",
+  "stickerInsane": "st-<nombre-planeta>-insane"
+}
+```
+Y estos 3 stickers deben estar registrados en el array `stickers` del archivo principal de la materia (`<subject_id>.json`) con su respectiva dificultad:
+* `stickerNormal`: Dificultad `"medium"`.
+* `stickerHard`: Dificultad `"hard"`.
+* `stickerInsane`: Dificultad `"legendary"`.
 
 ---
 
 ## 🛠️ Flujos y Ajustes Comunes
 
 ### 1. Añadir o Editar Vocabulario / Planetas
-No modifiques el código del backend ni el frontend. Edita directamente el JSON de la asignatura en:
-`backend/data/subjects/<subject_id>.json`
-* **Campos clave**: `questionsCountNormal` y `questionsCountHard` definen el pool aleatorio de preguntas de la ronda.
-* Si el planeta requiere preguntas especiales (como preposiciones), colócalas dentro del arreglo `specialQuestions`.
+Edita directamente el JSON de la asignatura en:
+`backend/data/subjects/<subject_id>/<planet_id>.json` y sincroniza sus metadatos en `backend/data/subjects/<subject_id>.json`.
+* Respeta siempre la estructura de `vocabulary` (`word`, `translation`, `emoji`, `category`) o `specialQuestions`.
 
 ### 2. Añadir un Nuevo Minijuego (Mecánica de Juego)
 1. Crea el nuevo componente interactivo en `frontend/src/components/games/<Nombre>Game.tsx`.
@@ -52,14 +95,10 @@ No modifiques el código del backend ni el frontend. Edita directamente el JSON 
 3. Agrégalo al switch-case `renderActiveGame` en `frontend/src/components/GameArena.tsx`.
 4. Inclúyelo en la selección aleatoria de tipos de juego en `frontend/src/App.tsx#generateRandomQuestions`.
 
-### 3. Lógica de Desbloqueo y Dificultad
-* **Desbloqueo de Hard**: En `MapView.tsx`, el modo Hard requiere que el piloto tenga al menos 2 estrellas en el modo Normal de ese mismo planeta (`stars[planet.id] >= 2`).
-* **Glows de Stickers**: En `AlbumView.tsx`, se renderiza un glow plateado, dorado o morado/cosmic según el tipo de logro obtenido (fácil, medio, difícil, legendario).
-
 ---
 
 ## 📝 Reglas de Commits y Entorno
 
 * **Mensajes de Commit**: Deben generarse en **español** siguiendo el formato de **Conventional Commits** (ej: `feat: agregar nuevo minijuego de verbos`, `refactor: modularizar...`).
 * **Compilación**: 
-  * Siempre ejecuta `go build` en `/backend` y `npm run build` en `/frontend` para asegurar que las modificaciones no rompan los compiladores de Go o TypeScript antes de hacer commits.
+  * Siempre ejecuta `go build -v ./...` en `/backend` y `npm run build` en `/frontend` para asegurar que las modificaciones no rompan los compiladores de Go o TypeScript antes de hacer commits.

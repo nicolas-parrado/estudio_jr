@@ -1,10 +1,10 @@
 import React from "react";
-import { ScienceTriviaQuestion } from "../../types";
+import { ScienceTriviaQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface CienciasTriviaGameProps {
   question: ScienceTriviaQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean, selectedOption: string) => void;
 }
 

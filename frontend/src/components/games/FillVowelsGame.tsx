@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { GameQuestion } from "../../types";
+import { FillVowelsQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface FillVowelsGameProps {
-  question: GameQuestion;
-  difficulty: "normal" | "hard";
+  question: FillVowelsQuestion;
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

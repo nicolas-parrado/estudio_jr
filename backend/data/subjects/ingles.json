@@ -12,8 +12,10 @@
       "color": "#e84393",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-rocket",
-      "stickerHard": "st-rocket-hard"
+      "stickerHard": "st-rocket-hard",
+      "stickerInsane": "st-rocket-insane"
     },
     {
       "id": "planet-2",
@@ -23,8 +25,10 @@
       "color": "#fdcb6e",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-alien",
-      "stickerHard": "st-alien-hard"
+      "stickerHard": "st-alien-hard",
+      "stickerInsane": "st-alien-insane"
     },
     {
       "id": "planet-3",
@@ -34,8 +38,10 @@
       "color": "#0984e3",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-star",
-      "stickerHard": "st-star-hard"
+      "stickerHard": "st-star-hard",
+      "stickerInsane": "st-star-insane"
     },
     {
       "id": "planet-4",
@@ -45,8 +51,10 @@
       "color": "#00cec9",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-ufo",
-      "stickerHard": "st-ufo-hard"
+      "stickerHard": "st-ufo-hard",
+      "stickerInsane": "st-ufo-insane"
     },
     {
       "id": "planet-5",
@@ -56,8 +64,10 @@
       "color": "#6c5ce7",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-astronaut",
-      "stickerHard": "st-astronaut-hard"
+      "stickerHard": "st-astronaut-hard",
+      "stickerInsane": "st-astronaut-insane"
     },
     {
       "id": "planet-6",
@@ -67,8 +77,10 @@
       "color": "#ff7675",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-crown",
-      "stickerHard": "st-crown-hard"
+      "stickerHard": "st-crown-hard",
+      "stickerInsane": "st-crown-insane"
     },
     {
       "id": "planet-7",
@@ -78,8 +90,10 @@
       "color": "#e17055",
       "questionsCountNormal": 10,
       "questionsCountHard": 15,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-professions",
-      "stickerHard": "st-professions-hard"
+      "stickerHard": "st-professions-hard",
+      "stickerInsane": "st-professions-insane"
     },
     {
       "id": "planet-8",
@@ -89,8 +103,10 @@
       "color": "#20bf6b",
       "questionsCountNormal": 12,
       "questionsCountHard": 18,
+      "questionsCountInsane": 20,
       "stickerNormal": "st-safari",
-      "stickerHard": "st-safari-hard"
+      "stickerHard": "st-safari-hard",
+      "stickerInsane": "st-safari-insane"
     }
   ],
   "stickers": [
@@ -207,6 +223,62 @@
       "difficulty": "hard"
     },
     {
+      "id": "st-rocket-insane",
+      "name": "Señor del Arcoíris Supremo",
+      "emoji": "⚡🌈",
+      "desc": "¡3 estrellas en el Planeta 1 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-alien-insane",
+      "name": "Conquistador Galáctico Salvaje",
+      "emoji": "👾🔥",
+      "desc": "¡3 estrellas en el Planeta 2 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-star-insane",
+      "name": "Sabio del Cosmos Escolar",
+      "emoji": "🔮🎒",
+      "desc": "¡3 estrellas en el Planeta 3 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-ufo-insane",
+      "name": "Dominador de Tormentas Estelares",
+      "emoji": "🌩️🛸",
+      "desc": "¡3 estrellas en el Planeta 4 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-astronaut-insane",
+      "name": "Cibernauta Legendario",
+      "emoji": "🤖🚀",
+      "desc": "¡3 estrellas en el Planeta 5 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-crown-insane",
+      "name": "Rey de la Galaxia Infinita",
+      "emoji": "👑🌌✨",
+      "desc": "¡3 estrellas en el Planeta 6 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-professions-insane",
+      "name": "Gran Canciller de las Profesiones",
+      "emoji": "🏛️🎓",
+      "desc": "¡3 estrellas en el Planeta 7 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-safari-insane",
+      "name": "Soberano del Safari Cósmico",
+      "emoji": "🦁⚡👑",
+      "desc": "¡3 estrellas en el Planeta 8 (Insane)!",
+      "difficulty": "legendary"
+    },
+    {
       "id": "st-normal-complete",
       "name": "Héroe del Cosmos",
       "emoji": "🎖️",
@@ -249,10 +321,38 @@
       "difficulty": "legendary"
     },
     {
+      "id": "st-insane-complete",
+      "name": "Héroe del Modo Insane",
+      "emoji": "⚡",
+      "desc": "Completar todos los planetas Insane con al menos 1 estrella.",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-insane-complete-2s",
+      "name": "Maestro del Caos Espacial",
+      "emoji": "🔮⚡",
+      "desc": "Completar todos los planetas Insane con al menos 2 estrellas.",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-insane-complete-3s",
+      "name": "Supremo Emperador del Caos",
+      "emoji": "💀👑",
+      "desc": "Completar todos los planetas Insane con 3 estrellas en todos.",
+      "difficulty": "legendary"
+    },
+    {
       "id": "st-cosmo-god",
       "name": "Deidad Suprema del Universo",
       "emoji": "👑🌌",
-      "desc": "Tener 3 estrellas en todos los planetas en ambos modos (Normal y Hard).",
+      "desc": "Tener 3 estrellas en todos los planetas en modo Normal y Hard.",
+      "difficulty": "legendary"
+    },
+    {
+      "id": "st-multiverse-master",
+      "name": "Gobernante Supremo del Multiverso",
+      "emoji": "🪐🌌👑",
+      "desc": "Tener 3 estrellas en todos los planetas en los 3 modos (Normal, Hard e Insane).",
       "difficulty": "legendary"
     }
   ]

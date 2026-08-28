@@ -1,10 +1,10 @@
 import React from "react";
-import { ScienceTrueFalseQuestion } from "../../types";
+import { ScienceTrueFalseQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface CienciasTrueFalseGameProps {
   question: ScienceTrueFalseQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

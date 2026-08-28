@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { DragDropQuestion } from "../../types";
+import { DragDropQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface DragDropGameProps {
   question: DragDropQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

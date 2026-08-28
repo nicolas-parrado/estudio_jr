@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { MathSequenceQuestion, MathCompareQuestion } from "../../../types";
+import { MathSequenceQuestion, MathCompareQuestion, Difficulty } from "../../../types";
 import { playSound } from "../../../utils/audio";
 import { MathKeypad } from "./MathKeypad";
 
 interface MathSequenceGameProps {
   question: MathSequenceQuestion | MathCompareQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

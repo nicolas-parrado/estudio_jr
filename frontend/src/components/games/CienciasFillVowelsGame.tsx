@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { ScienceFillVowelsQuestion } from "../../types";
+import { ScienceFillVowelsQuestion, Difficulty } from "../../types";
 import { playSound } from "../../utils/audio";
 
 interface CienciasFillVowelsGameProps {
   question: ScienceFillVowelsQuestion;
-  difficulty: "normal" | "hard";
+  difficulty: Difficulty;
   onAnswer: (isCorrect: boolean) => void;
 }
 

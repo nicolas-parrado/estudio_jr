@@ -42,6 +42,7 @@ func getSubjectPlanets(c *gin.Context) {
 			"color":                p.Color,
 			"questionsCountNormal": p.QuestionsCountNormal,
 			"questionsCountHard":   p.QuestionsCountHard,
+			"questionsCountInsane": p.QuestionsCountInsane,
 		})
 	}
 	c.JSON(http.StatusOK, list)
@@ -126,9 +127,12 @@ func saveProgress(c *gin.Context) {
 	}
 
 	if req.Stars == 3 {
+		isInsane := strings.HasSuffix(req.PlanetID, "-insane")
 		isHard := strings.HasSuffix(req.PlanetID, "-hard")
 		basePlanetID := req.PlanetID
-		if isHard {
+		if isInsane {
+			basePlanetID = strings.TrimSuffix(req.PlanetID, "-insane")
+		} else if isHard {
 			basePlanetID = strings.TrimSuffix(req.PlanetID, "-hard")
 		}
 
@@ -136,7 +140,9 @@ func saveProgress(c *gin.Context) {
 			for _, p := range subject.Planets {
 				if p.ID == basePlanetID {
 					stickerID := p.StickerNormal
-					if isHard {
+					if isInsane {
+						stickerID = p.StickerInsane
+					} else if isHard {
 						stickerID = p.StickerHard
 					}
 					if stickerID != "" {
