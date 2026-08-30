@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     host: true, // Habilitar escucha externa para Docker
     port: 3000,
+    allowedHosts: true, // Permitir acceso desde dominios externos como academy.nparrado.net
     watch: {
       usePolling: true, // Para asegurar el hot-reload dentro de Docker
     },
