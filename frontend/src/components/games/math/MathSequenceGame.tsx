@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MathSequenceQuestion, MathCompareQuestion, Difficulty } from "../../../types";
 import { playSound } from "../../../utils/audio";
 import { MathKeypad } from "./MathKeypad";
@@ -16,6 +16,10 @@ export const MathSequenceGame: React.FC<MathSequenceGameProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const q = question;
+
+  useEffect(() => {
+    setInputValue("");
+  }, [q]);
 
   const handleOptionSelect = (opt: string) => {
     const isCorrect = opt === q.correctAnswer;

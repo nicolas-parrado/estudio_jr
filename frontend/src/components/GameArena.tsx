@@ -214,12 +214,15 @@ export const GameArena: React.FC<GameArenaProps> = ({
     const q = questions[currentQuestionIndex];
     if (!q) return null;
 
+    const gameKey = q.id || `q-${currentQuestionIndex}`;
+
     switch (q.type) {
       case "math-calc":
       case "math-missing":
       case "math-balance":
         return (
           <MathCalcGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -228,6 +231,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "math-word-problem":
         return (
           <MathWordProblemGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -236,6 +240,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "math-place-value":
         return (
           <MathPlaceValueGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -245,6 +250,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "math-compare":
         return (
           <MathSequenceGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -253,6 +259,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "science-trivia":
         return (
           <CienciasTriviaGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).correctAnswer : undefined)} 
@@ -261,6 +268,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "science-tf":
         return (
           <CienciasTrueFalseGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={(isCorrect) => handleCheckAnswer(isCorrect)} 
@@ -269,6 +277,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "science-sequence":
         return (
           <CienciasSequenceGame 
+            key={gameKey}
             question={q as any} 
             onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).animal : undefined)} 
           />
@@ -276,6 +285,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "science-classify":
         return (
           <CienciasClassifyGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).concept : undefined)} 
@@ -284,6 +294,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "science-vowels":
         return (
           <CienciasFillVowelsGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).word : undefined)} 
@@ -292,6 +303,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "science-writing":
         return (
           <CienciasWritingGame 
+            key={gameKey}
             question={q as any} 
             difficulty={difficulty} 
             onAnswer={(isCorrect) => handleCheckAnswer(isCorrect, isCorrect ? (q as any).word : undefined)} 
@@ -300,6 +312,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "trivia":
         return (
           <TriviaGame 
+            key={gameKey}
             question={q} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -308,6 +321,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "audio":
         return (
           <AudioGame 
+            key={gameKey}
             question={q} 
             onAnswer={handleCheckAnswer} 
           />
@@ -315,6 +329,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "true-false":
         return (
           <TrueFalseGame 
+            key={gameKey}
             question={q} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -323,6 +338,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "fill-vowels":
         return (
           <FillVowelsGame 
+            key={gameKey}
             question={q} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -331,6 +347,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "writing":
         return (
           <WritingGame 
+            key={gameKey}
             question={q} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -339,6 +356,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "drag-drop":
         return (
           <DragDropGame 
+            key={gameKey}
             question={q as DragDropQuestion} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
@@ -347,6 +365,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "preposition":
         return (
           <PrepositionGame 
+            key={gameKey}
             question={q} 
             onAnswer={handleCheckAnswer} 
           />
@@ -354,6 +373,7 @@ export const GameArena: React.FC<GameArenaProps> = ({
       case "memorice":
         return (
           <MemoriceGame 
+            key={gameKey}
             question={q as MemoriceQuestion} 
             difficulty={difficulty} 
             onAnswer={handleCheckAnswer} 
