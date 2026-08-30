@@ -66,7 +66,17 @@ export default function App() {
   } | null>(null);
 
   // URLs de API (Backend)
-  const API_URL = (import.meta as any).env?.VITE_API_URL || "http://localhost:8080";
+  const getApiUrl = () => {
+    const envUrl = (import.meta as any).env?.VITE_API_URL;
+    if (envUrl && !envUrl.includes("localhost")) {
+      return envUrl;
+    }
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      return `${window.location.protocol}//${window.location.hostname}:8081`;
+    }
+    return envUrl || "http://localhost:8081";
+  };
+  const API_URL = getApiUrl();
 
   // --- EFECTOS INICIALES ---
   useEffect(() => {
