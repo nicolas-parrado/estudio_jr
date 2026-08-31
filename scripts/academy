@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Wrapper para ejecutar el script de administración de Space Academy
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+python3 "$DIR/academy.py" "$@"
