@@ -1,42 +1,103 @@
-# Space English Adventure (Dockerized Edition) 🚀🌌
+# Space Academy 🚀🌌
 
-Videojuego interactivo de inglés diseñado para **Sofía** y **Luciano** (2º Básico, Chile). Incorpora contenidos actuales de 2º Básico y temas de repaso de 1º Básico.
+Plataforma educativa interactiva diseñada para **Sofía** y **Luciano** (1º y 2º Básico, Chile) para aprender y repasar asignaturas escolares (**Inglés**, **Matemáticas** y **Ciencias Naturales**) a través de misiones espaciales gamificadas.
 
-El stack tecnológico está compuesto por:
-- **Frontend**: React + TypeScript + Vite (Puerto `3000`).
-- **Backend**: Golang con el framework **Gin** (Puerto `8080`).
-- **Base de Datos**: SQLite (`./data/game.db`) para persistencia local de estrellas y stickers.
+---
+
+## 🛠️ Stack Tecnológico
+
+- **Frontend**: React + TypeScript + Vite (Puerto `3000`). Soporte de sintetizador de voz (Web Speech API) y efectos de sonido arcade (Web Audio API).
+- **Backend**: Golang con framework **Gin** (Puerto `8080` en contenedor / `8081` en host).
+- **Base de Datos**: SQLite (`./data/game.db`) para persistencia de progreso, estrellas, medallas y stickers.
 - **Orquestación**: Docker Compose.
+- **Infraestructura Cloud**: AWS EC2 (`t3.micro`, disco 8GB gp3) + Route 53 (`academy.nparrado.net`).
 
 ---
 
-## 🛠️ Cómo Iniciar la Aplicación
+## ☁️ Gestión en AWS (Despliegue On-Demand y Ahorro de Costos)
 
-Para construir y levantar todo el entorno de desarrollo con un solo comando, ejecuta en tu terminal:
+La aplicación corre en la nube bajo un modelo **On-Demand de costo mínimo** (~$0.80 USD/mes), sin IP Elástica fija para evitar cobros innecesarios mientras la máquina está apagada.
 
+Para encender y apagar el servidor fácilmente desde tu Mac, utiliza el script automatizado [`scripts/academy`](file:///Users/nparrado/dev/Personal/alumnos/Sofia/2_Basico/Ingles/scripts/academy):
+
+### 🚀 1. Encender el Servidor (Para estudiar)
 ```bash
-docker compose up --build
+./scripts/academy start
+```
+* Inicia la instancia EC2 (`i-06d681750a6c978e8`).
+* Espera a que el servidor esté activo y obtiene la nueva IP pública dinámica.
+* **Actualiza automáticamente el registro DNS en Route 53** (`academy.nparrado.net`).
+* Acceso web: [http://academy.nparrado.net:3000](http://academy.nparrado.net:3000).
+
+### 🛑 2. Apagar el Servidor (Fin del estudio)
+```bash
+./scripts/academy stop
+```
+* Detiene la máquina EC2 y detiene inmediatamente el cobro por cómputo de AWS.
+
+### 📊 3. Ver Estado del Servidor
+```bash
+./scripts/academy status
+```
+* Muestra el estado de la instancia (RUNNING/STOPPED), la IP pública actual y el estado de la alarma de auto-apagado.
+
+---
+
+## ⏱️ Auto-Apagado de Seguridad (CloudWatch)
+
+Para evitar gastos por olvido si la máquina queda encendida:
+- Cuenta con una alarma de **CloudWatch (`ec2-auto-stop-academy-idle`)**.
+- Si el servidor permanece inactivo (**CPU < 2% durante 45 minutos** consecutivos), **AWS apagará la instancia automáticamente**.
+
+---
+
+## 🔑 Acceso SSH Simplificado
+
+Para conectarte a la máquina EC2 sin preocuparte por los cambios de IP dinámica, configura en tu archivo `~/.ssh/config`:
+
+```sshconfig
+Host maquina_mates
+    HostName academy.nparrado.net
+    User ec2-user
+    IdentityFile ~/.ssh/tu-llave.pem
 ```
 
-Una vez que Docker termine de levantar los contenedores:
-- Accede al juego en tu navegador: [http://localhost:3000](http://localhost:3000)
-- La API del backend de Go estará disponible en: [http://localhost:8081/api/players](http://localhost:8081/api/players)
-
-Para apagar los contenedores y mantener los datos a salvo:
+Una vez configurado, podrás entrar directamente con:
 ```bash
-docker compose down
+ssh maquina_mates
 ```
 
 ---
 
-## 📂 Estructura del Proyecto
+## 💻 Ejecución en Entorno Local (Desarrollo)
 
-- `frontend/`: Aplicación de cliente React con soporte para síntesis de voz (Web Speech API) y sonidos sintéticos arcade (Web Audio API).
-- `backend/`: API escrita en Golang que maneja las solicitudes, responde con el vocabulario y gestiona los progresos individuales guardados en la DB SQLite.
-- `data/`: Directorio local creado automáticamente en tu workspace que aloja el archivo de la base de datos `game.db`. (Ignorado en Git por seguridad).
+Si prefieres correr la aplicación de forma 100% local en tu computador:
+
+1. **Construir y levantar contenedores:**
+   ```bash
+   docker compose up --build
+   ```
+2. **Acceder a la aplicación:**
+   - **Frontend:** [http://localhost:3000](http://localhost:3000)
+   - **Backend API:** [http://localhost:8081/api/subjects](http://localhost:8081/api/subjects)
+
+3. **Detener contenedores:**
+   ```bash
+   docker compose down
+   ```
+
+---
+
+## 📂 Estructura del Repositorio
+
+- `frontend/`: SPA en React, componentes de vista, mapas por asignatura y minijuegos temáticos.
+- `backend/`: API REST en Go, cargador modular de asignaturas y cálculo de medallas/stickers.
+  - `backend/data/subjects/`: JSONs de contenido educativo (Inglés, Matemáticas, Ciencias Naturales).
+- `scripts/`: Herramientas de administración y automatización (`academy.py`, `academy`).
+- `data/`: Directorio local persistente para la base de datos SQLite `game.db`.
 
 ---
 
 ## 🔐 Restablecimiento de Datos (Para Papá)
 
-El progreso se puede reiniciar desde el panel de Tabla de Honor en la interfaz, el cual requiere escribir la palabra clave **`papa`** para ejecutar el borrado en el servidor.
+El progreso individual de los alumnos se puede reiniciar desde el panel de **Tabla de Honor** en la interfaz web, el cual requiere escribir la palabra clave **`papa`** para autorizar el borrado en la base de datos.
