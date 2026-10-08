@@ -1,6 +1,6 @@
 # Space Academy 🚀🌌
 
-Plataforma educativa interactiva diseñada para **Sofía** y **Luciano** (1º y 2º Básico, Chile) para aprender y repasar asignaturas escolares (**Inglés**, **Matemáticas** y **Ciencias Naturales**) a través de misiones espaciales gamificadas.
+Plataforma educativa interactiva diseñada para **Sofía**, **Luciano** y **Amanda** (1º y 2º Básico, Chile) para aprender y repasar asignaturas escolares (**Inglés**, **Matemáticas** y **Ciencias Naturales**) a través de misiones espaciales gamificadas.
 
 ---
 
@@ -18,7 +18,7 @@ Plataforma educativa interactiva diseñada para **Sofía** y **Luciano** (1º y 
 
 La aplicación corre en la nube bajo un modelo **On-Demand de costo mínimo** (~$0.80 USD/mes), sin IP Elástica fija para evitar cobros innecesarios mientras la máquina está apagada.
 
-Para encender y apagar el servidor fácilmente desde tu Mac, utiliza el script automatizado [`scripts/academy`](file:///Users/nparrado/dev/Personal/alumnos/Sofia/2_Basico/Ingles/scripts/academy):
+Para encender, apagar y actualizar el servidor fácilmente desde tu Mac, utiliza el script automatizado [`scripts/academy`](file:///Users/nparrado/dev/Personal/alumnos/Sofia/2_Basico/Ingles/scripts/academy) o [`scripts/update_ec2`](file:///Users/nparrado/dev/Personal/alumnos/Sofia/2_Basico/Ingles/scripts/update_ec2):
 
 ### 🚀 1. Encender el Servidor (Para estudiar)
 ```bash
@@ -29,13 +29,25 @@ Para encender y apagar el servidor fácilmente desde tu Mac, utiliza el script a
 * **Actualiza automáticamente el registro DNS en Route 53** (`academy.nparrado.net`).
 * Acceso web: [http://academy.nparrado.net:3000](http://academy.nparrado.net:3000).
 
-### 🛑 2. Apagar el Servidor (Fin del estudio)
+> 💡 **Tip**: Puedes usar `./scripts/academy start --update` para encender y sincronizar automáticamente la última versión de `main`.
+
+### 🔄 2. Actualizar el Software en el Servidor (Rama main)
+```bash
+./scripts/update_ec2
+# o bien:
+./scripts/academy update
+```
+* Se conecta por SSH a la máquina EC2.
+* Sincroniza y descarga la última versión de la rama `main` desde GitHub (`git fetch && git pull origin main`).
+* Reconstruye y levanta los contenedores actualizados con Docker Compose (`docker compose up -d --build`).
+
+### 🛑 3. Apagar el Servidor (Fin del estudio)
 ```bash
 ./scripts/academy stop
 ```
 * Detiene la máquina EC2 y detiene inmediatamente el cobro por cómputo de AWS.
 
-### 📊 3. Ver Estado del Servidor
+### 📊 4. Ver Estado del Servidor
 ```bash
 ./scripts/academy status
 ```

@@ -1,10 +1,16 @@
 import React from "react";
-import { PlayersProgress } from "../types";
+import { PlayerName, PlayersProgress } from "../types";
 
 interface LeaderboardViewProps {
   progressBySubject: Record<string, PlayersProgress>;
   onResetData: () => void;
 }
+
+const PLAYERS: { name: PlayerName; avatar: string }[] = [
+  { name: "Sofia", avatar: "👧" },
+  { name: "Luciano", avatar: "👦" },
+  { name: "Amanda", avatar: "👧" }
+];
 
 export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
   progressBySubject,
@@ -21,13 +27,13 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
       
       <div className="leaderboard-container">
         <div>
-          {(["Sofia", "Luciano"] as const)
+          {PLAYERS
             .map(p => {
               let totalStars = 0;
               const stickerSet = new Set<string>();
 
               Object.values(progressBySubject).forEach(subProgress => {
-                const playerState = subProgress[p];
+                const playerState = subProgress[p.name];
                 if (playerState) {
                   totalStars += Object.values(playerState.stars || {}).reduce((a, b) => a + b, 0);
                   (playerState.stickers || []).forEach(s => stickerSet.add(s));
@@ -35,8 +41,8 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
               });
 
               return {
-                name: p,
-                avatar: p === "Sofia" ? "👧" : "👦",
+                name: p.name,
+                avatar: p.avatar,
                 stars: totalStars,
                 stickersCount: stickerSet.size
               };

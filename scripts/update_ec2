@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Script para actualizar la rama main (o personalizada) en el servidor EC2 de Space Academy
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+python3 "$DIR/academy.py" update "$@"

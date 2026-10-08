@@ -4,7 +4,8 @@ import {
   Planet, 
   GameQuestion, 
   Subject,
-  Sticker
+  Sticker,
+  PlayerName
 } from "./types.ts";
 
 // Importar Utilidades
@@ -24,7 +25,7 @@ export default function App() {
 
   // Navegación de la SPA
   const [activeView, setActiveView] = useState<"welcome" | "subjects" | "map" | "album" | "leaderboard" | "game">("welcome");
-  const [currentPlayer, setCurrentPlayer] = useState<"Sofia" | "Luciano" | null>(null);
+  const [currentPlayer, setCurrentPlayer] = useState<PlayerName | null>(null);
 
   // Datos dinámicos cargados de las materias
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -38,7 +39,8 @@ export default function App() {
   // Derivar playersProgress a partir de progressBySubject y la materia actual
   const playersProgress = currentSubject && progressBySubject[currentSubject.id] ? progressBySubject[currentSubject.id] : {
     Sofia: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] },
-    Luciano: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] }
+    Luciano: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] },
+    Amanda: { stars: {}, unlockedPlanets: currentSubject?.planets && currentSubject.planets.length > 0 ? [currentSubject.planets[0].id] : ["planet-1"], stickers: [] }
   };
 
   // Estado para la notificación tipo toast
@@ -168,7 +170,7 @@ export default function App() {
   };
 
   // --- LOGIN Y RUTEO ---
-  const handleLogin = (name: "Sofia" | "Luciano") => {
+  const handleLogin = (name: PlayerName) => {
     playSound("click");
     setCurrentPlayer(name);
     setCurrentSubject(null);
@@ -582,7 +584,7 @@ export default function App() {
 
   // --- RESET DE DATOS API ---
   const handleResetData = async () => {
-    const confirmation = prompt("ATENCIÓN PAPÁ: Para confirmar el reinicio completo de estrellas y stickers de Sofía y Luciano, escribe la palabra clave 'papa':");
+    const confirmation = prompt("ATENCIÓN PAPÁ: Para confirmar el reinicio completo de estrellas y stickers de los alumnos (Sofía, Luciano y Amanda), escribe la palabra clave 'papa':");
     if (confirmation && confirmation.toLowerCase().trim() === "papa") {
       try {
         const res = await fetch(`${API_URL}/api/reset`, {
@@ -595,7 +597,8 @@ export default function App() {
         for (const sub of subjects) {
           clearedProgress[sub.id] = {
             Sofia: { stars: {}, unlockedPlanets: sub.planets && sub.planets.length > 0 ? [sub.planets[0].id] : ["planet-1"], stickers: [] },
-            Luciano: { stars: {}, unlockedPlanets: sub.planets && sub.planets.length > 0 ? [sub.planets[0].id] : ["planet-1"], stickers: [] }
+            Luciano: { stars: {}, unlockedPlanets: sub.planets && sub.planets.length > 0 ? [sub.planets[0].id] : ["planet-1"], stickers: [] },
+            Amanda: { stars: {}, unlockedPlanets: sub.planets && sub.planets.length > 0 ? [sub.planets[0].id] : ["planet-1"], stickers: [] }
           };
         }
         setProgressBySubject(clearedProgress);
@@ -630,7 +633,7 @@ export default function App() {
     }
   };
 
-  const getTotalPlayerStars = (playerName: "Sofia" | "Luciano" | null): number => {
+  const getTotalPlayerStars = (playerName: PlayerName | null): number => {
     if (!playerName) return 0;
     let total = 0;
     Object.values(progressBySubject).forEach(subProgress => {
@@ -638,6 +641,11 @@ export default function App() {
       total += Object.values(starsMap).reduce((a, b) => a + b, 0);
     });
     return total;
+  };
+
+  const getPlayerAvatar = (playerName: PlayerName | null): string => {
+    if (playerName === "Luciano") return "👦";
+    return "👧";
   };
 
   const playerStats = currentPlayer ? playersProgress[currentPlayer] : null;
@@ -655,7 +663,7 @@ export default function App() {
             </div>
             <div className="nav-buttons">
               <button className="btn btn-secondary">
-                <span>{currentPlayer === "Sofia" ? "👧" : "👦"}</span> {currentPlayer}
+                <span>{getPlayerAvatar(currentPlayer)}</span> {currentPlayer}
                 <span style={{ color: "var(--color-warning)", marginLeft: "5px" }}>
                   ⭐ {getTotalPlayerStars(currentPlayer)}
                 </span>

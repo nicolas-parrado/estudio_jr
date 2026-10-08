@@ -48,6 +48,8 @@ export interface Subject {
   stickers?: Sticker[];
 }
 
+export type PlayerName = "Sofia" | "Luciano" | "Amanda";
+
 export interface PlayerState {
   stars: Record<string, number>;
   unlockedPlanets: string[];

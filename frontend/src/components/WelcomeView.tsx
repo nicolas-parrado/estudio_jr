@@ -1,13 +1,18 @@
-import React from "react";
-import { PlayersProgress } from "../types";
+import { PlayerName, PlayersProgress } from "../types";
 
 interface WelcomeViewProps {
   progressBySubject: Record<string, PlayersProgress>;
-  onLogin: (playerName: "Sofia" | "Luciano") => void;
+  onLogin: (playerName: PlayerName) => void;
 }
 
+const PLAYERS: { name: PlayerName; avatar: string }[] = [
+  { name: "Sofia", avatar: "👧" },
+  { name: "Luciano", avatar: "👦" },
+  { name: "Amanda", avatar: "👧" }
+];
+
 export const WelcomeView: React.FC<WelcomeViewProps> = ({ progressBySubject, onLogin }) => {
-  const getPlayerTotalStars = (p: "Sofia" | "Luciano") => {
+  const getPlayerTotalStars = (p: PlayerName) => {
     let total = 0;
     Object.values(progressBySubject).forEach(subProgress => {
       const starsMap = subProgress[p]?.stars || {};
@@ -27,16 +32,16 @@ export const WelcomeView: React.FC<WelcomeViewProps> = ({ progressBySubject, onL
         </h2>
         
         <div className="profile-select">
-          {(["Sofia", "Luciano"] as const).map(p => {
-            const starsCount = getPlayerTotalStars(p);
+          {PLAYERS.map(p => {
+            const starsCount = getPlayerTotalStars(p.name);
             return (
               <div 
-                key={p} 
+                key={p.name} 
                 className="profile-card" 
-                onClick={() => onLogin(p)}
+                onClick={() => onLogin(p.name)}
               >
-                <span className="profile-avatar">{p === "Sofia" ? "👧" : "👦"}</span>
-                <span className="profile-name">{p}</span>
+                <span className="profile-avatar">{p.avatar}</span>
+                <span className="profile-name">{p.name}</span>
                 <div className="profile-stars">⭐ {starsCount}</div>
               </div>
             );

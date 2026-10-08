@@ -163,6 +163,9 @@ func runMigrationsIfNeeded() {
 	log.Println("Migración a esquema multi-materia completada exitosamente.")
 }
 
+// DefaultPlayers lista los pilotos registrados por defecto en el sistema
+var DefaultPlayers = []string{"Sofia", "Luciano", "Amanda"}
+
 // PlayerState representa el progreso consolidado de un jugador para el frontend
 type PlayerState struct {
 	Stars           map[string]int `json:"stars"`
@@ -170,7 +173,7 @@ type PlayerState struct {
 	Stickers        []string       `json:"stickers"`
 }
 
-// GetPlayersProgress recupera el progreso estructurado de Sofia y Luciano para un subject específico
+// GetPlayersProgress recupera el progreso estructurado de los alumnos para un subject específico
 func GetPlayersProgress(subjectID string, planetsOrder []string) (map[string]PlayerState, error) {
 	// Determinar el planeta de inicio (primer planeta de planetsOrder si existe, si no "planet-1")
 	firstPlanet := "planet-1"
@@ -178,17 +181,13 @@ func GetPlayersProgress(subjectID string, planetsOrder []string) (map[string]Pla
 		firstPlanet = planetsOrder[0]
 	}
 
-	state := map[string]PlayerState{
-		"Sofia": {
+	state := make(map[string]PlayerState)
+	for _, name := range DefaultPlayers {
+		state[name] = PlayerState{
 			Stars:           make(map[string]int),
 			UnlockedPlanets: []string{firstPlanet},
 			Stickers:        make([]string, 0),
-		},
-		"Luciano": {
-			Stars:           make(map[string]int),
-			UnlockedPlanets: []string{firstPlanet},
-			Stickers:        make([]string, 0),
-		},
+		}
 	}
 
 	// 1. Cargar estrellas ganadas para la materia actual
@@ -229,7 +228,7 @@ func GetPlayersProgress(subjectID string, planetsOrder []string) (map[string]Pla
 	}
 
 	// 3. Calcular planetas desbloqueados dinámicamente según la lógica de progresión de esta materia
-	for _, name := range []string{"Sofia", "Luciano"} {
+	for _, name := range DefaultPlayers {
 		player := state[name]
 		if len(planetsOrder) > 0 {
 			// Empezar desde el primer planeta y desbloquear el siguiente si el actual tiene >= 1 estrella

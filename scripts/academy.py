@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
 Space Academy - AWS EC2 & Route 53 On-Demand Manager
-Permite encender y apagar la máquina EC2 bajo demanda, actualizando automáticamente el registro DNS en Route 53.
+Permite encender, apagar y actualizar la máquina EC2 bajo demanda,
+actualizando automáticamente el registro DNS en Route 53 y sincronizando el código con Git.
 """
 
 import sys
 import time
 import argparse
+import subprocess
 import boto3
 
 INSTANCE_ID = "i-06d681750a6c978e8"
@@ -53,14 +55,17 @@ def update_dns(r53, public_ip):
     print("✅ Registro DNS Route 53 actualizado (TTL: 60s).")
 
 
-def start_academy():
+def start_academy(update_code=False, branch="main"):
     ec2, r53, _ = get_clients()
     state, ip = get_instance_info(ec2)
 
     if state == "running":
         print(f"⚡ La máquina ya está encendida en {ip}.")
         update_dns(r53, ip)
-        print_ready(ip)
+        if update_code:
+            update_remote_code(branch=branch)
+        else:
+            print_ready(ip)
         return
 
     print(f"🚀 Encendiendo instancia EC2 ({INSTANCE_ID})...")
@@ -76,7 +81,11 @@ def start_academy():
     print(f"📡 Nueva IP Pública asignada: {new_ip}")
 
     update_dns(r53, new_ip)
-    print_ready(new_ip)
+
+    if update_code:
+        update_remote_code(branch=branch)
+    else:
+        print_ready(new_ip)
 
 
 def stop_academy():
@@ -117,6 +126,66 @@ def status_academy():
     print("=" * 45)
 
 
+def update_remote_code(branch="main", start_if_stopped=True):
+    ec2, _, _ = get_clients()
+    state, ip = get_instance_info(ec2)
+
+    if state != "running":
+        if start_if_stopped:
+            print(f"⚡ La instancia EC2 está '{state}'. Iniciándola primero...")
+            start_academy(update_code=False)
+            state, ip = get_instance_info(ec2)
+        else:
+            print(f"⚠️ La máquina está '{state}'. Enciéndela antes de actualizar.")
+            return
+
+    print(f"\n🔄 Conectando a EC2 para actualizar a la última versión de '{branch}'...")
+
+    remote_commands = f"""
+    set -e
+    cd /home/ec2-user/estudio_jr
+    echo "📥 [1/4] Obteniendo cambios remotos de Git..."
+    git fetch origin
+    echo "🔀 [2/4] Conmutando a rama {branch}..."
+    git checkout {branch}
+    echo "⬇️ [3/4] Sincronizando con origin/{branch}..."
+    git pull origin {branch}
+    echo "🐳 [4/4] Reconstruyendo y reiniciando contenedores Docker..."
+    docker compose up -d --build
+    echo ""
+    echo "📊 Estado de los contenedores:"
+    docker compose ps
+    echo ""
+    echo "📌 Commit activo en servidor:"
+    git log -1 --oneline
+    """
+
+    # Reintentos de SSH por si la máquina recién arrancó
+    max_retries = 6
+    for attempt in range(1, max_retries + 1):
+        try:
+            subprocess.run(
+                [
+                    "ssh",
+                    "-o", "StrictHostKeyChecking=no",
+                    "-o", "ConnectTimeout=10",
+                    "maquina_mates",
+                    remote_commands
+                ],
+                check=True
+            )
+            print("\n✨ ¡Actualización en el servidor completada con éxito!")
+            print_ready(ip)
+            return
+        except subprocess.CalledProcessError as e:
+            if attempt < max_retries:
+                print(f"⏳ Esperando disponibilidad SSH (intento {attempt}/{max_retries})...")
+                time.sleep(5)
+            else:
+                print(f"\n❌ Error al ejecutar actualización en EC2: {e}", file=sys.stderr)
+                sys.exit(1)
+
+
 def print_ready(ip):
     print("\n" + "=" * 50)
     print(" 🎉 ¡SPACE ACADEMY ESTÁ LISTA!")
@@ -130,15 +199,19 @@ def print_ready(ip):
 
 def main():
     parser = argparse.ArgumentParser(description="Administrador On-Demand de Space Academy en AWS")
-    parser.add_argument("action", choices=["start", "stop", "status"], help="Acción a realizar")
+    parser.add_argument("action", choices=["start", "stop", "status", "update", "deploy"], help="Acción a realizar")
+    parser.add_argument("--branch", default="main", help="Rama de Git a desplegar (por defecto: main)")
+    parser.add_argument("--update", action="store_true", help="Actualizar a la última versión de git al iniciar (con 'start')")
     args = parser.parse_args()
 
     if args.action == "start":
-        start_academy()
+        start_academy(update_code=args.update, branch=args.branch)
     elif args.action == "stop":
         stop_academy()
     elif args.action == "status":
         status_academy()
+    elif args.action in ["update", "deploy"]:
+        update_remote_code(branch=args.branch)
 
 
 if __name__ == "__main__":

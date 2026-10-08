@@ -192,7 +192,7 @@ header {
   backdrop-filter: blur(15px);
   border-radius: 30px;
   padding: 40px;
-  max-width: 500px;
+  max-width: 620px;
   width: 100%;
   box-shadow: var(--glass-shadow);
 }
@@ -214,6 +214,7 @@ header {
   display: flex;
   gap: 20px;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 30px;
 }
 

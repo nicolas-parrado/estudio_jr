@@ -115,19 +115,23 @@ func checkCompletionMedals(playerName string, subjectID string, maxStreak int, p
 			}
 
 			// Validar logro cooperativo "La Tropa Unida"
-			sofiaState := progressMap["Sofia"]
-			lucianoState := progressMap["Luciano"]
-			sofiaTotalStars := 0
-			lucianoTotalStars := 0
-			for _, s := range sofiaState.Stars {
-				sofiaTotalStars += s
+			tropaPilotsWithStars := 0
+			for _, pName := range database.DefaultPlayers {
+				pState, exists := progressMap[pName]
+				if exists {
+					pTotal := 0
+					for _, s := range pState.Stars {
+						pTotal += s
+					}
+					if pTotal >= 1 {
+						tropaPilotsWithStars++
+					}
+				}
 			}
-			for _, s := range lucianoState.Stars {
-				lucianoTotalStars += s
-			}
-			if sofiaTotalStars >= 1 && lucianoTotalStars >= 1 {
-				database.SaveSticker("Sofia", subjectID, "st-tropa")
-				database.SaveSticker("Luciano", subjectID, "st-tropa")
+			if tropaPilotsWithStars >= 2 {
+				for _, pName := range database.DefaultPlayers {
+					database.SaveSticker(pName, subjectID, "st-tropa")
+				}
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 import React from "react";
-import { Subject, PlayersProgress } from "../types";
+import { Subject, PlayersProgress, PlayerName } from "../types";
 
 interface SubjectsViewProps {
-  currentPlayer: "Sofia" | "Luciano" | null;
+  currentPlayer: PlayerName | null;
   subjects: Subject[];
   progressBySubject: Record<string, PlayersProgress>;
   onSelectSubject: (subject: Subject) => void;
